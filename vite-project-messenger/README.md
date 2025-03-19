@@ -6,7 +6,7 @@
 
 - NodeJS - 20.9.0
 
-- `npm run dev` - запуск для разработки
+- `npm run start` - запуск для разработки
 - `npm run build` - сборка проекта
 - `npm run type-check` - проверка типов
 
