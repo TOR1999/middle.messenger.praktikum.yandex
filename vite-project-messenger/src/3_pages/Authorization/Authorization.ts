@@ -1,4 +1,5 @@
 import { getLang } from "../../8_utils/langs/getLang";
+import s from "./Authorization.module.scss";
 
 export default class Authorization {
   state: {};
@@ -22,6 +23,6 @@ export default class Authorization {
 
     console.log("welcomeLang:", welcomeLang);
 
-    this.appElement.innerHTML = `<div>${welcomeLang}</div>`;
+    this.appElement.innerHTML = `<div class=${s["main"]}>${welcomeLang}</div>`;
   }
 }
