@@ -1,0 +1,123 @@
+@use "./colors.scss" as colors;
+
+@mixin font-header($size, $line-height) {
+  font: {
+    family: Inter;
+    size: $size;
+    weight: bold;
+  }
+  line-height: $line-height;
+
+  color: colors.$black;
+}
+
+@mixin font-body($size, $line-height: 130%) {
+  font: {
+    family: Inter;
+    size: $size;
+    weight: normal;
+  }
+  line-height: $line-height;
+
+  color: colors.$black;
+}
+
+@mixin font-b1 {
+  $value-map: (
+    size: 20px,
+    line-height: 130%,
+  );
+
+  @include font-body($value-map...);
+}
+@mixin font-b2 {
+  $value-map: (
+    size: 13px,
+    line-height: 130%,
+  );
+
+  @include font-body($value-map...);
+}
+@mixin font-b3 {
+  $value-map: (
+    size: 12px,
+    line-height: 130%,
+  );
+
+  @include font-body($value-map...);
+}
+@mixin font-b4 {
+  $value-map: (
+    size: 11px,
+    line-height: 130%,
+  );
+
+  @include font-body($value-map...);
+}
+
+@mixin font-b5 {
+  $value-map: (
+    size: 9px,
+    line-height: 130%,
+  );
+
+  @include font-body($value-map...);
+}
+
+@mixin font-b6 {
+  $value-map: (
+    size: 8px,
+    line-height: 130%,
+  );
+
+  @include font-body($value-map...);
+}
+
+@mixin font-h1 {
+  $value-map: (
+    size: 20px,
+    line-height: 120%,
+  );
+
+  @include font-header($value-map...);
+}
+@mixin font-h2 {
+  $value-map: (
+    size: 13px,
+    line-height: 120%,
+  );
+
+  @include font-header($value-map...);
+}
+@mixin font-h3 {
+  $value-map: (
+    size: 12px,
+    line-height: 130%,
+  );
+
+  @include font-header($value-map...);
+}
+@mixin font-h4 {
+  $value-map: (
+    size: 11px,
+    line-height: 130%,
+  );
+
+  @include font-header($value-map...);
+}
+@mixin font-h5 {
+  $value-map: (
+    size: 9px,
+    line-height: 130%,
+  );
+
+  @include font-header($value-map...);
+}
+@mixin font-h6 {
+  $value-map: (
+    size: 8px,
+    line-height: 130%,
+  );
+
+  @include font-header($value-map...);
+}

@@ -1,0 +1,15 @@
+@use "../../8_utils/styles/colors.scss" as colors;
+@use "../../8_utils/styles/fonts.scss" as fonts;
+
+.link {
+  &_text {
+    @include fonts.font-h4;
+    color: colors.$blue;
+    text-decoration: none;
+  }
+
+  &_underline {
+    @include fonts.font-h3;
+    color: colors.$blue;
+  }
+}
