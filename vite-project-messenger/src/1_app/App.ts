@@ -8,12 +8,14 @@ import "../8_utils/helpers/isSimpleEquals";
 import { Typography } from "../7_shared/Typography/Typography";
 import { AuthorizationModal } from "../4_widgets/AuthorizationModal/AuthorizationModal";
 import { Input } from "../7_shared/LoginInput/Input";
+import { RegistrationModal } from "../4_widgets/RegistrationModal/RegistrationModal";
 
 Handlebars.registerPartial("Typography", Typography);
 Handlebars.registerPartial("Button", Button);
 Handlebars.registerPartial("Link", Link);
 Handlebars.registerPartial("Input", Input);
 Handlebars.registerPartial("AuthorizationModal", AuthorizationModal);
+Handlebars.registerPartial("RegistrationModal", RegistrationModal);
 
 enum NamePages {
   AUTHORIZATION = "authorization",
@@ -81,7 +83,7 @@ export default class App {
 
   constructor() {
     this.state = {
-      currentPage: NamePages.AUTHORIZATION,
+      currentPage: NamePages.REGISTRATION,
     };
     this.appElement = document.getElementById("app");
     this.navigationElement = document.getElementById("navigation");
