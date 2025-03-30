@@ -1,0 +1,34 @@
+@use "../../8_utils/styles/colors.scss" as colors;
+
+.content {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 340px;
+  height: 450px;
+  padding: 50px 30px 30px 30px;
+
+  background-color: colors.$white;
+  border-radius: 12px;
+  border: 2px solid colors.$grey;
+
+  .tittle {
+    display: flex;
+    padding-bottom: 40px;
+  }
+
+  .input-login {
+    width: 100%;
+    padding-bottom: 16px;
+  }
+
+  .input-password {
+    width: 100%;
+    padding-bottom: 159px;
+  }
+
+  .button-auth {
+    width: 100%;
+    padding-bottom: 14px;
+  }
+}

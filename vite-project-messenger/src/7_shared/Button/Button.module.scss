@@ -9,10 +9,11 @@
   width: 100%;
   min-height: 37px;
 
+  @include fonts.font-b2;
   background-color: colors.$blue;
   color: colors.$white;
   border-radius: 8px;
-  @include fonts.font-b2;
+  border: 0px;
 
   &_disabled {
     opacity: 0.4;

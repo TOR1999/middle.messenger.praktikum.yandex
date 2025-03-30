@@ -2,6 +2,10 @@
 @use "../../8_utils/styles/fonts.scss" as fonts;
 
 .link {
+  a:visited {
+    color: colors.$blue;
+  }
+
   &_text {
     @include fonts.font-h4;
     color: colors.$blue;

@@ -1,5 +1,9 @@
 export const langs = {
-  first: {
-    hello: "Welcome11122",
+  authorizationModal: {
+    tittle: "Вход",
+    buttonsText: {
+      auth: "Авторизоваться",
+      registration: "Нет аккаунта?",
+    },
   },
 };
