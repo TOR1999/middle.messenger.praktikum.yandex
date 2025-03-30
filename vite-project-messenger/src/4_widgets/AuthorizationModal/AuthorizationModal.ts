@@ -15,14 +15,11 @@ export const AuthorizationModal = `
     {{> Input variant="password" textLabel="${getLang("common.password")}"}}
   </div>
     <div class=${s["button-auth"]}>
-      {{> Button id="add-question" text="${getLang(
-        "authorizationModal.buttonsText.auth"
-      )}"}}
+      {{> Button text="${getLang("authorizationModal.buttonsText.auth")}"}}
     </div>
   {{> Link 
       href="#"
       variant="text" 
-      class=this.variant 
       text="${getLang("authorizationModal.buttonsText.registration")}"
   }}
 </div>
