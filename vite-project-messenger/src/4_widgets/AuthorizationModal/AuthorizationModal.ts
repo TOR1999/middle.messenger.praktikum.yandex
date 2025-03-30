@@ -9,10 +9,10 @@ export const AuthorizationModal = `
     )}" }}
   </div>
   <div class=${s["input-login"]}>
-    {{> Input variant="text" textLabel="Логин" placeholderText="Логин"}}
+    {{> Input variant="text" textLabel="${getLang("common.login")}"}}
   </div>
   <div class=${s["input-password"]}>
-    {{> Input variant="password" textLabel="Пароль" placeholderText="Пароль"}}
+    {{> Input variant="password" textLabel="${getLang("common.password")}"}}
   </div>
     <div class=${s["button-auth"]}>
       {{> Button id="add-question" text="${getLang(

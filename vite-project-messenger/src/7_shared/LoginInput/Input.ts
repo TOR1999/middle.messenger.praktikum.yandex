@@ -13,7 +13,6 @@ type=text
 {{#if (isSimpleEquals variant "password")}} 
 type=password
 {{/if}}
-placeholder={{placeholderText}}
 value="{{value}}"
 />
 `;
