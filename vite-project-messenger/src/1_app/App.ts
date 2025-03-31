@@ -59,21 +59,29 @@ type TTypographyData = {
 
 const PAGES: TLinkData[] = [
   {
-    text: NamePages.AUTHORIZATION,
+    text: "Страница авторизации",
     dataPages: NamePages.AUTHORIZATION,
-    variant: "underline",
+    variant: "text",
   },
   {
-    text: NamePages.REGISTRATION,
+    text: "Страница регистрации",
     dataPages: NamePages.REGISTRATION,
     variant: "text",
   },
-  { text: NamePages.CHATS, dataPages: NamePages.CHATS, variant: "text" },
-  { text: NamePages.CHAT, dataPages: NamePages.CHAT, variant: "text" },
-  { text: NamePages.PROFILE, dataPages: NamePages.PROFILE, variant: "text" },
-  { text: NamePages.NOTFOUND, dataPages: NamePages.NOTFOUND, variant: "text" },
   {
-    text: NamePages.SERVERERROR,
+    text: "Страница списка чатов",
+    dataPages: NamePages.CHATS,
+    variant: "text",
+  },
+  { text: "Страница чата", dataPages: NamePages.CHAT, variant: "text" },
+  { text: "Страница профиля", dataPages: NamePages.PROFILE, variant: "text" },
+  {
+    text: "Страница ошибки 404",
+    dataPages: NamePages.NOTFOUND,
+    variant: "text",
+  },
+  {
+    text: "Страница ошибки 500",
     dataPages: NamePages.SERVERERROR,
     variant: "text",
   },
@@ -102,6 +110,7 @@ export default class App {
     let template;
     template = Handlebars.compile(Navigation);
     this.navigationElement.innerHTML = template({
+      title: "Список страниц:",
       pages: PAGES,
     });
 
