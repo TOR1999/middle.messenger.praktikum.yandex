@@ -2,18 +2,18 @@
 @use "../../8_utils/styles/fonts.scss" as fonts;
 
 .link {
-  a:visited {
-    color: colors.$blue;
-  }
-
   &_text {
-    @include fonts.font-h4;
+    @include fonts.font-h3;
     color: colors.$blue;
-    text-decoration: none;
   }
 
   &_underline {
     @include fonts.font-h3;
     color: colors.$blue;
+    text-decoration: underline;
+  }
+
+  &_red-text {
+    color: colors.$red;
   }
 }
