@@ -13,6 +13,7 @@ import { ProfilePage } from "../3_pages/ProfilePage/ProfilePage";
 import { CircleIconButton } from "../7_shared/CircleIconButton/CircleIconButton";
 import { ErrorPage } from "../3_pages/ErrorPage/ErrorPage";
 import { getLang } from "../8_utils/langs/getLang";
+import { DevelopmentPage } from "../3_pages/DevelopmentPage/DevelopmentPage";
 
 Handlebars.registerPartial("Typography", Typography);
 Handlebars.registerPartial("Button", Button);
@@ -26,7 +27,6 @@ enum NamePages {
   AUTHORIZATION = "authorization",
   REGISTRATION = "registration",
   CHATS = "chats",
-  CHAT = "chat",
   PROFILE = "profile",
   NOTFOUND = "notFound",
   SERVERERROR = "serverError",
@@ -48,13 +48,15 @@ type TTypographyData = {
     | "b5"
     | "b6"
     | "b7"
+    | "b8"
     | "h1"
     | "h2"
     | "h3"
     | "h4"
     | "h5"
     | "h6"
-    | "h7";
+    | "h7"
+    | "h8";
 };
 
 const PAGES: TLinkData[] = [
@@ -73,7 +75,6 @@ const PAGES: TLinkData[] = [
     dataPages: NamePages.CHATS,
     variant: "text",
   },
-  { text: "Страница чата", dataPages: NamePages.CHAT, variant: "text" },
   { text: "Страница профиля", dataPages: NamePages.PROFILE, variant: "text" },
   {
     text: "Страница ошибки 404",
@@ -128,6 +129,13 @@ export default class App {
       case NamePages.PROFILE: {
         template = Handlebars.compile(ProfilePage);
         this.appElement.innerHTML = template({});
+        break;
+      }
+      case NamePages.CHATS: {
+        template = Handlebars.compile(DevelopmentPage);
+        this.appElement.innerHTML = template({
+          text: getLang("developmentPage"),
+        });
         break;
       }
       case NamePages.NOTFOUND: {

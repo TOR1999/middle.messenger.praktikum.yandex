@@ -1,4 +1,5 @@
 export const langs = {
+  developmentPage: "Страница в разработке...",
   common: {
     login: "Логин",
     password: "Пароль",
