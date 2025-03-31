@@ -11,6 +11,8 @@ import { Input } from "../7_shared/LoginInput/Input";
 import { RegistrationModal } from "../4_widgets/RegistrationModal/RegistrationModal";
 import { ProfilePage } from "../3_pages/ProfilePage/ProfilePage";
 import { CircleIconButton } from "../7_shared/CircleIconButton/CircleIconButton";
+import { ErrorPage } from "../3_pages/ErrorPage/ErrorPage";
+import { getLang } from "../8_utils/langs/getLang";
 
 Handlebars.registerPartial("Typography", Typography);
 Handlebars.registerPartial("Button", Button);
@@ -88,7 +90,7 @@ export default class App {
 
   constructor() {
     this.state = {
-      currentPage: NamePages.PROFILE,
+      currentPage: NamePages.NOTFOUND,
     };
     this.appElement = document.getElementById("app");
     this.navigationElement = document.getElementById("navigation");
@@ -117,6 +119,24 @@ export default class App {
       case NamePages.PROFILE: {
         template = Handlebars.compile(ProfilePage);
         this.appElement.innerHTML = template({});
+        break;
+      }
+      case NamePages.NOTFOUND: {
+        template = Handlebars.compile(ErrorPage);
+        this.appElement.innerHTML = template({
+          textCode: getLang("ErrorPage.notFound.textCode"),
+          textMessage: getLang("ErrorPage.notFound.textMessage"),
+          textLink: getLang("ErrorPage.notFound.textLink"),
+        });
+        break;
+      }
+      case NamePages.SERVERERROR: {
+        template = Handlebars.compile(ErrorPage);
+        this.appElement.innerHTML = template({
+          textCode: getLang("ErrorPage.serverError.textCode"),
+          textMessage: getLang("ErrorPage.serverError.textMessage"),
+          textLink: getLang("ErrorPage.serverError.textLink"),
+        });
         break;
       }
       default: {

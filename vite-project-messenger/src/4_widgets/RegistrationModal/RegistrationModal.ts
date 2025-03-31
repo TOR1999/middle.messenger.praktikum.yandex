@@ -7,26 +7,26 @@ export const RegistrationModal = `
     {{> Typography variant="b1" text="${getLang("registrationModal.tittle")}" }}
   </div>
   <div class=${s["input"]}>
-    {{> Input variant="text" textLabel="${getLang("common.email")}"}}
+    {{> Input variant="text" textLabel="${getLang("profilePage.email")}"}}
   </div>
   <div class=${s["input"]}>
     {{> Input variant="text" textLabel="${getLang("common.login")}"}}
   </div>
   <div class=${s["input"]}>
-    {{> Input variant="text" textLabel="${getLang("common.name")}"}}
+    {{> Input variant="text" textLabel="${getLang("profilePage.name")}"}}
   </div>
   <div class=${s["input"]}>
-    {{> Input variant="text" textLabel="${getLang("common.secondName")}"}}
+    {{> Input variant="text" textLabel="${getLang("profilePage.secondName")}"}}
   </div>
   <div class=${s["input"]}>
-    {{> Input variant="text" textLabel="${getLang("common.telephone")}"}}
+    {{> Input variant="text" textLabel="${getLang("profilePage.telephone")}"}}
   </div>
   <div class=${s["input"]}>
     {{> Input variant="password" textLabel="${getLang("common.password")}"}}
   </div>
   <div class=${s["input"]}>
     {{> Input variant="password" textLabel="${getLang(
-      "common.repeatPassword"
+      "profilePage.repeatPassword"
     )}"}}
   </div>
     <div class=${s["button-registration"]}>

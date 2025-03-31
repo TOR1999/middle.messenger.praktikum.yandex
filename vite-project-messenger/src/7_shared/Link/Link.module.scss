@@ -3,12 +3,12 @@
 
 .link {
   &_text {
-    @include fonts.font-h3;
+    @include fonts.font-h4;
     color: colors.$blue;
   }
 
   &_underline {
-    @include fonts.font-h3;
+    @include fonts.font-h4;
     color: colors.$blue;
     text-decoration: underline;
   }

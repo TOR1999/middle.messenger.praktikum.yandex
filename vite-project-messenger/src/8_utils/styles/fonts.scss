@@ -20,7 +20,7 @@
 
 @mixin font-b1 {
   $value-map: (
-    size: 20px,
+    size: 40px,
     line-height: 130%,
   );
 
@@ -28,7 +28,7 @@
 }
 @mixin font-b2 {
   $value-map: (
-    size: 16px,
+    size: 20px,
     line-height: 130%,
   );
 
@@ -36,7 +36,7 @@
 }
 @mixin font-b3 {
   $value-map: (
-    size: 13px,
+    size: 16px,
     line-height: 130%,
   );
 
@@ -44,13 +44,21 @@
 }
 @mixin font-b4 {
   $value-map: (
-    size: 12px,
+    size: 13px,
     line-height: 130%,
   );
 
   @include font-body($value-map...);
 }
 @mixin font-b5 {
+  $value-map: (
+    size: 12px,
+    line-height: 130%,
+  );
+
+  @include font-body($value-map...);
+}
+@mixin font-b6 {
   $value-map: (
     size: 11px,
     line-height: 130%,
@@ -59,7 +67,7 @@
   @include font-body($value-map...);
 }
 
-@mixin font-b6 {
+@mixin font-b7 {
   $value-map: (
     size: 9px,
     line-height: 130%,
@@ -68,7 +76,7 @@
   @include font-body($value-map...);
 }
 
-@mixin font-b7 {
+@mixin font-b8 {
   $value-map: (
     size: 8px,
     line-height: 130%,
@@ -79,7 +87,7 @@
 
 @mixin font-h1 {
   $value-map: (
-    size: 20px,
+    size: 40px,
     line-height: 120%,
   );
 
@@ -87,7 +95,7 @@
 }
 @mixin font-h2 {
   $value-map: (
-    size: 16px,
+    size: 20px,
     line-height: 120%,
   );
 
@@ -95,7 +103,7 @@
 }
 @mixin font-h3 {
   $value-map: (
-    size: 13px,
+    size: 16px,
     line-height: 120%,
   );
 
@@ -103,15 +111,15 @@
 }
 @mixin font-h4 {
   $value-map: (
-    size: 12px,
-    line-height: 130%,
+    size: 13px,
+    line-height: 120%,
   );
 
   @include font-header($value-map...);
 }
 @mixin font-h5 {
   $value-map: (
-    size: 11px,
+    size: 12px,
     line-height: 130%,
   );
 
@@ -119,13 +127,21 @@
 }
 @mixin font-h6 {
   $value-map: (
-    size: 9px,
+    size: 11px,
     line-height: 130%,
   );
 
   @include font-header($value-map...);
 }
 @mixin font-h7 {
+  $value-map: (
+    size: 9px,
+    line-height: 130%,
+  );
+
+  @include font-header($value-map...);
+}
+@mixin font-h8 {
   $value-map: (
     size: 8px,
     line-height: 130%,

@@ -28,4 +28,16 @@ export const langs = {
     changePassword: "Изменить пароль",
     logOut: "Выйти",
   },
+  ErrorPage: {
+    notFound: {
+      textCode: "404",
+      textMessage: "Не туда попали",
+      textLink: "Назад к чатам",
+    },
+    serverError: {
+      textCode: "500",
+      textMessage: "Мы уже фиксим",
+      textLink: "Назад к чатам",
+    },
+  },
 };
