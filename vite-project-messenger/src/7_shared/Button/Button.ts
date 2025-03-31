@@ -11,4 +11,5 @@ export const Button = `
     {{/if}}
   >
      {{text}}
-  </button>`;
+  </button>
+  `;

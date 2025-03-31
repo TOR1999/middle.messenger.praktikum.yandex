@@ -1,12 +1,7 @@
 export const langs = {
   common: {
-    email: "Почта",
     login: "Логин",
-    name: "Имя",
-    secondName: "Фамилия",
-    telephone: "Телефон",
     password: "Пароль",
-    repeatPassword: "Пароль (ещё раз)",
   },
   authorizationModal: {
     tittle: "Вход",
@@ -21,5 +16,16 @@ export const langs = {
       registration: "Зарегистрироваться",
       auth: "Войти",
     },
+  },
+  profilePage: {
+    email: "Почта",
+    name: "Имя",
+    nickName: "Имя в чате",
+    secondName: "Фамилия",
+    telephone: "Телефон",
+    repeatPassword: "Пароль (ещё раз)",
+    changeData: "Изменить данные",
+    changePassword: "Изменить пароль",
+    logOut: "Выйти",
   },
 };

@@ -24,6 +24,10 @@
   @include fonts.font-b6;
 }
 
+.font-b7 {
+  @include fonts.font-b7;
+}
+
 .font-h1 {
   @include fonts.font-h1;
 }
@@ -46,4 +50,8 @@
 
 .font-h6 {
   @include fonts.font-h6;
+}
+
+.font-h7 {
+  @include fonts.font-h7;
 }

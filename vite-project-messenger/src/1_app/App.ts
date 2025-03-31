@@ -9,6 +9,8 @@ import { Typography } from "../7_shared/Typography/Typography";
 import { AuthorizationModal } from "../4_widgets/AuthorizationModal/AuthorizationModal";
 import { Input } from "../7_shared/LoginInput/Input";
 import { RegistrationModal } from "../4_widgets/RegistrationModal/RegistrationModal";
+import { ProfilePage } from "../3_pages/ProfilePage/ProfilePage";
+import { CircleIconButton } from "../7_shared/CircleIconButton/CircleIconButton";
 
 Handlebars.registerPartial("Typography", Typography);
 Handlebars.registerPartial("Button", Button);
@@ -16,6 +18,7 @@ Handlebars.registerPartial("Link", Link);
 Handlebars.registerPartial("Input", Input);
 Handlebars.registerPartial("AuthorizationModal", AuthorizationModal);
 Handlebars.registerPartial("RegistrationModal", RegistrationModal);
+Handlebars.registerPartial("CircleIconButton", CircleIconButton);
 
 enum NamePages {
   AUTHORIZATION = "authorization",
@@ -42,12 +45,14 @@ type TTypographyData = {
     | "b4"
     | "b5"
     | "b6"
+    | "b7"
     | "h1"
     | "h2"
     | "h3"
     | "h4"
     | "h5"
-    | "h6";
+    | "h6"
+    | "h7";
 };
 
 const PAGES: TLinkData[] = [
@@ -83,7 +88,7 @@ export default class App {
 
   constructor() {
     this.state = {
-      currentPage: NamePages.REGISTRATION,
+      currentPage: NamePages.PROFILE,
     };
     this.appElement = document.getElementById("app");
     this.navigationElement = document.getElementById("navigation");
@@ -101,18 +106,17 @@ export default class App {
     switch (this.state.currentPage) {
       case NamePages.AUTHORIZATION: {
         template = Handlebars.compile(AuthorizationPage);
-        this.appElement.innerHTML = template({
-          createButtonEnabled: true,
-          pages: PAGES,
-        });
+        this.appElement.innerHTML = template({});
         break;
       }
       case NamePages.REGISTRATION: {
         template = Handlebars.compile(RegistrationPage);
-        this.appElement.innerHTML = template({
-          createButtonEnabled: true,
-          pages: PAGES,
-        });
+        this.appElement.innerHTML = template({});
+        break;
+      }
+      case NamePages.PROFILE: {
+        template = Handlebars.compile(ProfilePage);
+        this.appElement.innerHTML = template({});
         break;
       }
       default: {

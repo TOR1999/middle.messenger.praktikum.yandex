@@ -20,6 +20,9 @@ export const Typography = `
 {{#if (isSimpleEquals variant "b6")}} 
    class=${s["font-b6"]}
 {{/if}}
+{{#if (isSimpleEquals variant "b7")}} 
+   class=${s["font-b7"]}
+{{/if}}
 {{#if (isSimpleEquals variant "h1")}} 
    class=${s["font-h1"]}
 {{/if}}
@@ -37,6 +40,9 @@ export const Typography = `
 {{/if}}
 {{#if (isSimpleEquals variant "h6")}} 
    class=${s["font-h6"]}
+{{/if}}
+{{#if (isSimpleEquals variant "h7")}} 
+   class=${s["font-h7"]}
 {{/if}}
 >
 {{text}}
