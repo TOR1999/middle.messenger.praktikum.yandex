@@ -7,8 +7,7 @@
     "start": "vite",
     "build": "tsc && vite build",
     "server": " node server.js",
-    "type-check": "tsc --noEmit",
-    "deploy": "npm run build && npm run server"
+    "type-check": "tsc --noEmit"
   },
   "devDependencies": {
     "@types/node": "^22.13.11",
