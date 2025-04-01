@@ -8,6 +8,7 @@
 
 - `npm run start` - запуск для разработки
 - `npm run build` - сборка проекта
+- `npm run server` - запуск express сервера
 - `npm run type-check` - проверка типов
 
 ## Дополнительная информация
