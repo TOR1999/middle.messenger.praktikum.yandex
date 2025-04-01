@@ -1,0 +1,65 @@
+@use "../../8_utils/styles/fonts.scss" as fonts;
+
+.font-b1 {
+  @include fonts.font-b1;
+}
+
+.font-b2 {
+  @include fonts.font-b2;
+}
+
+.font-b3 {
+  @include fonts.font-b3;
+}
+
+.font-b4 {
+  @include fonts.font-b4;
+}
+
+.font-b5 {
+  @include fonts.font-b5;
+}
+
+.font-b6 {
+  @include fonts.font-b6;
+}
+
+.font-b7 {
+  @include fonts.font-b7;
+}
+
+.font-b8 {
+  @include fonts.font-b8;
+}
+
+.font-h1 {
+  @include fonts.font-h1;
+}
+
+.font-h2 {
+  @include fonts.font-h2;
+}
+
+.font-h3 {
+  @include fonts.font-h3;
+}
+
+.font-h4 {
+  @include fonts.font-h4;
+}
+
+.font-h5 {
+  @include fonts.font-h5;
+}
+
+.font-h6 {
+  @include fonts.font-h6;
+}
+
+.font-h7 {
+  @include fonts.font-h7;
+}
+
+.font-h8 {
+  @include fonts.font-h8;
+}
