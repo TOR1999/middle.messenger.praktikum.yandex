@@ -27,6 +27,7 @@ export const langs = {
     repeatPassword: "Пароль (ещё раз)",
     changeData: "Изменить данные",
     changePassword: "Изменить пароль",
+    changeImageProfile: "Изменить фотографию",
     logOut: "Выйти",
   },
   ErrorPage: {

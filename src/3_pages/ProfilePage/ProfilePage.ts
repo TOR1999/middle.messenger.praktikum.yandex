@@ -12,6 +12,9 @@ export const ProfilePage = `
     <div class=${s["image-profile-container"]}>
       <img src="/icons/imageProfile.svg"/>
     </div>
+    {{> Link href="#" variant="text" text="${getLang(
+      "profilePage.changeImageProfile"
+    )}"}}
     <div class=${s["user-name"]}>
       {{> Typography variant="h2" text="Иван"}}
     </div>
