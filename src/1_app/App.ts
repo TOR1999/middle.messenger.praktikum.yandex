@@ -38,27 +38,6 @@ type TLinkData = {
   variant: "underline" | "text";
 };
 
-type TTypographyData = {
-  text: string;
-  variant:
-    | "b1"
-    | "b2"
-    | "b3"
-    | "b4"
-    | "b5"
-    | "b6"
-    | "b7"
-    | "b8"
-    | "h1"
-    | "h2"
-    | "h3"
-    | "h4"
-    | "h5"
-    | "h6"
-    | "h7"
-    | "h8";
-};
-
 const PAGES: TLinkData[] = [
   {
     text: "Страница авторизации",
@@ -99,7 +78,7 @@ export default class App {
 
   constructor() {
     this.state = {
-      currentPage: NamePages.NOTFOUND,
+      currentPage: NamePages.PROFILE,
     };
     this.appElement = document.getElementById("app");
     this.navigationElement = document.getElementById("navigation");
