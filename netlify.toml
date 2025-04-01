@@ -6,8 +6,8 @@
 # “publish” is the directory to publish (relative to the root of your repo).
 
 [build]
-  command = "npm run deploy"
-  publish = "static"
+  command = "npm run build"
+  publish = "dist"
 
 [build.environment]
   NODE_VERSION = "20.9.0"
