@@ -15,7 +15,7 @@ import { ErrorPage } from "../3_pages/ErrorPage/ErrorPage";
 import { getLang } from "../8_utils/langs/getLang";
 import { DevelopmentPage } from "../3_pages/DevelopmentPage/DevelopmentPage";
 import { NamePages, TState } from "./types";
-import { AUTH_PAGE_DATA, LIST_PAGES } from "./MockData";
+import { AUTH_PAGE_DATA, LIST_PAGES, REGISTRATION_PAGE_DATA } from "./MockData";
 
 Handlebars.registerPartial("Typography", Typography);
 Handlebars.registerPartial("Button", Button);
@@ -32,7 +32,7 @@ export default class App {
 
   constructor() {
     this.state = {
-      currentPage: NamePages.AUTHORIZATION,
+      currentPage: NamePages.REGISTRATION,
     };
     this.appElement = document.getElementById("app");
     this.navigationElement = document.getElementById("navigation");
@@ -56,7 +56,7 @@ export default class App {
       }
       case NamePages.REGISTRATION: {
         template = Handlebars.compile(RegistrationPage);
-        this.appElement.innerHTML = template({});
+        this.appElement.innerHTML = template(REGISTRATION_PAGE_DATA);
         break;
       }
       case NamePages.PROFILE: {

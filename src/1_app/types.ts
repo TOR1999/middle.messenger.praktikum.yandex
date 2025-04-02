@@ -41,6 +41,16 @@ export type TAuthData = {
   valuePassword: string;
 };
 
+export type TRegistrationData = {
+  valueEmail: string;
+  valueLogin: string;
+  valueFirstName: string;
+  valueSecondName: string;
+  valuePhone: string;
+  valuePassword: string;
+  valueRepeatPassword: string;
+};
+
 export type TTypographyData = {
   text: string;
   variant:

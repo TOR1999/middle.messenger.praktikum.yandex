@@ -23,7 +23,7 @@ export const langs = {
     name: "Имя",
     nickName: "Имя в чате",
     secondName: "Фамилия",
-    telephone: "Телефон",
+    phone: "Телефон",
     repeatPassword: "Пароль (ещё раз)",
     changeData: "Изменить данные",
     changePassword: "Изменить пароль",
