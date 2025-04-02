@@ -1,4 +1,10 @@
-import { NamePages, TAuthData, TLinkData, TRegistrationData } from "./types";
+import {
+  NamePages,
+  TAuthData,
+  TLinkData,
+  TProfileData,
+  TRegistrationData,
+} from "./types";
 
 export const LIST_PAGES: TLinkData[] = [
   {
@@ -44,6 +50,13 @@ export const REGISTRATION_PAGE_DATA: TRegistrationData = {
   valueRepeatPassword: "Qwerty",
 };
 
-export const PROFILE_PAGE_DATA = {};
+export const PROFILE_PAGE_DATA: TProfileData = {
+  valueEmail: "Torzh@yandex.ru",
+  valueLogin: "Torzh",
+  valueFirstName: "Илья",
+  valueSecondName: "Торжевский",
+  valueNickName: "Torzh_TOP",
+  valuePhone: "+7 (913) 170 50 60",
+};
 
 export const ERROR_PAGE_DATA = {};
