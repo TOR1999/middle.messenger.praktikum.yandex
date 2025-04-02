@@ -2,37 +2,80 @@ import { getLang } from "../../8_utils/langs/getLang";
 import s from "./RegistrationModal.module.scss";
 
 export const RegistrationModal = `
-<div class=${s["content"]}>
+<form class=${s["content"]}>
   <div class=${s["tittle"]}> 
-    {{> Typography variant="b1" text="${getLang("registrationModal.tittle")}" }}
+    {{> Typography
+        variant="b1"
+        text="${getLang("registrationModal.tittle")}"
+     }}
   </div>
   <div class=${s["input"]}>
-    {{> Input variant="text" textLabel="${getLang("profilePage.email")}"}}
+    {{> Input
+        inputId="emailId"
+        nameInput="email"
+        variant="text" 
+        textLabel="${getLang("profilePage.email")}"
+        value=valueEmail
+     }}
   </div>
   <div class=${s["input"]}>
-    {{> Input variant="text" textLabel="${getLang("common.login")}"}}
+    {{> Input
+        inputId="loginId"
+        nameInput="login"
+        variant="text"
+        textLabel="${getLang("common.login")}"
+        value=valueLogin
+     }}
   </div>
   <div class=${s["input"]}>
-    {{> Input variant="text" textLabel="${getLang("profilePage.name")}"}}
+    {{> Input
+        inputId="firstNameId"
+        nameInput="first_name"
+        variant="text"
+        textLabel="${getLang("profilePage.name")}"
+        value=valueFirstName
+     }}
   </div>
   <div class=${s["input"]}>
-    {{> Input variant="text" textLabel="${getLang("profilePage.secondName")}"}}
+    {{> Input
+        inputId="secondNameId"
+        nameInput="second_name"
+        variant="text"
+        textLabel="${getLang("profilePage.secondName")}"
+        value=valueSecondName
+     }}
   </div>
   <div class=${s["input"]}>
-    {{> Input variant="text" textLabel="${getLang("profilePage.telephone")}"}}
+    {{> Input
+        inputId="phoneId"
+        nameInput="phone"
+        variant="text"
+        textLabel="${getLang("profilePage.phone")}"
+        value=valuePhone
+     }}
   </div>
   <div class=${s["input"]}>
-    {{> Input variant="password" textLabel="${getLang("common.password")}"}}
+    {{> Input
+        inputId="passwordId"
+        nameInput="password"
+        variant="password"
+        textLabel="${getLang("common.password")}"
+        value=valuePassword
+     }}
   </div>
   <div class=${s["input"]}>
-    {{> Input variant="password" textLabel="${getLang(
-      "profilePage.repeatPassword"
-    )}"}}
+    {{> Input
+        inputId="repeatPasswordId"
+        nameInput="repeatPassword"
+        variant="password"
+        textLabel="${getLang("profilePage.repeatPassword")}"
+        value=valueRepeatPassword
+    }}
   </div>
     <div class=${s["button-registration"]}>
-      {{> Button text="${getLang(
-        "registrationModal.buttonsText.registration"
-      )}"}}
+      {{> Button
+          id="ButtonRegistration"
+          text="${getLang("registrationModal.buttonsText.registration")}"}}
     </div>
   {{> Link 
       href="#"
@@ -40,5 +83,5 @@ export const RegistrationModal = `
       class=this.variant 
       text="${getLang("registrationModal.buttonsText.auth")}"
   }}
-</div>
+</form>
 `;

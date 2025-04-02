@@ -1,12 +1,13 @@
 import s from "./Input.module.scss";
 
 export const Input = `
-<label class=${s["label"]} for="inputId">
+<label class=${s["label"]} for={{inputId}}>
   {{textLabel}}
 </label>
 <input
 class=${s["input"]}
-id="inputId"
+id={{inputId}}
+name={{nameInput}}
 {{#if (isSimpleEquals variant "text")}} 
 type=text
 {{/if}}
