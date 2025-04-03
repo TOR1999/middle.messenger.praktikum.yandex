@@ -5,6 +5,7 @@ export const langs = {
     password: "Пароль",
     buttons: {
       altBack: "Кнопка назад.",
+      save: "Сохранить",
     },
   },
   authorizationModal: {

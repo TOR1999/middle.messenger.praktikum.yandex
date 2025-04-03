@@ -7,15 +7,22 @@ export const Input = `
   </label>
 {{/if}}
 <input
-class=${s["input"]}
+{{#if (isSimpleEquals classStyle "textRight")}}
+  class="${`${s["input"]} ${s["input_text_right"]}`}"
+{{else}}
+  class=${s["input"]}
+{{/if}}
 id={{inputId}}
 name={{nameInput}}
+value="{{value}}"
 {{#if (isSimpleEquals variant "text")}} 
-type=text
+  type=text
 {{/if}}
 {{#if (isSimpleEquals variant "password")}} 
-type=password
+  type=password
 {{/if}}
-value="{{value}}"
+{{#if textPlaceholder}}
+  placeholder={{textPlaceholder}}
+{{/if}}
 />
 `;
