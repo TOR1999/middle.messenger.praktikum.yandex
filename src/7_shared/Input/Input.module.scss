@@ -15,9 +15,16 @@
   height: 20px;
   padding-bottom: 7px;
   outline: none;
+  border: 0;
 
   @include fonts.font-b4;
 
-  border: 0;
-  border-bottom: 1px solid colors.$blue;
+  &_text_right {
+    text-align: right;
+  }
+}
+
+.input::placeholder {
+  @include fonts.font-b4;
+  color: colors.$grey-light;
 }

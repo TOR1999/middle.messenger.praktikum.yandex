@@ -1,7 +1,7 @@
 import { getLang } from "../../8_utils/langs/getLang";
-import s from "./ProfilePage.module.scss";
+import s from "./ProfilePageEditorInfo.module.scss";
 
-export const ProfilePage = `
+export const ProfilePageEditorInfo = `
 <div class=${s["container"]}>
   <div class=${s["button-back-container"]}>
     <div class=${s["button-back"]}>
@@ -11,22 +11,12 @@ export const ProfilePage = `
        }}
     </div>
   </div>
-  <div class=${s["content"]}>
+  <form class=${s["content"]}>
     <div class=${s["image-profile-container"]}>
       <img 
       src="/icons/imageProfile.svg"
       alt="${getLang("profilePage.altImageProfile")}"
       />
-    </div>
-    {{> Link href="#"
-        variant="text"
-        text="${getLang("profilePage.changeImageProfile")}"
-      }}
-    <div class=${s["user-name"]}>
-      {{> Typography
-          variant="h2"
-          text=valueNickName
-       }}
     </div>
     <div class=${s["info-line-container"]}>
       {{> Typography
@@ -34,10 +24,13 @@ export const ProfilePage = `
           text="${getLang("profilePage.email")}"
        }}
       <div class=${s["info"]}>
-        {{> Typography
-            variant="h3"
-            text=valueEmail
-         }}
+        {{> Input
+            inputId="emailId"
+            classStyle="textRight"
+            nameInput="email"
+            variant="text"
+            textPlaceholder=valueEmail
+        }}
       </div>
     </div>
     <div class=${s["info-line-container"]}>
@@ -46,10 +39,13 @@ export const ProfilePage = `
           text="${getLang("common.login")}"
        }}
       <div class=${s["info"]}>
-        {{> Typography
-            variant="h3"
-            text=valueLogin
-         }}
+        {{> Input
+            inputId="loginId"
+            classStyle="textRight"
+            nameInput="login"
+            variant="text"
+            textPlaceholder=valueLogin
+        }}
       </div>
     </div>
     <div class=${s["info-line-container"]}>
@@ -58,10 +54,13 @@ export const ProfilePage = `
           text="${getLang("profilePage.name")}"
        }}
       <div class=${s["info"]}>
-        {{> Typography
-            variant="h3"
-            text=valueFirstName
-         }}
+        {{> Input
+            inputId="firstNameId"
+            classStyle="textRight"
+            nameInput="first_name"
+            variant="text"
+            textPlaceholder=valueFirstName
+        }}
       </div>
     </div>
     <div class=${s["info-line-container"]}>
@@ -70,10 +69,13 @@ export const ProfilePage = `
           text="${getLang("profilePage.secondName")}"
        }}
       <div class=${s["info"]}>
-        {{> Typography
-            variant="h3"
-            text=valueSecondName
-         }}
+        {{> Input
+            inputId="secondNameId"
+            classStyle="textRight"
+            nameInput="second_name"
+            variant="text"
+            textPlaceholder=valueSecondName
+        }}
       </div>
     </div>
     <div class=${s["info-line-container"]}>
@@ -82,10 +84,13 @@ export const ProfilePage = `
           text="${getLang("profilePage.nickName")}"
        }}
       <div class=${s["info"]}>
-        {{> Typography
-            variant="h3"
-            text=valueNickName
-         }}
+        {{> Input
+            inputId="displayNameId"
+            classStyle="textRight"
+            nameInput="display_name"
+            variant="text"
+            textPlaceholder=valueNickName
+        }}
       </div>
     </div>
     <div class=${s["info-line-container"]}>
@@ -94,36 +99,21 @@ export const ProfilePage = `
           text="${getLang("profilePage.phone")}"
        }}
       <div class=${s["info"]}>
-        {{> Typography
-            variant="h3"
-            text=valuePhone
-         }}
-      </div>
-    </div>
-    <div class=${s["actions-container"]}>
-      <div class=${s["info-line-container"]}>
-        {{> Link
-            href="#"
+        {{> Input
+            inputId="phoneId"
+            classStyle="textRight"
+            nameInput="phone"
             variant="text"
-            text="${getLang("profilePage.changeData")}"
-        }}
-      </div>
-       <div class=${s["info-line-container"]}>
-        {{> Link
-            href="#"
-            variant="text"
-            text="${getLang("profilePage.changePassword")}"
-        }}
-      </div>
-       <div class=${s["info-line-container"]}>
-        {{> Link
-            href="#"
-            variant="text"
-            color="red"
-            text="${getLang("profilePage.logOut")}"
+            textPlaceholder=valuePhone
         }}
       </div>
     </div>
-  </div>
+    <div class=${s["button-save"]}>
+      {{> Button
+          id="editProfileId"
+          text="${getLang("common.buttons.save")}"
+      }}
+    </div>
+  </form>
 </div>
 `;

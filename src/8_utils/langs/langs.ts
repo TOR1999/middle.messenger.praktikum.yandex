@@ -3,6 +3,10 @@ export const langs = {
   common: {
     login: "Логин",
     password: "Пароль",
+    buttons: {
+      altBack: "Кнопка назад.",
+      save: "Сохранить",
+    },
   },
   authorizationModal: {
     tittle: "Вход",
@@ -29,6 +33,12 @@ export const langs = {
     changePassword: "Изменить пароль",
     changeImageProfile: "Изменить фотографию",
     logOut: "Выйти",
+    altImageProfile: "Изображение пользователя.",
+    editPassword: {
+      old: "Старый пароль",
+      new: "Новый пароль",
+      repeatNew: "Повторите новый пароль",
+    },
   },
   ErrorPage: {
     notFound: {

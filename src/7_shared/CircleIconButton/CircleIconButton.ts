@@ -10,6 +10,9 @@ export const CircleIconButton = `
      class="${s["button"]}"
     {{/if}}
   >
-     <img src="{{iconSrc}}"/>
+     <img
+     src="{{iconSrc}}"
+     alt="{{altText}}"
+     />
   </button>
 `;
