@@ -5,6 +5,8 @@ export enum NamePages {
   PROFILE = "profile",
   NOTFOUND = "notFound",
   SERVERERROR = "serverError",
+  PROFILE_PAGE_EDITOR_INFO = "ProfilePageEditorInfo",
+  PROFILE_PAGE_EDITOR_PASSWORD = "ProfilePageEditorPassword",
 }
 
 export type TState = {
@@ -37,4 +39,10 @@ export type TProfileData = Omit<
   "valueRepeatPassword" | "valuePassword"
 > & {
   valueNickName: string;
+};
+
+export type TNewPasswordData = {
+  valueOldPassword: string;
+  valueNewPassword: string;
+  valueRepeatNewPassword: string;
 };

@@ -34,6 +34,11 @@ export const langs = {
     changeImageProfile: "Изменить фотографию",
     logOut: "Выйти",
     altImageProfile: "Изображение пользователя.",
+    editPassword: {
+      old: "Старый пароль",
+      new: "Новый пароль",
+      repeatNew: "Повторите новый пароль",
+    },
   },
   ErrorPage: {
     notFound: {

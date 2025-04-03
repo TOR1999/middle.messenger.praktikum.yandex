@@ -19,8 +19,11 @@ import {
   AUTH_PAGE_DATA,
   LIST_PAGES,
   PROFILE_PAGE_DATA,
+  PROFILE_PAGE_EDIT_PASSWORD_DATA,
   REGISTRATION_PAGE_DATA,
 } from "./MockData";
+import { ProfilePageEditorInfo } from "../3_pages/ProfilePageEditorInfo/ProfilePageEditorInfo";
+import { ProfilePageEditorPassword } from "../3_pages/ProfilePageEditorPassword/ProfilePageEditorPassword";
 
 Handlebars.registerPartial("Typography", Typography);
 Handlebars.registerPartial("Button", Button);
@@ -37,7 +40,7 @@ export default class App {
 
   constructor() {
     this.state = {
-      currentPage: NamePages.PROFILE,
+      currentPage: NamePages.PROFILE_PAGE_EDITOR_PASSWORD,
     };
     this.appElement = document.getElementById("app");
     this.navigationElement = document.getElementById("navigation");
@@ -67,6 +70,16 @@ export default class App {
       case NamePages.PROFILE: {
         template = Handlebars.compile(ProfilePage);
         this.appElement.innerHTML = template(PROFILE_PAGE_DATA);
+        break;
+      }
+      case NamePages.PROFILE_PAGE_EDITOR_INFO: {
+        template = Handlebars.compile(ProfilePageEditorInfo);
+        this.appElement.innerHTML = template(PROFILE_PAGE_DATA);
+        break;
+      }
+      case NamePages.PROFILE_PAGE_EDITOR_PASSWORD: {
+        template = Handlebars.compile(ProfilePageEditorPassword);
+        this.appElement.innerHTML = template(PROFILE_PAGE_EDIT_PASSWORD_DATA);
         break;
       }
       case NamePages.CHATS: {
