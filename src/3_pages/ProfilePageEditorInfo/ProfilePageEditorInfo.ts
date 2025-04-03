@@ -28,6 +28,7 @@ export const ProfilePageEditorInfo = `
             inputId="emailId"
             classStyle="textRight"
             nameInput="email"
+            variant="text"
             textPlaceholder=valueEmail
         }}
       </div>
@@ -42,6 +43,7 @@ export const ProfilePageEditorInfo = `
             inputId="loginId"
             classStyle="textRight"
             nameInput="login"
+            variant="text"
             textPlaceholder=valueLogin
         }}
       </div>
@@ -56,6 +58,7 @@ export const ProfilePageEditorInfo = `
             inputId="firstNameId"
             classStyle="textRight"
             nameInput="first_name"
+            variant="text"
             textPlaceholder=valueFirstName
         }}
       </div>
@@ -70,6 +73,7 @@ export const ProfilePageEditorInfo = `
             inputId="secondNameId"
             classStyle="textRight"
             nameInput="second_name"
+            variant="text"
             textPlaceholder=valueSecondName
         }}
       </div>
@@ -84,6 +88,7 @@ export const ProfilePageEditorInfo = `
             inputId="displayNameId"
             classStyle="textRight"
             nameInput="display_name"
+            variant="text"
             textPlaceholder=valueNickName
         }}
       </div>
@@ -98,6 +103,7 @@ export const ProfilePageEditorInfo = `
             inputId="phoneId"
             classStyle="textRight"
             nameInput="phone"
+            variant="text"
             textPlaceholder=valuePhone
         }}
       </div>
