@@ -5,12 +5,18 @@ export const ProfilePage = `
 <div class=${s["container"]}>
   <div class=${s["button-back-container"]}>
     <div class=${s["button-back"]}>
-      {{> CircleIconButton iconSrc="/icons/arrowBack.svg"}}
+      {{> CircleIconButton 
+       iconSrc="/icons/arrowBack.svg"
+       altText="${getLang("common.buttons.altBack")}"
+       }}
     </div>
   </div>
   <div class=${s["content"]}>
     <div class=${s["image-profile-container"]}>
-      <img src="/icons/imageProfile.svg"/>
+      <img 
+      src="/icons/imageProfile.svg"
+      alt="${getLang("profilePage.altImageProfile")}"
+      />
     </div>
     {{> Link href="#"
         variant="text"
