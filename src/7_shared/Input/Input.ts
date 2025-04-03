@@ -1,9 +1,11 @@
 import s from "./Input.module.scss";
 
 export const Input = `
-<label class=${s["label"]} for={{inputId}}>
-  {{textLabel}}
-</label>
+{{#if textLabel}}
+  <label class=${s["label"]} for={{inputId}}>
+    {{textLabel}}
+  </label>
+{{/if}}
 <input
 class=${s["input"]}
 id={{inputId}}

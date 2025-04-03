@@ -9,7 +9,7 @@ export const AuthorizationModal = `
         text="${getLang("authorizationModal.tittle")}" 
     }}
   </div>
-  <div class=${s["input-login"]}>
+  <div class="${`${s["input"]} ${s["input_login"]}`}">
     {{> Input 
         inputId="loginId"
         nameInput="login"
@@ -18,7 +18,7 @@ export const AuthorizationModal = `
         value=valueLogin
     }}
   </div>
-  <div class=${s["input-password"]}>
+  <div class="${`${s["input"]} ${s["input_password"]}`}">
     {{> Input 
         inputId="passwordId"
         nameInput="password"
