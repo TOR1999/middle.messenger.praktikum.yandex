@@ -1,0 +1,21 @@
+@use "../../8_utils/styles/colors.scss" as colors;
+@use "../../8_utils/styles/fonts.scss" as fonts;
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  min-height: 37px;
+
+  @include fonts.font-b4;
+  background-color: colors.$blue;
+  color: colors.$white;
+  border-radius: 8px;
+  border: 0px;
+
+  &_disabled {
+    opacity: 0.4;
+  }
+}
