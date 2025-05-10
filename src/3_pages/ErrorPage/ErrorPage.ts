@@ -3,7 +3,7 @@ import { Typography } from "../../7_shared/Typography/Typography";
 import { Block } from "../../8_utils/helpers/block";
 import s from "./ErrorPage.module.scss";
 
-const templateErrorPage = `
+const errorPageTemplate = `
 <div class=${s["container"]}>
   <div class=${s["code-container"]}>
     {{{TypographyTextCode}}}
@@ -43,6 +43,6 @@ export class ErrorPage extends Block {
   }
 
   override render() {
-    return this.compile(templateErrorPage, this.props);
+    return this.compile(errorPageTemplate, this.props);
   }
 }

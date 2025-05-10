@@ -1,6 +1,6 @@
 import { Block } from "../../8_utils/helpers/block";
 import s from "./Typography.module.scss";
-const templateTypography = `
+const typographyTemplate = `
 <div
 {{#if (isSimpleEquals variant "b1")}} 
    class=${s["font-b1"]}
@@ -74,6 +74,6 @@ export class Typography extends Block {
   }
 
   override render() {
-    return this.compile(templateTypography, this.props);
+    return this.compile(typographyTemplate, this.props);
   }
 }
