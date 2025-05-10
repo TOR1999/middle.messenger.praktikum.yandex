@@ -1,23 +1,48 @@
+import { Link } from "../../7_shared/Link/Link";
+import { Typography } from "../../7_shared/Typography/Typography";
+import { Block } from "../../8_utils/helpers/block";
 import s from "./ErrorPage.module.scss";
 
-export const ErrorPage = `
+const templateErrorPage = `
 <div class=${s["container"]}>
   <div class=${s["code-container"]}>
-    {{> Typography
-        variant="h1"
-        text=textCode
-     }}
+    {{{TypographyTextCode}}}
   </div>
   <div class=${s["message-container"]}>
-     {{> Typography
-          variant="b2"
-          text=textMessage
-      }}
+     {{{TypographyTextMessage}}}
   </div>
-  {{> Link
-      href="#"
-      variant="text"
-      text=textLink
-   }}
+  {{{LinkBack}}}
 </div>
 `;
+type TProps = {
+  textCode: string;
+  textLink: string;
+  textMessage: string;
+};
+
+export class ErrorPage extends Block {
+  constructor(props: TProps) {
+    super("div", {
+      TypographyTextCode: new Typography({
+        variant: "h1",
+        text: props.textCode,
+      }),
+      TypographyTextMessage: new Typography({
+        variant: "b2",
+        text: props.textMessage,
+      }),
+      LinkBack: new Link({
+        href: "#",
+        variant: "text",
+        text: props.textLink,
+        onClick: () => {
+          console.log("Назад к чатам со страницы ошибки");
+        },
+      }),
+    });
+  }
+
+  override render() {
+    return this.compile(templateErrorPage, this.props);
+  }
+}
