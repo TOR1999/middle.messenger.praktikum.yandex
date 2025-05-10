@@ -1,6 +1,6 @@
+import { Block } from "../../8_utils/helpers/block";
 import s from "./Typography.module.scss";
-
-export const Typography = `
+const templateTypography = `
 <div
 {{#if (isSimpleEquals variant "b1")}} 
    class=${s["font-b1"]}
@@ -48,3 +48,32 @@ export const Typography = `
 {{text}}
 </div>
 `;
+
+type TProps = {
+  variant:
+    | "b1"
+    | "b2"
+    | "b3"
+    | "b4"
+    | "b5"
+    | "b6"
+    | "b7"
+    | "h1"
+    | "h2"
+    | "h3"
+    | "h4"
+    | "h5"
+    | "h6"
+    | "h7";
+  text: string;
+};
+
+export class Typography extends Block {
+  constructor(props: TProps) {
+    super("div", props);
+  }
+
+  override render() {
+    return this.compile(templateTypography, this.props);
+  }
+}
