@@ -18,22 +18,23 @@ href="{{href}}"
    class=${s["link_underline"]}
    {{/if}}
 {{/if}}
-data-page="{{data-page}}">
+data-page="{{dataPage}}">
 {{text}}
 </a>
 `;
 
-type TProps = {
+export type TLink = {
   href: string;
   variant: "text" | "underline";
   text: string;
+  dataPage?: string;
   onClick?: (e: Event) => void;
   color?: "red";
 };
 
 export class Link extends Block {
-  constructor(props: TProps) {
-    super("a", props);
+  constructor(props: TLink) {
+    super("a", { ...props });
   }
 
   override render() {

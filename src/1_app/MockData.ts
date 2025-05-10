@@ -1,47 +1,59 @@
+import { TLink } from "../7_shared/Link/Link";
 import {
   NamePages,
   TAuthData,
-  TLinkData,
   TNewPasswordData,
   TProfileData,
   TRegistrationData,
 } from "./types";
 
-export const LIST_PAGES: TLinkData[] = [
+export const LIST_PAGES: TLink[] = [
   {
+    href: "#",
     text: "Страница авторизации",
-    dataPages: NamePages.AUTHORIZATION,
+    dataPage: NamePages.AUTHORIZATION,
     variant: "text",
   },
   {
+    href: "#",
     text: "Страница регистрации",
-    dataPages: NamePages.REGISTRATION,
+    dataPage: NamePages.REGISTRATION,
     variant: "text",
   },
   {
+    href: "#",
     text: "Страница списка чатов",
-    dataPages: NamePages.CHATS,
+    dataPage: NamePages.CHATS,
     variant: "text",
   },
-  { text: "Страница профиля", dataPages: NamePages.PROFILE, variant: "text" },
   {
+    href: "#",
+    text: "Страница профиля",
+    dataPage: NamePages.PROFILE,
+    variant: "text",
+  },
+  {
+    href: "#",
     text: "Страница редактирования информации пользователя",
-    dataPages: NamePages.PROFILE_PAGE_EDITOR_INFO,
+    dataPage: NamePages.PROFILE_PAGE_EDITOR_INFO,
     variant: "text",
   },
   {
+    href: "#",
     text: "Страница редактирования пароля пользователя",
-    dataPages: NamePages.PROFILE_PAGE_EDITOR_PASSWORD,
+    dataPage: NamePages.PROFILE_PAGE_EDITOR_PASSWORD,
     variant: "text",
   },
   {
+    href: "#",
     text: "Страница ошибки 404",
-    dataPages: NamePages.NOTFOUND,
+    dataPage: NamePages.NOTFOUND,
     variant: "text",
   },
   {
+    href: "#",
     text: "Страница ошибки 500",
-    dataPages: NamePages.SERVERERROR,
+    dataPage: NamePages.SERVERERROR,
     variant: "text",
   },
 ];
