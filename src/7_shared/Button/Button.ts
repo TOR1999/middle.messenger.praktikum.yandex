@@ -1,6 +1,7 @@
+import { Block } from "../../8_utils/helpers/block";
 import s from "./Button.module.scss";
 
-export const Button = `
+const buttonTemplate = `
   <button 
     id="{{id}}"
     {{#if disabled}}
@@ -13,3 +14,20 @@ export const Button = `
      {{text}}
   </button>
   `;
+
+export type TProps = {
+  id: string;
+  disabled: boolean;
+  text: string;
+  onClick?: (e: Event) => void;
+};
+
+export class Button extends Block {
+  constructor(props: TProps) {
+    super("div", { ...props });
+  }
+
+  override render() {
+    return this.compile(buttonTemplate, this.props);
+  }
+}
