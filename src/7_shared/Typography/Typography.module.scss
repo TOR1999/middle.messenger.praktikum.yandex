@@ -1,4 +1,5 @@
 @use "../../8_utils/styles/fonts.scss" as fonts;
+@use "../../8_utils/styles/colors.scss" as colors;
 
 .font-b1 {
   @include fonts.font-b1;
@@ -62,4 +63,8 @@
 
 .font-h8 {
   @include fonts.font-h8;
+}
+
+.red-text {
+  color: colors.$red;
 }
