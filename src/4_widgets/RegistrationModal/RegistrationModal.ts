@@ -6,7 +6,7 @@ import { Block } from "../../8_utils/helpers/block";
 import { getLang } from "../../8_utils/langs/getLang";
 import s from "./RegistrationModal.module.scss";
 
-export const registrationModalTemplate = `
+const registrationModalTemplate = `
 <form class=${s["content"]}>
   <div class=${s["tittle"]}> 
     {{{TypographyTitle}}}
@@ -39,7 +39,7 @@ export const registrationModalTemplate = `
 </form>
 `;
 
-export type TProps = {
+type TProps = {
   valueEmail: string;
   valueLogin: string;
   valueFirstName: string;

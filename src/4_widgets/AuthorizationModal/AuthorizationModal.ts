@@ -24,7 +24,7 @@ const authorizationModalTemplate = `
 </form>
 `;
 
-export type TProps = {
+type TProps = {
   valueLogin: string;
   valuePassword: string;
 };

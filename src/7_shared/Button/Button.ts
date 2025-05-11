@@ -15,7 +15,7 @@ const buttonTemplate = `
   </button>
   `;
 
-export type TProps = {
+type TProps = {
   id: string;
   disabled: boolean;
   text: string;

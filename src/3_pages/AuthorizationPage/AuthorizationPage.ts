@@ -2,13 +2,13 @@ import { AuthorizationModal } from "../../4_widgets/AuthorizationModal/Authoriza
 import { Block } from "../../8_utils/helpers/block";
 import s from "./AuthorizationPage.module.scss";
 
-export const authorizationPageTemplate = `
+const authorizationPageTemplate = `
 <div class=${s["container"]}>
   {{{AuthorizationModal}}}
 </div>
 `;
 
-export type TProps = {
+type TProps = {
   valueLogin: string;
   valuePassword: string;
 };

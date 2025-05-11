@@ -2,13 +2,13 @@ import { RegistrationModal } from "../../4_widgets/RegistrationModal/Registratio
 import { Block } from "../../8_utils/helpers/block";
 import s from "./RegistrationPage.module.scss";
 
-export const registrationPageTemplate = `
+const registrationPageTemplate = `
 <div class=${s["container"]}>
   {{{RegistrationModal}}}
 </div>
 `;
 
-export type TProps = {
+type TProps = {
   valueEmail: string;
   valueLogin: string;
   valueFirstName: string;

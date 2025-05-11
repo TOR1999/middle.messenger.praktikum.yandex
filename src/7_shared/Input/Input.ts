@@ -28,7 +28,7 @@ value="{{value}}"
 />
 `;
 
-export type TProps = {
+type TProps = {
   variant: "text" | "password";
   value: string;
   nameInput: string;
