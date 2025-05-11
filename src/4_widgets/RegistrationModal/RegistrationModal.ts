@@ -1,87 +1,134 @@
+import { Button } from "../../7_shared/Button/Button";
+import { Input } from "../../7_shared/Input/Input";
+import { Link } from "../../7_shared/Link/Link";
+import { Typography } from "../../7_shared/Typography/Typography";
+import { Block } from "../../8_utils/helpers/block";
 import { getLang } from "../../8_utils/langs/getLang";
 import s from "./RegistrationModal.module.scss";
 
-export const RegistrationModal = `
+export const registrationModalTemplate = `
 <form class=${s["content"]}>
   <div class=${s["tittle"]}> 
-    {{> Typography
-        variant="b1"
-        text="${getLang("registrationModal.tittle")}"
-     }}
+    {{{TypographyTitle}}}
   </div>
   <div class=${s["input"]}>
-    {{> Input
-        inputId="emailId"
-        nameInput="email"
-        variant="text" 
-        textLabel="${getLang("profilePage.email")}"
-        value=valueEmail
-     }}
+    {{{InputEmail}}}
   </div>
   <div class=${s["input"]}>
-    {{> Input
-        inputId="loginId"
-        nameInput="login"
-        variant="text"
-        textLabel="${getLang("common.login")}"
-        value=valueLogin
-     }}
+    {{{InputLogin}}}
   </div>
   <div class=${s["input"]}>
-    {{> Input
-        inputId="firstNameId"
-        nameInput="first_name"
-        variant="text"
-        textLabel="${getLang("profilePage.name")}"
-        value=valueFirstName
-     }}
+    {{{InputFirstName}}}
   </div>
   <div class=${s["input"]}>
-    {{> Input
-        inputId="secondNameId"
-        nameInput="second_name"
-        variant="text"
-        textLabel="${getLang("profilePage.secondName")}"
-        value=valueSecondName
-     }}
+    {{{InputSecondName}}}
   </div>
   <div class=${s["input"]}>
-    {{> Input
-        inputId="phoneId"
-        nameInput="phone"
-        variant="text"
-        textLabel="${getLang("profilePage.phone")}"
-        value=valuePhone
-     }}
+    {{{InputPhone}}}
   </div>
   <div class=${s["input"]}>
-    {{> Input
-        inputId="passwordId"
-        nameInput="password"
-        variant="password"
-        textLabel="${getLang("common.password")}"
-        value=valuePassword
-     }}
+    {{{InputPassword}}}
   </div>
   <div class=${s["input"]}>
-    {{> Input
-        inputId="repeatPasswordId"
-        nameInput="repeatPassword"
-        variant="password"
-        textLabel="${getLang("profilePage.repeatPassword")}"
-        value=valueRepeatPassword
-    }}
+    {{{InputRepeatPassword}}}
   </div>
     <div class=${s["button-registration"]}>
-      {{> Button
-          id="ButtonRegistration"
-          text="${getLang("registrationModal.buttonsText.registration")}"}}
+      {{{ButtonRegistration}}}
     </div>
-  {{> Link 
-      href="#"
-      variant="text" 
-      class=this.variant 
-      text="${getLang("registrationModal.buttonsText.auth")}"
-  }}
+  {{{LinkAuth}}}
 </form>
 `;
+
+export type TProps = {
+  valueEmail: string;
+  valueLogin: string;
+  valueFirstName: string;
+  valueSecondName: string;
+  valuePhone: string;
+  valuePassword: string;
+  valueRepeatPassword: string;
+};
+
+export class RegistrationModal extends Block {
+  constructor(props: TProps) {
+    super("div", {
+      TypographyTitle: new Typography({
+        variant: "b1",
+        text: getLang("registrationModal.tittle"),
+      }),
+      InputEmail: new Input({
+        inputId: "emailId",
+        nameInput: "email",
+        variant: "text",
+        textLabel: getLang("profilePage.email"),
+        value: props.valueEmail,
+      }),
+      InputLogin: new Input({
+        inputId: "loginId",
+        nameInput: "login",
+        variant: "text",
+        textLabel: getLang("common.login"),
+        value: props.valueLogin,
+      }),
+      InputFirstName: new Input({
+        inputId: "firstNameId",
+        nameInput: "first_name",
+        variant: "text",
+        textLabel: getLang("profilePage.name"),
+        value: props.valueFirstName,
+      }),
+      InputSecondName: new Input({
+        inputId: "secondNameId",
+        nameInput: "second_name",
+        variant: "text",
+        textLabel: getLang("profilePage.secondName"),
+        value: props.valueSecondName,
+      }),
+      InputPhone: new Input({
+        inputId: "phoneId",
+        nameInput: "phone",
+        variant: "text",
+        textLabel: getLang("profilePage.phone"),
+        value: props.valuePhone,
+      }),
+      InputPassword: new Input({
+        inputId: "passwordId",
+        nameInput: "password",
+        variant: "password",
+        textLabel: getLang("common.password"),
+        value: props.valuePassword,
+      }),
+      InputRepeatPassword: new Input({
+        inputId: "repeatPasswordId",
+        nameInput: "repeatPassword",
+        variant: "password",
+        textLabel: getLang("profilePage.repeatPassword"),
+        value: props.valueRepeatPassword,
+      }),
+      ButtonRegistration: new Button({
+        id: "ButtonRegistration",
+        text: getLang("registrationModal.buttonsText.registration"),
+        disabled: false,
+        onClick: () => {
+          console.log({
+            first_name: props.valueFirstName,
+            second_name: props.valueSecondName,
+            login: props.valueLogin,
+            email: props.valueEmail,
+            password: props.valuePassword,
+            phone: props.valuePhone,
+          });
+        },
+      }),
+      LinkAuth: new Link({
+        href: "#",
+        variant: "text",
+        text: getLang("registrationModal.buttonsText.auth"),
+      }),
+    });
+  }
+
+  override render() {
+    return this.compile(registrationModalTemplate, this.props);
+  }
+}
