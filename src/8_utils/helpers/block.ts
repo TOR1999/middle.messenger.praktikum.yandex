@@ -103,37 +103,9 @@ export class Block {
     Object.assign(this.props, nextProps);
   };
 
-  get element() {
-    return this._element;
-  }
-
-  // compile(template: string, props: { [key: string]: any }): string {
-  //   const propsAndStubs = { ...props };
-
-  //   Object.entries(this.children).forEach(([key, child]) => {
-  //     propsAndStubs[key] = `<div data-id="${child._id}"></div>`;
-  //   });
-
-  //   const fragment = this._createDocumentElement("template");
-  //   console.log("1fragment:", fragment);
-
-  //   fragment.innerHTML = Handlebars.compile(template)(propsAndStubs);
-  //   console.log("2fragment:", fragment);
-
-  //   Object.values(this.children).forEach((child) => {
-  //     const stub = fragment.content.querySelector(`[data-id="${child.id}"]`);
-
-  //     stub.replaceWith(child.getContent());
-  //   });
-
-  //   return fragment.content;
-
-  //   // return Handlebars.compile(template)(propsAndStubs);
-  // }
-
   _addEvents() {
     if (this._meta?.props?.onClick) {
-      this._element?.addEventListener(
+      this._element?.children[0]?.addEventListener(
         "click",
         this._meta.props.onClick as EventListenerOrEventListenerObject,
       );
@@ -141,7 +113,7 @@ export class Block {
 
     if (this._meta?.props?.onBlur) {
       console.log("on blur", this._element);
-      this._element?.addEventListener(
+      this._element?.children[0]?.addEventListener(
         "blur",
         this._meta.props.onBlur as EventListenerOrEventListenerObject,
       );
@@ -150,14 +122,14 @@ export class Block {
 
   _removeEvents() {
     if (this._meta?.props?.onClick) {
-      this._element?.removeEventListener(
+      this._element?.children[0]?.removeEventListener(
         "click",
         this._meta.props.onClick as EventListenerOrEventListenerObject,
       );
     }
 
     if (this._meta?.props?.onBlur) {
-      this._element?.removeEventListener(
+      this._element?.children[0]?.removeEventListener(
         "blur",
         this._meta.props.onBlur as EventListenerOrEventListenerObject,
       );
@@ -187,8 +159,6 @@ export class Block {
       }
     });
 
-    // const tempDiv = document.createElement("div");
-    // tempDiv.appendChild(fragment.content);
     return fragment.content; // Извлечение HTML-содержимого
   }
 
@@ -204,17 +174,6 @@ export class Block {
     // console.log("BLOCK", block.nodeValue);
 
     this._addEvents();
-
-    // console.log("block:", block);
-    // console.log("this._element", this._element);
-    // Этот небезопасный метод для упрощения логики
-    // Используйте шаблонизатор из npm или напишите свой безопасный
-    // Нужно не в строку компилировать (или делать это правильно),
-    // либо сразу в DOM-элементы возвращать из compile DOM-ноду
-    // if (this._element === null) return;
-    // // this._element.innerHTML = String(block);
-    // // this._element.innerHTML = Handlebars.compile(block)(this.props);
-    // this._element.innerHTML = this.compile(String(block), this.props);
   }
 
   render() {
@@ -222,7 +181,7 @@ export class Block {
   }
 
   getContent() {
-    return this.element;
+    return this._element;
   }
 
   _makePropsProxy(props: TBlockProps) {
