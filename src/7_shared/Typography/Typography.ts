@@ -121,7 +121,7 @@ type TProps = {
     | "h5"
     | "h6"
     | "h7";
-  text: string;
+  text?: string;
   color?: "red";
 };
 
