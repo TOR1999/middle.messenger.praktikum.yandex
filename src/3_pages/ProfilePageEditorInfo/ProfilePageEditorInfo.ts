@@ -3,6 +3,7 @@ import { CircleIconButton } from "../../7_shared/CircleIconButton/CircleIconButt
 import { Input } from "../../7_shared/Input/Input";
 import { Typography } from "../../7_shared/Typography/Typography";
 import { Block } from "../../8_utils/helpers/block";
+import { validateEmail } from "../../8_utils/helpers/validateEmail";
 import { getLang } from "../../8_utils/langs/getLang";
 import s from "./ProfilePageEditorInfo.module.scss";
 
@@ -24,24 +25,29 @@ const profilePageEditorInfoTemplate = `
       {{{TypographyEmail}}}
       <div class=${s["info"]}>
         {{{InputEmail}}}
+        {{{TypographyEmailError}}}
       </div>
     </div>
     <div class=${s["info-line-container"]}>
       {{{TypographyLogin}}}
       <div class=${s["info"]}>
         {{{InputLogin}}}
+        {{{TypographyLoginError}}}
       </div>
     </div>
     <div class=${s["info-line-container"]}>
       {{{TypographyUserName}}}
       <div class=${s["info"]}>
         {{{InputUserName}}}
+        {{{TypographyFirstNameError}}}
       </div>
     </div>
     <div class=${s["info-line-container"]}>
       {{{TypographySecondName}}}
       <div class=${s["info"]}>
         {{{InputSecondName}}}
+        {{{TypographySecondNameError}}}
+        {{{TypographySecondNameError}}}
       </div>
     </div>
     <div class=${s["info-line-container"]}>
@@ -54,6 +60,7 @@ const profilePageEditorInfoTemplate = `
       {{{TypographyPhone}}}
       <div class=${s["info"]}>
         {{{InputPhone}}}
+        {{{TypographyPhoneError}}}
       </div>
     </div>
     <div class=${s["button-save"]}>
@@ -74,6 +81,32 @@ type TProps = {
 
 export class ProfilePageEditorInfo extends Block {
   constructor(props: TProps) {
+    const TypographyEmailError = new Typography({
+      variant: "b7",
+      text: "",
+      color: "red",
+    });
+    const TypographyLoginError = new Typography({
+      variant: "b7",
+      text: "",
+      color: "red",
+    });
+    const TypographyFirstNameError = new Typography({
+      variant: "b7",
+      text: "",
+      color: "red",
+    });
+    const TypographySecondNameError = new Typography({
+      variant: "b7",
+      text: "",
+      color: "red",
+    });
+    const TypographyPhoneError = new Typography({
+      variant: "b7",
+      text: "",
+      color: "red",
+    });
+
     super("div", {
       CircleIconButtonArrowBack: new CircleIconButton({
         id: "arrowBackId",
@@ -92,6 +125,7 @@ export class ProfilePageEditorInfo extends Block {
         variant: "text",
         textPlaceholder: props.valueEmail,
       }),
+      TypographyEmailError,
       TypographyLogin: new Typography({
         variant: "h3",
         text: getLang("common.login"),
@@ -104,6 +138,7 @@ export class ProfilePageEditorInfo extends Block {
         variant: "text",
         textPlaceholder: props.valueLogin,
       }),
+      TypographyLoginError,
       TypographyUserName: new Typography({
         variant: "h3",
         text: getLang("profilePage.name"),
@@ -116,6 +151,7 @@ export class ProfilePageEditorInfo extends Block {
         variant: "text",
         textPlaceholder: props.valueFirstName,
       }),
+      TypographyFirstNameError,
       TypographySecondName: new Typography({
         variant: "h3",
         text: getLang("profilePage.secondName"),
@@ -128,6 +164,7 @@ export class ProfilePageEditorInfo extends Block {
         variant: "text",
         textPlaceholder: props.valueSecondName,
       }),
+      TypographySecondNameError,
       TypographyNickName: new Typography({
         variant: "h3",
         text: getLang("profilePage.nickName"),
@@ -152,11 +189,79 @@ export class ProfilePageEditorInfo extends Block {
         variant: "text",
         textPlaceholder: props.valuePhone,
       }),
+      TypographyPhoneError,
       ButtonSaveInfoProfile: new Button({
         id: "buttonSaveProfile",
         text: getLang("common.buttons.save"),
         disabled: false,
-        onClick: () => {
+        onClick: (e: Event) => {
+          e.preventDefault();
+
+          const inputEmail = document.getElementById(
+            "emailId",
+          ) as HTMLInputElement;
+          const email = inputEmail?.value;
+
+          const inputLogin = document.getElementById(
+            "loginId",
+          ) as HTMLInputElement;
+          const login = inputLogin?.value;
+
+          const inputFirstNameId = document.getElementById(
+            "firstNameId",
+          ) as HTMLInputElement;
+          const firstName = inputFirstNameId?.value;
+
+          const inputSecondName = document.getElementById(
+            "secondNameId",
+          ) as HTMLInputElement;
+          const secondName = inputSecondName?.value;
+
+          const inputPhone = document.getElementById(
+            "phoneId",
+          ) as HTMLInputElement;
+          const phone = inputPhone?.value;
+
+          if (validateEmail(email)) {
+            TypographyEmailError.setProps({ text: "" });
+          } else {
+            TypographyEmailError.setProps({
+              text: getLang("validateText.email"),
+            });
+          }
+
+          if (validateEmail(login)) {
+            TypographyLoginError.setProps({ text: "" });
+          } else {
+            TypographyLoginError.setProps({
+              text: getLang("validateText.login"),
+            });
+          }
+
+          if (validateEmail(firstName)) {
+            TypographyFirstNameError.setProps({ text: "" });
+          } else {
+            TypographyFirstNameError.setProps({
+              text: getLang("validateText.name"),
+            });
+          }
+
+          if (validateEmail(secondName)) {
+            TypographySecondNameError.setProps({ text: "" });
+          } else {
+            TypographySecondNameError.setProps({
+              text: getLang("validateText.name"),
+            });
+          }
+
+          if (validateEmail(phone)) {
+            TypographyPhoneError.setProps({ text: "" });
+          } else {
+            TypographyPhoneError.setProps({
+              text: getLang("validateText.phone"),
+            });
+          }
+
           console.log({
             first_name: props.valueFirstName,
             second_name: props.valueSecondName,
