@@ -65,16 +65,19 @@ export class ProfilePageEditorPassword extends Block {
       variant: "b7",
       text: "",
       color: "red",
+      textAlign: "right",
     });
     const TypographyNewPasswordError = new Typography({
       variant: "b7",
       text: "",
       color: "red",
+      textAlign: "right",
     });
     const TypographyRepeatNewPasswordError = new Typography({
       variant: "b7",
       text: "",
       color: "red",
+      textAlign: "right",
     });
     super("div", {
       CircleIconButtonArrowBack: new CircleIconButton({
