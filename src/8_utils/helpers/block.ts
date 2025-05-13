@@ -75,7 +75,7 @@ export class Block {
       child.dispatchComponentDidMount();
     });
   }
-
+  // @ts-ignore: noUnusedParameters
   componentDidMount(oldProps: TBlockProps) {}
 
   dispatchComponentDidMount() {
@@ -90,7 +90,7 @@ export class Block {
 
     this._render();
   }
-
+  // @ts-ignore: noUnusedParameters
   componentDidUpdate(oldProps: TBlockProps, newProps: TBlockProps) {
     return true;
   }
