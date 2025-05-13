@@ -3,6 +3,7 @@ import { CircleIconButton } from "../../7_shared/CircleIconButton/CircleIconButt
 import { Input } from "../../7_shared/Input/Input";
 import { Typography } from "../../7_shared/Typography/Typography";
 import { Block } from "../../8_utils/helpers/block";
+import { getValueById } from "../../8_utils/helpers/getValueById";
 import { validatePassword } from "../../8_utils/helpers/validatePassword";
 import { getLang } from "../../8_utils/langs/getLang";
 import s from "./ProfilePageEditorPassword.module.scss";
@@ -95,6 +96,17 @@ export class ProfilePageEditorPassword extends Block {
         nameInput: "oldPassword",
         variant: "text",
         value: props.valueOldPassword,
+        onBlur: () => {
+          const oldPassword = getValueById("oldPasswordId");
+
+          if (oldPassword !== props.valueOldPassword) {
+            TypographyOldPasswordError.setProps({
+              text: getLang("validateText.oldPassword"),
+            });
+          } else {
+            TypographyOldPasswordError.setProps({ text: "" });
+          }
+        },
       }),
       TypographyNewPassword: new Typography({
         variant: "h3",
@@ -106,6 +118,26 @@ export class ProfilePageEditorPassword extends Block {
         nameInput: "newPassword",
         variant: "text",
         value: props.valueNewPassword,
+        onBlur: () => {
+          const repeatNewPassword = getValueById("repeatNewPasswordId");
+          const newPassword = getValueById("newPasswordId");
+
+          if (newPassword !== repeatNewPassword) {
+            TypographyNewPasswordError.setProps({
+              text: getLang("validateText.repeatPassword"),
+            });
+          } else {
+            if (validatePassword(newPassword)) {
+              TypographyNewPasswordError.setProps({
+                text: "",
+              });
+            } else {
+              TypographyNewPasswordError.setProps({
+                text: getLang("validateText.password"),
+              });
+            }
+          }
+        },
       }),
       TypographyRepeatNewPassword: new Typography({
         variant: "h3",
@@ -117,7 +149,26 @@ export class ProfilePageEditorPassword extends Block {
         nameInput: "repeatNewPassword",
         variant: "text",
         value: props.valueRepeatNewPassword,
-        onBlur: (e: Event) => console.log("e input", e),
+        onBlur: () => {
+          const repeatNewPassword = getValueById("repeatNewPasswordId");
+          const newPassword = getValueById("newPasswordId");
+
+          if (newPassword !== repeatNewPassword) {
+            TypographyRepeatNewPasswordError.setProps({
+              text: getLang("validateText.repeatPassword"),
+            });
+          } else {
+            if (validatePassword(newPassword)) {
+              TypographyRepeatNewPasswordError.setProps({
+                text: "",
+              });
+            } else {
+              TypographyRepeatNewPasswordError.setProps({
+                text: getLang("validateText.password"),
+              });
+            }
+          }
+        },
       }),
       TypographyOldPasswordError,
       TypographyNewPasswordError,
@@ -129,20 +180,9 @@ export class ProfilePageEditorPassword extends Block {
         onClick: (e: Event) => {
           e.preventDefault();
 
-          const inputOldPassword = document.getElementById(
-            "oldPasswordId",
-          ) as HTMLInputElement;
-          const oldPassword = inputOldPassword?.value;
-
-          const inputNewPassword = document.getElementById(
-            "newPasswordId",
-          ) as HTMLInputElement;
-          const newPassword = inputNewPassword?.value;
-
-          const inputRepeatNewPassword = document.getElementById(
-            "repeatNewPasswordId",
-          ) as HTMLInputElement;
-          const repeatNewPassword = inputRepeatNewPassword?.value;
+          const oldPassword = getValueById("oldPasswordId");
+          const newPassword = getValueById("newPasswordId");
+          const repeatNewPassword = getValueById("repeatNewPasswordId");
 
           if (oldPassword !== props.valueOldPassword) {
             TypographyOldPasswordError.setProps({
