@@ -3,6 +3,9 @@ import { Input } from "../../7_shared/Input/Input";
 import { Link } from "../../7_shared/Link/Link";
 import { Typography } from "../../7_shared/Typography/Typography";
 import { Block } from "../../8_utils/helpers/block";
+import { getValueById } from "../../8_utils/helpers/getValueById";
+import { validateLogin } from "../../8_utils/helpers/validateLogin";
+import { validatePassword } from "../../8_utils/helpers/validatePassword";
 import { getLang } from "../../8_utils/langs/getLang";
 import s from "./AuthorizationModal.module.scss";
 
@@ -13,9 +16,11 @@ const authorizationModalTemplate = `
   </div>
   <div class="${`${s["input"]} ${s["input_login"]}`}">
     {{{InputLogin}}}
+    {{{TypographyLoginError}}}
   </div>
   <div class="${`${s["input"]} ${s["input_password"]}`}">
    {{{InputPassword}}}
+   {{{TypographyPasswordError}}}
   </div>
   <div class=${s["button-auth"]}>
    {{{ButtonAuth}}}
@@ -31,6 +36,17 @@ type TProps = {
 
 export class AuthorizationModal extends Block {
   constructor(props: TProps) {
+    const TypographyLoginError = new Typography({
+      variant: "b7",
+      text: "",
+      color: "red",
+    });
+    const TypographyPasswordError = new Typography({
+      variant: "b7",
+      text: "",
+      color: "red",
+    });
+
     super("div", {
       Typography: new Typography({
         variant: "b1",
@@ -42,6 +58,17 @@ export class AuthorizationModal extends Block {
         variant: "text",
         textLabel: getLang("common.login"),
         value: props.valueLogin,
+        onBlur: () => {
+          const login = getValueById("loginId");
+
+          if (validateLogin(login)) {
+            TypographyLoginError.setProps({ text: "" });
+          } else {
+            TypographyLoginError.setProps({
+              text: getLang("validateText.login"),
+            });
+          }
+        },
       }),
       InputPassword: new Input({
         inputId: "passwordId",
@@ -49,15 +76,47 @@ export class AuthorizationModal extends Block {
         variant: "password",
         textLabel: getLang("common.password"),
         value: props.valuePassword,
+        onBlur: () => {
+          const password = getValueById("passwordId");
+
+          if (validatePassword(password)) {
+            TypographyPasswordError.setProps({ text: "" });
+          } else {
+            TypographyPasswordError.setProps({
+              text: getLang("validateText.password"),
+            });
+          }
+        },
       }),
       ButtonAuth: new Button({
         id: "button-auth",
         text: getLang("authorizationModal.buttonsText.auth"),
         disabled: false,
-        onClick: () => {
+        onClick: (e: Event) => {
+          e.preventDefault();
+
+          const login = getValueById("loginId");
+          const password = getValueById("passwordId");
+
+          if (validateLogin(login)) {
+            TypographyLoginError.setProps({ text: "" });
+          } else {
+            TypographyLoginError.setProps({
+              text: getLang("validateText.login"),
+            });
+          }
+
+          if (validatePassword(password)) {
+            TypographyPasswordError.setProps({ text: "" });
+          } else {
+            TypographyPasswordError.setProps({
+              text: getLang("validateText.password"),
+            });
+          }
+
           console.log({
-            login: props.valueLogin,
-            password: props.valuePassword,
+            login: login,
+            password: password,
           });
         },
       }),
@@ -66,6 +125,8 @@ export class AuthorizationModal extends Block {
         variant: "text",
         text: getLang("authorizationModal.buttonsText.registration"),
       }),
+      TypographyLoginError,
+      TypographyPasswordError,
     });
   }
 
