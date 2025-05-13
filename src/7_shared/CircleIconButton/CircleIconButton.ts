@@ -1,6 +1,7 @@
+import { Block } from "../../8_utils/helpers/block";
 import s from "./CircleIconButton.module.scss";
 
-export const CircleIconButton = `
+const circleIconButtonTemplate = `
 <button 
     id="{{id}}"
     {{#if disabled}}
@@ -16,3 +17,21 @@ export const CircleIconButton = `
      />
   </button>
 `;
+
+type TProps = {
+  id: string;
+  iconSrc: string;
+  altText: string;
+  disabled?: boolean;
+  onClick?: (e: Event) => void;
+};
+
+export class CircleIconButton extends Block {
+  constructor(props: TProps) {
+    super("div", props);
+  }
+
+  override render() {
+    return this.compile(circleIconButtonTemplate, this.props);
+  }
+}

@@ -14,8 +14,9 @@ export type TState = {
 };
 
 export type TLinkData = {
+  href: string;
   text: string;
-  dataPages: string;
+  dataPage: string;
   variant: "underline" | "text";
 };
 

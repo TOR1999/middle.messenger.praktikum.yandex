@@ -1,6 +1,7 @@
+import { Block } from "../../8_utils/helpers/block";
 import s from "./Link.module.scss";
 
-export const Link = `
+const linkTemplate = `
 <a 
 href="{{href}}"
 {{#if (isSimpleEquals variant "text")}} 
@@ -17,7 +18,26 @@ href="{{href}}"
    class=${s["link_underline"]}
    {{/if}}
 {{/if}}
-data-page="{{data-page}}">
+data-page="{{dataPage}}">
 {{text}}
 </a>
 `;
+
+export type TLink = {
+  href: string;
+  variant: "text" | "underline";
+  text: string;
+  dataPage?: string;
+  onClick?: (e: Event) => void;
+  color?: "red";
+};
+
+export class Link extends Block {
+  constructor(props: TLink) {
+    super("a", { ...props });
+  }
+
+  override render() {
+    return this.compile(linkTemplate, this.props);
+  }
+}

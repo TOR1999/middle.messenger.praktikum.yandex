@@ -1,0 +1,20 @@
+module.exports = {
+  importOrder: [
+    "<THIRD_PARTY_MODULES>",
+    "^@pf-site3/((?!/).)*$",
+    "^@app/(.*)$",
+    "^@processes/(.*)$",
+    "^@pages/(.*)$",
+    "^@widgets/(.*)$",
+    "^@features/(.*)$",
+    "^@entities/(.*)$",
+    "^@shared/(.*)$",
+    "^@utils/(.*)$",
+    "^./((?!scss|model|constants).)*$",
+    "^../(.*)$",
+    "\\./constants",
+    "\\./model",
+    "^.+scss$",
+  ],
+  importOrderCaseInsensitive: true,
+};
