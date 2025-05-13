@@ -64,13 +64,13 @@ export const AUTH_PAGE_DATA: TAuthData = {
 };
 
 export const REGISTRATION_PAGE_DATA: TRegistrationData = {
-  valueEmail: "Torzh@yandex.ru",
+  valueEmail: "Torzhyandex.ru",
   valueLogin: "Torzh",
-  valueFirstName: "Илья",
-  valueSecondName: "Торжевский",
-  valuePhone: "+7-913-170-50-60",
-  valuePassword: "Qwerty",
-  valueRepeatPassword: "Qwerty",
+  valueFirstName: "лья",
+  valueSecondName: "оржевский",
+  valuePhone: "-913-170-50-60",
+  valuePassword: "werty",
+  valueRepeatPassword: "werty",
 };
 
 export const PROFILE_PAGE_DATA: TProfileData = {
