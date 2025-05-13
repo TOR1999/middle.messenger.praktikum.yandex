@@ -3,7 +3,11 @@ import { CircleIconButton } from "../../7_shared/CircleIconButton/CircleIconButt
 import { Input } from "../../7_shared/Input/Input";
 import { Typography } from "../../7_shared/Typography/Typography";
 import { Block } from "../../8_utils/helpers/block";
+import { getValueById } from "../../8_utils/helpers/getValueById";
 import { validateEmail } from "../../8_utils/helpers/validateEmail";
+import { validateLogin } from "../../8_utils/helpers/validateLogin";
+import { validateName } from "../../8_utils/helpers/validateName";
+import { validatePhone } from "../../8_utils/helpers/validatePhone";
 import { getLang } from "../../8_utils/langs/getLang";
 import s from "./ProfilePageEditorInfo.module.scss";
 
@@ -85,26 +89,31 @@ export class ProfilePageEditorInfo extends Block {
       variant: "b7",
       text: "",
       color: "red",
+      textAlign: "right",
     });
     const TypographyLoginError = new Typography({
       variant: "b7",
       text: "",
       color: "red",
+      textAlign: "right",
     });
     const TypographyFirstNameError = new Typography({
       variant: "b7",
       text: "",
       color: "red",
+      textAlign: "right",
     });
     const TypographySecondNameError = new Typography({
       variant: "b7",
       text: "",
       color: "red",
+      textAlign: "right",
     });
     const TypographyPhoneError = new Typography({
       variant: "b7",
       text: "",
       color: "red",
+      textAlign: "right",
     });
 
     super("div", {
@@ -124,6 +133,17 @@ export class ProfilePageEditorInfo extends Block {
         nameInput: "email",
         variant: "text",
         textPlaceholder: props.valueEmail,
+        onBlur: () => {
+          const email = getValueById("emailId");
+
+          if (validateEmail(email)) {
+            TypographyEmailError.setProps({ text: "" });
+          } else {
+            TypographyEmailError.setProps({
+              text: getLang("validateText.email"),
+            });
+          }
+        },
       }),
       TypographyEmailError,
       TypographyLogin: new Typography({
@@ -137,6 +157,17 @@ export class ProfilePageEditorInfo extends Block {
         nameInput: "login",
         variant: "text",
         textPlaceholder: props.valueLogin,
+        onBlur: () => {
+          const login = getValueById("loginId");
+
+          if (validateLogin(login)) {
+            TypographyLoginError.setProps({ text: "" });
+          } else {
+            TypographyLoginError.setProps({
+              text: getLang("validateText.login"),
+            });
+          }
+        },
       }),
       TypographyLoginError,
       TypographyUserName: new Typography({
@@ -150,6 +181,17 @@ export class ProfilePageEditorInfo extends Block {
         nameInput: "first_name",
         variant: "text",
         textPlaceholder: props.valueFirstName,
+        onBlur: () => {
+          const firstName = getValueById("firstNameId");
+
+          if (validateName(firstName)) {
+            TypographyFirstNameError.setProps({ text: "" });
+          } else {
+            TypographyFirstNameError.setProps({
+              text: getLang("validateText.name"),
+            });
+          }
+        },
       }),
       TypographyFirstNameError,
       TypographySecondName: new Typography({
@@ -163,6 +205,17 @@ export class ProfilePageEditorInfo extends Block {
         nameInput: "second_name",
         variant: "text",
         textPlaceholder: props.valueSecondName,
+        onBlur: () => {
+          const secondName = getValueById("secondNameId");
+
+          if (validateName(secondName)) {
+            TypographySecondNameError.setProps({ text: "" });
+          } else {
+            TypographySecondNameError.setProps({
+              text: getLang("validateText.name"),
+            });
+          }
+        },
       }),
       TypographySecondNameError,
       TypographyNickName: new Typography({
@@ -188,6 +241,17 @@ export class ProfilePageEditorInfo extends Block {
         nameInput: "phone",
         variant: "text",
         textPlaceholder: props.valuePhone,
+        onBlur: () => {
+          const phone = getValueById("phoneId");
+
+          if (validatePhone(phone)) {
+            TypographyPhoneError.setProps({ text: "" });
+          } else {
+            TypographyPhoneError.setProps({
+              text: getLang("validateText.phone"),
+            });
+          }
+        },
       }),
       TypographyPhoneError,
       ButtonSaveInfoProfile: new Button({
@@ -197,30 +261,11 @@ export class ProfilePageEditorInfo extends Block {
         onClick: (e: Event) => {
           e.preventDefault();
 
-          const inputEmail = document.getElementById(
-            "emailId",
-          ) as HTMLInputElement;
-          const email = inputEmail?.value;
-
-          const inputLogin = document.getElementById(
-            "loginId",
-          ) as HTMLInputElement;
-          const login = inputLogin?.value;
-
-          const inputFirstNameId = document.getElementById(
-            "firstNameId",
-          ) as HTMLInputElement;
-          const firstName = inputFirstNameId?.value;
-
-          const inputSecondName = document.getElementById(
-            "secondNameId",
-          ) as HTMLInputElement;
-          const secondName = inputSecondName?.value;
-
-          const inputPhone = document.getElementById(
-            "phoneId",
-          ) as HTMLInputElement;
-          const phone = inputPhone?.value;
+          const email = getValueById("emailId");
+          const login = getValueById("loginId");
+          const firstName = getValueById("firstNameId");
+          const secondName = getValueById("secondNameId");
+          const phone = getValueById("phoneId");
 
           if (validateEmail(email)) {
             TypographyEmailError.setProps({ text: "" });
@@ -230,7 +275,7 @@ export class ProfilePageEditorInfo extends Block {
             });
           }
 
-          if (validateEmail(login)) {
+          if (validateLogin(login)) {
             TypographyLoginError.setProps({ text: "" });
           } else {
             TypographyLoginError.setProps({
@@ -238,7 +283,7 @@ export class ProfilePageEditorInfo extends Block {
             });
           }
 
-          if (validateEmail(firstName)) {
+          if (validateName(firstName)) {
             TypographyFirstNameError.setProps({ text: "" });
           } else {
             TypographyFirstNameError.setProps({
@@ -246,7 +291,7 @@ export class ProfilePageEditorInfo extends Block {
             });
           }
 
-          if (validateEmail(secondName)) {
+          if (validateName(secondName)) {
             TypographySecondNameError.setProps({ text: "" });
           } else {
             TypographySecondNameError.setProps({
@@ -254,7 +299,7 @@ export class ProfilePageEditorInfo extends Block {
             });
           }
 
-          if (validateEmail(phone)) {
+          if (validatePhone(phone)) {
             TypographyPhoneError.setProps({ text: "" });
           } else {
             TypographyPhoneError.setProps({
