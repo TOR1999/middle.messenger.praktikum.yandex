@@ -11,7 +11,6 @@ const listChatsTemplate = (props: TProps) => {
     .map((_, index) => `{{{ItemChat${index + 1}}}}`)
     .join("");
   return `
-<div class=${s["container"]}>
   <div class=${s["header"]}>
     <div class=${s["link-back"]}>
     {{{LinkBack}}}
@@ -29,7 +28,6 @@ const listChatsTemplate = (props: TProps) => {
   <div class=${s["list-chats-container"]}>
     ${listChats}
   </div>
-</div>
 `;
 };
 
@@ -41,6 +39,9 @@ export class ListChats extends Block {
   constructor(props: TProps) {
     super("div", {
       ...props,
+      attr: {
+        class: `${s["container"]}`,
+      },
       LinkBack: new Link({
         href: "#",
         variant: "text",
