@@ -4,18 +4,15 @@ import s from "./Message.module.scss";
 import { Typography } from "../Typography/Typography";
 
 const messageTemplate = (props: TProps) => {
-  const messagePosition = props.myMessage ? "" : "container_message-right";
   const messageStyle = props.myMessage ? "message_other" : "message_my";
 
   return `
-<div class="${`${s["container"]} ${s[messagePosition]}`}" id=${`${props.messageId}`}>
-  <div class="${`${s["message"]} ${s[messageStyle]}`}">
+  <div class="${`${s["message"]} ${s[messageStyle]}`}" id=${`${props.messageId}`}>
     {{{TypographyText}}}
     <div class="${s["time"]}">
       {{{TypographyTime}}}
   </div>
   </div>
-</div>
 `;
 };
 
@@ -28,8 +25,13 @@ export type TProps = {
 
 export class Message extends Block {
   constructor(props: TProps) {
+    const messagePosition = props.myMessage ? "" : "container_message-right";
+
     super("div", {
       ...props,
+      attr: {
+        class: `${s["container"]} ${s[messagePosition]}`,
+      },
       TypographyText: new Typography({
         variant: "b5",
         text: props.message.text,
