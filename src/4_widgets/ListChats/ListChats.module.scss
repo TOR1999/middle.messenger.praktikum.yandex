@@ -1,0 +1,39 @@
+@use "../../8_utils/styles/colors.scss" as colors;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 310px;
+  padding: 21px 0;
+  overflow: hidden;
+
+  border-right: 2px solid colors.$grey;
+  background-color: colors.$white;
+  .header {
+    padding: 0 10px;
+
+    .link-back {
+      display: flex;
+      width: 100%;
+      justify-content: end;
+
+      .icon {
+        width: 8px;
+        height: 4px;
+        margin-left: 8px;
+      }
+    }
+
+    .search-input {
+      display: flex;
+      width: 100%;
+      margin: 23px 0 14px 0;
+    }
+  }
+
+  .list-chats-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0 10px;
+  }
+}
