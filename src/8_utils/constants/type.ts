@@ -19,4 +19,6 @@ export type TOptions = {
   method: METHODS;
 };
 
-export type TBlockProps = Record<string, unknown>;
+export type TBlockProps = Record<string, unknown> & {
+  attr?: Record<string, string>;
+};

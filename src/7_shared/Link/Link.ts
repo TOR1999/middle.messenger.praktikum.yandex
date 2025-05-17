@@ -19,7 +19,7 @@ export class Link extends Block {
     super("a", {
       attr: {
         href: props.href,
-        "data-page": props.dataPage,
+        "data-page": props.dataPage || "",
         class: `${`${s[`link_${props.variant}`]} ${s[`link_${props.color}-text`]}`}`,
       },
       ...props,
