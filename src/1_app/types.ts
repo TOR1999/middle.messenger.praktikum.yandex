@@ -47,3 +47,22 @@ export type TNewPasswordData = {
   valueNewPassword: string;
   valueRepeatNewPassword: string;
 };
+
+export type TMessage = {
+  text: string;
+  dataSend: string;
+  timeSend: string;
+  senderName: string;
+  myMessage: boolean;
+};
+
+export type TChat = {
+  name: string;
+  unreadMessagesCount: number;
+  lastMessage: TMessage;
+  messages: TMessage[];
+};
+
+export type TDataChats = {
+  chats: TChat[];
+};
