@@ -13,7 +13,6 @@ import { getLang } from "../../8_utils/langs/getLang";
 import s from "./RegistrationModal.module.scss";
 
 const registrationModalTemplate = `
-<form class=${s["content"]}>
   <div class=${s["tittle"]}> 
     {{{TypographyTitle}}}
   </div>
@@ -49,7 +48,6 @@ const registrationModalTemplate = `
       {{{ButtonRegistration}}}
     </div>
   {{{LinkAuth}}}
-</form>
 `;
 
 type TProps = {
@@ -101,7 +99,10 @@ export class RegistrationModal extends Block {
       color: "red",
     });
 
-    super("div", {
+    super("form", {
+      attr: {
+        class: `${s["content"]}`,
+      },
       TypographyTitle: new Typography({
         variant: "b1",
         text: getLang("registrationModal.tittle"),
