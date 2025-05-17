@@ -6,9 +6,9 @@
   width: 310px;
   padding: 21px 0;
   overflow: hidden;
-
   border-right: 2px solid colors.$grey;
   background-color: colors.$white;
+
   .header {
     padding: 0 10px;
 
@@ -27,7 +27,7 @@
     .search-input {
       display: flex;
       width: 100%;
-      margin: 23px 0 14px 0;
+      margin: 23px 0 14px;
     }
   }
 

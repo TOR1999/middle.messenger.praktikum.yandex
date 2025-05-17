@@ -6,6 +6,7 @@
   width: 100%;
 
   @include fonts.font-b6;
+
   color: colors.$grey-light;
 }
 
@@ -38,6 +39,7 @@
 
 .input::placeholder {
   @include fonts.font-b4;
+
   color: colors.$grey-light;
 }
 

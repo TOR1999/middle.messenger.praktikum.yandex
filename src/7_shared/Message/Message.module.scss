@@ -12,15 +12,15 @@
   .message {
     display: flex;
     max-width: 402px;
-    padding: 11px 11px;
+    padding: 11px;
 
     &_other {
-      border-radius: 0 9px 9px 9px;
+      border-radius: 0 9px 9px;
       background-color: colors.$white-message;
     }
 
     &_my {
-      border-radius: 9px 9px 0 9px;
+      border-radius: 9px 9px 0;
       background-color: colors.$blue-message;
     }
 
