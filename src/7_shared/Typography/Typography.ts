@@ -1,19 +1,9 @@
 import { Block } from "../../8_utils/helpers/block";
 import s from "./Typography.module.scss";
 
-const typographyTemplate = (props: TProps) => {
-  const baseSryleStr = `font-${props.variant}`;
-  const colorStyle = `${props.color}-text`;
-  const alignTextStyle = `text-align-${props.textAlign}`;
-
-  return `
-<div 
- class="${`${s[baseSryleStr]} ${s[colorStyle]} ${s[alignTextStyle]}`}"
->
+const typographyTemplate = `
 {{text}}
-</div>
 `;
-};
 
 type TProps = {
   variant:
@@ -38,10 +28,19 @@ type TProps = {
 
 export class Typography extends Block {
   constructor(props: TProps) {
-    super("div", props);
+    const baseSryleStr = `font-${props.variant}`;
+    const colorStyle = `${props.color}-text`;
+    const alignTextStyle = `text-align-${props.textAlign}`;
+
+    super("div", {
+      attr: {
+        class: `${`${s[baseSryleStr]} ${s[colorStyle]} ${s[alignTextStyle]}`}`,
+      },
+      ...props,
+    });
   }
 
   override render() {
-    return this.compile(typographyTemplate(this.props as TProps), this.props);
+    return this.compile(typographyTemplate, this.props);
   }
 }
