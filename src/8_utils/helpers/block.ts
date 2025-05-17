@@ -17,9 +17,10 @@ export class Block {
   eventBus;
 
   constructor(tagName: string = "div", propsAndChildren: TBlockProps = {}) {
-    this._id = getUUID();
-    const eventBus = new EventBus();
     const { children, props } = this._getChildren(propsAndChildren);
+    const eventBus = new EventBus();
+
+    this._id = getUUID();
     this.children = children;
     this._meta = {
       tagName,
@@ -29,7 +30,6 @@ export class Block {
     this.props = this._makePropsProxy(props);
 
     this.eventBus = () => eventBus;
-
     this._registerEvents(eventBus);
     eventBus.emit(Block.EVENTS.INIT);
   }
@@ -56,16 +56,20 @@ export class Block {
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
+  init() {
+    this._createResources();
+    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+  }
+
   _createResources() {
     if (this._meta === null) return;
     const { tagName } = this._meta;
     this._element = this._createDocumentElement(tagName);
   }
 
-  init() {
-    this._createResources();
-
-    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+  _createDocumentElement(tagName: string): HTMLElement {
+    // Можно сделать метод, который через фрагменты в цикле создаёт сразу несколько блоков
+    return document.createElement(tagName);
   }
 
   _componentDidMount() {
@@ -170,14 +174,22 @@ export class Block {
     this._element.innerHTML = ""; // удаляем предыдущее содержимое
 
     this._element.appendChild(block);
-    // this._element.innerHTML = block.innerHTML;
-    // console.log("BLOCK", block.nodeValue);
 
+    this.addAttribute();
     this._addEvents();
   }
 
   render() {
     return this.compile("", {});
+  }
+
+  addAttribute() {
+    const { attr = {} } = this.props;
+
+    Object.keys(attr).forEach((key) => {
+      const value = attr[key];
+      this._element?.setAttribute(key, value);
+    });
   }
 
   getContent() {
@@ -205,11 +217,6 @@ export class Block {
         throw new Error("Нет доступа");
       },
     });
-  }
-
-  _createDocumentElement(tagName: string): HTMLElement {
-    // Можно сделать метод, который через фрагменты в цикле создаёт сразу несколько блоков
-    return document.createElement(tagName);
   }
 
   show() {
