@@ -13,7 +13,6 @@ const listMessagesTemplate = (props: TProps) => {
     .map((_, index) => `{{{message_${index + 1}}}}`)
     .join("");
   return `
-<div class=${s["container"]}>
   <div class=${s["header"]}>
    <div class=${s["recipient-info"]}>
       <div class=${s["img-avatar"]}> 
@@ -32,7 +31,6 @@ const listMessagesTemplate = (props: TProps) => {
     </div>   
     {{{IconButtonSendMessage}}}
    </div>
-</div>
 `;
 };
 
@@ -44,6 +42,9 @@ export class ListMessages extends Block {
   constructor(props: TProps) {
     super("div", {
       ...props,
+      attr: {
+        class: `${s["container"]}`,
+      },
       TypographyName: new Typography({
         variant: "h5",
         text: props.chat.name,
