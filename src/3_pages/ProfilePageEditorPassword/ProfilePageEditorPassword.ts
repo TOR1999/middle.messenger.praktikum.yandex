@@ -9,7 +9,6 @@ import { getLang } from "../../8_utils/langs/getLang";
 import s from "./ProfilePageEditorPassword.module.scss";
 
 const profilePageEditorPasswordTemplate = `
-<div class=${s["container"]}>
   <div class=${s["button-back-container"]}>
     <div class=${s["button-back"]}>
       {{{CircleIconButtonArrowBack}}}
@@ -48,7 +47,6 @@ const profilePageEditorPasswordTemplate = `
       {{{ButtonSaveNewPassword}}}
     </div>
   </form>
-</div>
 `;
 
 type TProps = {
@@ -81,6 +79,9 @@ export class ProfilePageEditorPassword extends Block {
       textAlign: "right",
     });
     super("div", {
+      attr: {
+        class: `${s["container"]}`,
+      },
       CircleIconButtonArrowBack: new CircleIconButton({
         id: "arrowBackId",
         iconSrc: "/icons/arrowBack.svg",

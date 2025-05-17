@@ -12,7 +12,6 @@ import { getLang } from "../../8_utils/langs/getLang";
 import s from "./ProfilePageEditorInfo.module.scss";
 
 const profilePageEditorInfoTemplate = `
-<div class=${s["container"]}>
   <div class=${s["button-back-container"]}>
     <div class=${s["button-back"]}>
       {{{CircleIconButtonArrowBack}}}
@@ -71,7 +70,6 @@ const profilePageEditorInfoTemplate = `
       {{{ButtonSaveInfoProfile}}}
     </div>
   </form>
-</div>
 `;
 
 type TProps = {
@@ -117,6 +115,9 @@ export class ProfilePageEditorInfo extends Block {
     });
 
     super("div", {
+      attr: {
+        class: `${s["container"]}`,
+      },
       CircleIconButtonArrowBack: new CircleIconButton({
         id: "arrowBackId",
         iconSrc: "/icons/arrowBack.svg",

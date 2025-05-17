@@ -3,9 +3,7 @@ import { Block } from "../../8_utils/helpers/block";
 import s from "./RegistrationPage.module.scss";
 
 const registrationPageTemplate = `
-<div class=${s["container"]}>
   {{{RegistrationModal}}}
-</div>
 `;
 
 type TProps = {
@@ -20,7 +18,12 @@ type TProps = {
 
 export class RegistrationPage extends Block {
   constructor(props: TProps) {
-    super("div", { RegistrationModal: new RegistrationModal(props) });
+    super("div", {
+      attr: {
+        class: `${s["container"]}`,
+      },
+      RegistrationModal: new RegistrationModal(props),
+    });
   }
 
   override render() {

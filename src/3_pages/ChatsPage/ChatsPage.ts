@@ -5,10 +5,8 @@ import { Block } from "../../8_utils/helpers/block";
 import s from "./ChatsPage.module.scss";
 
 const chatsPageTemplate = `
-<div class=${s["container"]}>
  {{{ListChats}}}
  {{{ListMessages}}}
-</div>
 `;
 
 type TProps = {
@@ -18,6 +16,9 @@ type TProps = {
 export class ChatsPage extends Block {
   constructor(props: TProps) {
     super("div", {
+      attr: {
+        class: `${s["container"]}`,
+      },
       ListChats: new ListChats(props),
       ListMessages: new ListMessages({ chat: props.chats[0] }),
     });

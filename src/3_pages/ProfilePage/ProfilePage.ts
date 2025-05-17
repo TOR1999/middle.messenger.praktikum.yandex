@@ -6,7 +6,6 @@ import { getLang } from "../../8_utils/langs/getLang";
 import s from "./ProfilePage.module.scss";
 
 const profilePageTemplate = `
-<div class=${s["container"]}>
   <div class=${s["button-back-container"]}>
     <div class=${s["button-back"]}>
       {{{CircleIconButtonArrowBack}}}
@@ -71,7 +70,6 @@ const profilePageTemplate = `
       </div>
     </div>
   </div>
-</div>
 `;
 
 type TProps = {
@@ -86,6 +84,9 @@ type TProps = {
 export class ProfilePage extends Block {
   constructor(props: TProps) {
     super("div", {
+      attr: {
+        class: `${s["container"]}`,
+      },
       CircleIconButtonArrowBack: new CircleIconButton({
         id: "arrowBackId",
         iconSrc: "/icons/arrowBack.svg",

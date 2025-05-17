@@ -4,7 +4,6 @@ import { Block } from "../../8_utils/helpers/block";
 import s from "./ErrorPage.module.scss";
 
 const errorPageTemplate = `
-<div class=${s["container"]}>
   <div class=${s["code-container"]}>
     {{{TypographyTextCode}}}
   </div>
@@ -12,7 +11,6 @@ const errorPageTemplate = `
      {{{TypographyTextMessage}}}
   </div>
   {{{LinkBack}}}
-</div>
 `;
 type TProps = {
   textCode: string;
@@ -23,6 +21,9 @@ type TProps = {
 export class ErrorPage extends Block {
   constructor(props: TProps) {
     super("div", {
+      attr: {
+        class: `${s["container"]}`,
+      },
       TypographyTextCode: new Typography({
         variant: "h1",
         text: props.textCode,
