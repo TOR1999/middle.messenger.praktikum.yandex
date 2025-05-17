@@ -10,7 +10,6 @@ import { getLang } from "../../8_utils/langs/getLang";
 import s from "./AuthorizationModal.module.scss";
 
 const authorizationModalTemplate = `
-<form class=${s["content"]}>
   <div class=${s["tittle"]}> 
     {{{TypographyTitle}}}
   </div>
@@ -26,7 +25,6 @@ const authorizationModalTemplate = `
    {{{ButtonAuth}}}
   </div>
   {{{LinkRegistration}}}
-</form>
 `;
 
 type TProps = {
@@ -47,7 +45,10 @@ export class AuthorizationModal extends Block {
       color: "red",
     });
 
-    super("div", {
+    super("form", {
+      attr: {
+        class: `${s["content"]}`,
+      },
       Typography: new Typography({
         variant: "b1",
         text: getLang("authorizationModal.tittle"),
