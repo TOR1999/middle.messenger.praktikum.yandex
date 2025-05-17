@@ -62,4 +62,12 @@ export const langs = {
     repeatPassword: "Пароли не совпадают",
     oldPassword: "Старый пароль неверный",
   },
+  chatsPage: {
+    unSelectChat: "Выберите чат чтобы отправить сообщение",
+    listChats: { linkProfile: "Профиль", search: "Поиск" },
+    listMessages: {
+      unselectedChat: "Выберите чат чтобы отправить сообщение",
+      placeHolderMessage: "Сообщение",
+    },
+  },
 };
