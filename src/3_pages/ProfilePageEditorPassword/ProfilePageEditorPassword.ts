@@ -92,7 +92,7 @@ export class ProfilePageEditorPassword extends Block {
       }),
       InputOldPassword: new Input({
         inputId: "oldPasswordId",
-        classStyle: "textRight",
+        textPosition: "right",
         nameInput: "oldPassword",
         variant: "text",
         value: props.valueOldPassword,
@@ -114,7 +114,7 @@ export class ProfilePageEditorPassword extends Block {
       }),
       InputNewPassword: new Input({
         inputId: "newPasswordId",
-        classStyle: "textRight",
+        textPosition: "right",
         nameInput: "newPassword",
         variant: "text",
         value: props.valueNewPassword,
@@ -145,7 +145,7 @@ export class ProfilePageEditorPassword extends Block {
       }),
       InputRepeatNewPassword: new Input({
         inputId: "repeatNewPasswordId",
-        classStyle: "textRight",
+        textPosition: "right",
         nameInput: "repeatNewPassword",
         variant: "text",
         value: props.valueRepeatNewPassword,
