@@ -45,6 +45,9 @@ export class Input extends Block {
   constructor(props: TProps) {
     super("div", {
       ...props,
+      attr: {
+        class: `${s["container"]}`,
+      },
       TypographyError: new Typography({
         variant: "b6",
         text: props.textError,
