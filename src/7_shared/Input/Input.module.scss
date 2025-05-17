@@ -19,8 +19,20 @@
 
   @include fonts.font-b4;
 
-  &_text_right {
+  &_text-right {
     text-align: right;
+  }
+
+  &_text-center {
+    text-align: center;
+  }
+
+  &_background-color-grey {
+    background-color: colors.$grey;
+  }
+
+  &_border-radius {
+    border-radius: 4px;
   }
 }
 
