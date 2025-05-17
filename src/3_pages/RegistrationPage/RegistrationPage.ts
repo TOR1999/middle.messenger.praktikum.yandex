@@ -1,15 +1,32 @@
+import { RegistrationModal } from "../../4_widgets/RegistrationModal/RegistrationModal";
+import { Block } from "../../8_utils/helpers/block";
 import s from "./RegistrationPage.module.scss";
 
-export const RegistrationPage = `
-<div class=${s["container"]}>
-  {{> RegistrationModal
-      valueEmail=valueEmail
-      valueLogin=valueLogin
-      valueFirstName=valueFirstName
-      valueSecondName=valueSecondName
-      valuePhone=valuePhone
-      valuePassword=valuePassword
-      valueRepeatPassword=valueRepeatPassword
-  }}
-</div>
+const registrationPageTemplate = `
+  {{{RegistrationModal}}}
 `;
+
+type TProps = {
+  valueEmail: string;
+  valueLogin: string;
+  valueFirstName: string;
+  valueSecondName: string;
+  valuePhone: string;
+  valuePassword: string;
+  valueRepeatPassword: string;
+};
+
+export class RegistrationPage extends Block {
+  constructor(props: TProps) {
+    super("div", {
+      attr: {
+        class: `${s["container"]}`,
+      },
+      RegistrationModal: new RegistrationModal(props),
+    });
+  }
+
+  override render() {
+    return this.compile(registrationPageTemplate, this.props);
+  }
+}
