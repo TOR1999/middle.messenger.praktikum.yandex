@@ -25,7 +25,7 @@ export class IconButton extends Block {
         id: props.id,
         disabled: props.disabled ? "true" : "false",
         type: props.submit ? "submit" : "",
-        class: `${`${s["button"]} ${s["button_disabled"]}`}`,
+        class: `${`${s["button"]} ${props.disabled ? s["button_disabled"] : ""}`}`,
       },
     });
   }
