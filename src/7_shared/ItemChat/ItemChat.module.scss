@@ -1,0 +1,48 @@
+@use "../../8_utils/styles/colors.scss" as colors;
+
+.container {
+  display: flex;
+  width: 100%;
+  padding: 12px 0;
+
+  border-top: 2px solid colors.$grey;
+  background-color: colors.$white;
+
+  .avatar {
+    display: flex;
+    min-width: 47px;
+    min-height: 47px;
+    margin-right: 10px;
+    border-radius: 100%;
+
+    background-color: colors.$grey;
+  }
+
+  .info-chat {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .description {
+      margin-top: 4px;
+    }
+  }
+
+  .data-chat {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    justify-content: space-between;
+
+    .count-message {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 100%;
+
+      background-color: colors.$blue;
+    }
+  }
+}
