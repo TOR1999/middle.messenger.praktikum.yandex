@@ -22,7 +22,7 @@ type TProps = {
     | "h6"
     | "h7";
   text?: string;
-  color?: "red" | "white" | "grey";
+  color?: "red" | "white" | "grey" | "blue";
   textAlign?: "right";
   withoutLineHeight?: boolean;
 };
