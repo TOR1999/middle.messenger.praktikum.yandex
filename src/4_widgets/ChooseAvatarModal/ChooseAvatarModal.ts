@@ -17,7 +17,9 @@ const chooseAvatarModalTemplate = `
       {{{InputFile}}}
     </div>
     {{{ButtonChangeAvatar}}}
-    {{{CancelButtonChangeAvatar}}}
+    <div class=${s["cancel-button"]}>
+    </div>
+     {{{CancelButtonChangeAvatar}}}
   </form>
 `;
 
@@ -47,6 +49,7 @@ export class ChooseAvatarModal extends Block {
       ButtonChangeAvatar: new Button({
         id: "ButtonChangeAvatarId",
         disabled: false,
+        typeSubmit: true,
         text: getLang("ChooseAvatarModal.buttonText"),
         onClick: (e: Event) => {
           e.preventDefault();

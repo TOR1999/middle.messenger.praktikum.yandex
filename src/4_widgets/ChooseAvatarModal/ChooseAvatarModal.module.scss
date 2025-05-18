@@ -36,7 +36,13 @@
     .input-file {
       display: flex;
       width: 100%;
-      padding: 43px 0 61px;
+      padding: 43px 0 20px;
+    }
+
+    .cancel-button {
+      display: flex;
+      width: 100%;
+      padding: 5px 0;
     }
   }
 }
