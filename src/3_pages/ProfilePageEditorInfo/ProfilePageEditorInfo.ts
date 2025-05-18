@@ -259,6 +259,7 @@ export class ProfilePageEditorInfo extends Block {
         id: "buttonSaveProfile",
         text: getLang("common.buttons.save"),
         disabled: false,
+        typeSubmit: true,
         onClick: (e: Event) => {
           e.preventDefault();
 

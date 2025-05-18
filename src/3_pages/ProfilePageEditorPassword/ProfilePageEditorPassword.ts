@@ -178,6 +178,7 @@ export class ProfilePageEditorPassword extends Block {
         id: "editProfileId",
         text: getLang("common.buttons.save"),
         disabled: false,
+        typeSubmit: true,
         onClick: (e: Event) => {
           e.preventDefault();
 
