@@ -14,7 +14,7 @@ export enum METHODS {
 
 export type TOptions = {
   timeout: number;
-  data: any;
+  data: unknown;
   headers: { [key: string]: string };
   method: METHODS;
 };
