@@ -309,6 +309,8 @@ export class ProfilePageEditorInfo extends Block {
             });
           }
 
+          //TODO: Убрать после реализации API
+          // eslint-disable-next-line no-console
           console.log({
             first_name: props.valueFirstName,
             second_name: props.valueSecondName,

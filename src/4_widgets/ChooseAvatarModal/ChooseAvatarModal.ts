@@ -54,6 +54,8 @@ export class ChooseAvatarModal extends Block {
         onClick: (e: Event) => {
           e.preventDefault();
           const avatar = getValueById("avatarId");
+          //TODO: Убрать после реализации API
+          // eslint-disable-next-line no-console
           console.log({ avatar });
         },
       }),

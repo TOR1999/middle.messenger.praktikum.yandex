@@ -338,6 +338,8 @@ export class RegistrationModal extends Block {
             }
           }
 
+          //TODO: Убрать после реализации API
+          // eslint-disable-next-line no-console
           console.log({
             first_name: firstName,
             second_name: secondName,

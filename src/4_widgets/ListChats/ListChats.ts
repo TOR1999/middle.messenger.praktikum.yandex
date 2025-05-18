@@ -47,9 +47,6 @@ export class ListChats extends Block {
         variant: "text",
         text: getLang("chatsPage.listChats.linkProfile"),
         color: "grey",
-        onClick: () => {
-          console.log("Переход в профиль");
-        },
       }),
       ArrowRightIcon: "",
       SearchChatInput: new Input({
@@ -72,9 +69,6 @@ export class ListChats extends Block {
         acc[`ItemChat${index + 1}`] = new ItemChat({
           chat: curr,
           chatId: `ItemChat${index + 1}`,
-          onClick: () => {
-            console.log("Клик по чату");
-          },
           selectedChat: index === 0 ? true : false,
         });
         return acc;

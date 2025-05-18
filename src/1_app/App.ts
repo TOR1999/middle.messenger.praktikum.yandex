@@ -140,6 +140,7 @@ export default class App {
         break;
       }
       default: {
+        // eslint-disable-next-line no-console
         console.log("error switch page");
         break;
       }

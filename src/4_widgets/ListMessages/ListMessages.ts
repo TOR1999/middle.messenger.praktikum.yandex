@@ -77,6 +77,8 @@ export class ListMessages extends Block {
         iconSrc: "/icons/arrowRight.svg",
         onClick: () => {
           const message = getValueById("messageInputId");
+          //TODO: Убрать после реализации API
+          // eslint-disable-next-line no-console
           console.log({ message });
         },
       }),

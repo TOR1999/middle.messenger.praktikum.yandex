@@ -219,6 +219,8 @@ export class ProfilePageEditorPassword extends Block {
             }
           }
 
+          //TODO: Убрать после реализации API
+          // eslint-disable-next-line no-console
           console.log({
             oldPassword: props.valueOldPassword,
             newPassword: props.valueNewPassword,

@@ -36,9 +36,6 @@ export class ErrorPage extends Block {
         href: "#",
         variant: "text",
         text: props.textLink,
-        onClick: () => {
-          console.log("Назад к чатам со страницы ошибки");
-        },
       }),
     });
   }

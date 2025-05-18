@@ -115,6 +115,8 @@ export class AuthorizationModal extends Block {
             });
           }
 
+          //TODO: Убрать после реализации API
+          // eslint-disable-next-line no-console
           console.log({
             login: login,
             password: password,
