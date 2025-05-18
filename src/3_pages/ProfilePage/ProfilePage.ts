@@ -1,3 +1,5 @@
+import { ChooseAvatarModal } from "../../4_widgets/ChooseAvatarModal/ChooseAvatarModal";
+import { Button } from "../../7_shared/Button/Button";
 import { CircleIconButton } from "../../7_shared/CircleIconButton/CircleIconButton";
 import { Link } from "../../7_shared/Link/Link";
 import { Typography } from "../../7_shared/Typography/Typography";
@@ -5,8 +7,13 @@ import { Block } from "../../8_utils/helpers/block";
 import { getLang } from "../../8_utils/langs/getLang";
 import s from "./ProfilePage.module.scss";
 
-const profilePageTemplate = `
-<div class=${s["container"]}>
+const profilePageTemplate = (props: TProps) => {
+  const showChooseAvatarModal = props.openedChooseAvatarModal
+    ? "{{{ChooseAvatarModalComponent}}}"
+    : "";
+
+  return `
+  ${showChooseAvatarModal}
   <div class=${s["button-back-container"]}>
     <div class=${s["button-back"]}>
       {{{CircleIconButtonArrowBack}}}
@@ -19,7 +26,7 @@ const profilePageTemplate = `
       alt="${getLang("profilePage.altImageProfile")}"
       />
     </div>
-    {{{ChangeImageProfileLink}}}
+    {{{ChangeImageProfileButton}}}
     <div class=${s["user-name"]}>
       {{{TypographyNickName}}}
     </div>
@@ -71,8 +78,8 @@ const profilePageTemplate = `
       </div>
     </div>
   </div>
-</div>
 `;
+};
 
 type TProps = {
   valueEmail: string;
@@ -81,21 +88,38 @@ type TProps = {
   valueSecondName: string;
   valueNickName: string;
   valuePhone: string;
+  openedChooseAvatarModal?: boolean;
 };
 
 export class ProfilePage extends Block {
   constructor(props: TProps) {
+    const ChooseAvatarModalComponent = new ChooseAvatarModal({
+      onClickCancel: () => {
+        this.setProps({ openedChooseAvatarModal: false });
+      },
+    });
+
     super("div", {
+      attr: {
+        class: `${s["container"]}`,
+      },
+      ChooseAvatarModalComponent,
       CircleIconButtonArrowBack: new CircleIconButton({
         id: "arrowBackId",
         iconSrc: "/icons/arrowBack.svg",
         altText: getLang("common.buttons.altBack"),
       }),
-      ChangeImageProfileLink: new Link({
-        href: "#",
-        variant: "text",
+
+      ChangeImageProfileButton: new Button({
+        disabled: false,
+        id: "buttonsId",
         text: getLang("profilePage.changeImageProfile"),
+        variantText: true,
+        onClick: () => {
+          this.setProps({ openedChooseAvatarModal: true });
+        },
       }),
+
       TypographyNickName: new Typography({
         variant: "h2",
         text: props.valueNickName,
@@ -168,6 +192,6 @@ export class ProfilePage extends Block {
   }
 
   override render() {
-    return this.compile(profilePageTemplate, this.props);
+    return this.compile(profilePageTemplate(this.props as TProps), this.props);
   }
 }

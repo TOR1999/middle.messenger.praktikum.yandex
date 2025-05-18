@@ -2,25 +2,7 @@ import { Block } from "../../8_utils/helpers/block";
 import s from "./Link.module.scss";
 
 const linkTemplate = `
-<a 
-href="{{href}}"
-{{#if (isSimpleEquals variant "text")}} 
-   {{#if (isSimpleEquals color "red")}} 
-   class="${`${s["link_text"]} ${s["link_red-text"]}`}"
-   {{else}}
-   class="${s["link_text"]}"
-   {{/if}}
-{{/if}}
-{{#if (isSimpleEquals variant "underline")}} 
-   {{#if (isSimpleEquals color "red")}} 
-   class="${`${s["link_underline"]} ${s["link_red-text"]}`}"
-   {{else}}
-   class=${s["link_underline"]}
-   {{/if}}
-{{/if}}
-data-page="{{dataPage}}">
 {{text}}
-</a>
 `;
 
 export type TLink = {
@@ -29,12 +11,19 @@ export type TLink = {
   text: string;
   dataPage?: string;
   onClick?: (e: Event) => void;
-  color?: "red";
+  color?: "red" | "grey";
 };
 
 export class Link extends Block {
   constructor(props: TLink) {
-    super("a", { ...props });
+    super("a", {
+      attr: {
+        href: props.href,
+        "data-page": props.dataPage || "",
+        class: `${`${s[`link_${props.variant}`]} ${s[`link_${props.color}-text`]}`}`,
+      },
+      ...props,
+    });
   }
 
   override render() {

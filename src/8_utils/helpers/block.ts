@@ -17,9 +17,10 @@ export class Block {
   eventBus;
 
   constructor(tagName: string = "div", propsAndChildren: TBlockProps = {}) {
-    this._id = getUUID();
-    const eventBus = new EventBus();
     const { children, props } = this._getChildren(propsAndChildren);
+    const eventBus = new EventBus();
+
+    this._id = getUUID();
     this.children = children;
     this._meta = {
       tagName,
@@ -29,14 +30,13 @@ export class Block {
     this.props = this._makePropsProxy(props);
 
     this.eventBus = () => eventBus;
-
     this._registerEvents(eventBus);
     eventBus.emit(Block.EVENTS.INIT);
   }
 
-  _getChildren(propsAndChildren: { [key: string]: any }) {
+  _getChildren(propsAndChildren: TBlockProps) {
     const children: { [key: string]: Block } = {};
-    const props: { [key: string]: TBlockProps } = {};
+    const props: TBlockProps = {};
 
     Object.entries(propsAndChildren).forEach(([key, value]) => {
       if (value instanceof Block) {
@@ -56,42 +56,46 @@ export class Block {
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
+  init() {
+    this._createResources();
+    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+  }
+
   _createResources() {
     if (this._meta === null) return;
     const { tagName } = this._meta;
     this._element = this._createDocumentElement(tagName);
   }
 
-  init() {
-    this._createResources();
-
-    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+  _createDocumentElement(tagName: string): HTMLElement {
+    // Можно сделать метод, который через фрагменты в цикле создаёт сразу несколько блоков
+    return document.createElement(tagName);
   }
 
   _componentDidMount() {
-    this.componentDidMount(this.props);
+    this.componentDidMount();
 
     Object.values(this.children).forEach((child) => {
       child.dispatchComponentDidMount();
     });
   }
-  // @ts-ignore: noUnusedParameters
-  componentDidMount(oldProps: TBlockProps) {}
+
+  componentDidMount() {}
 
   dispatchComponentDidMount() {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
 
-  _componentDidUpdate(oldProps: TBlockProps, newProps: TBlockProps) {
-    const response = this.componentDidUpdate(oldProps, newProps);
+  _componentDidUpdate() {
+    const response = this.componentDidUpdate();
     if (!response) {
       return;
     }
 
     this._render();
   }
-  // @ts-ignore: noUnusedParameters
-  componentDidUpdate(oldProps: TBlockProps, newProps: TBlockProps) {
+
+  componentDidUpdate() {
     return true;
   }
 
@@ -112,7 +116,6 @@ export class Block {
     }
 
     if (this._meta?.props?.onBlur) {
-      console.log("on blur", this._element);
       this._element?.children[0]?.addEventListener(
         "blur",
         this._meta.props.onBlur as EventListenerOrEventListenerObject,
@@ -136,7 +139,7 @@ export class Block {
     }
   }
 
-  compile(template: string, props: { [key: string]: any }) {
+  compile(template: string, props: { [key: string]: unknown }) {
     const propsAndStubs = { ...props };
 
     Object.entries(this.children).forEach(([key, child]) => {
@@ -170,9 +173,8 @@ export class Block {
     this._element.innerHTML = ""; // удаляем предыдущее содержимое
 
     this._element.appendChild(block);
-    // this._element.innerHTML = block.innerHTML;
-    // console.log("BLOCK", block.nodeValue);
 
+    this.addAttribute();
     this._addEvents();
   }
 
@@ -180,13 +182,21 @@ export class Block {
     return this.compile("", {});
   }
 
+  addAttribute() {
+    const { attr = {} } = this.props;
+
+    Object.keys(attr).forEach((key) => {
+      const value = attr[key];
+      this._element?.setAttribute(key, value);
+    });
+  }
+
   getContent() {
     return this._element;
   }
 
   _makePropsProxy(props: TBlockProps) {
-    // Можно и так передать this
-    // Такой способ больше не применяется с приходом ES6+
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
 
     return new Proxy(props, {
@@ -205,11 +215,6 @@ export class Block {
         throw new Error("Нет доступа");
       },
     });
-  }
-
-  _createDocumentElement(tagName: string): HTMLElement {
-    // Можно сделать метод, который через фрагменты в цикле создаёт сразу несколько блоков
-    return document.createElement(tagName);
   }
 
   show() {

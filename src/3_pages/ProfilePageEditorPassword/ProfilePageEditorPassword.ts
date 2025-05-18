@@ -9,7 +9,6 @@ import { getLang } from "../../8_utils/langs/getLang";
 import s from "./ProfilePageEditorPassword.module.scss";
 
 const profilePageEditorPasswordTemplate = `
-<div class=${s["container"]}>
   <div class=${s["button-back-container"]}>
     <div class=${s["button-back"]}>
       {{{CircleIconButtonArrowBack}}}
@@ -48,7 +47,6 @@ const profilePageEditorPasswordTemplate = `
       {{{ButtonSaveNewPassword}}}
     </div>
   </form>
-</div>
 `;
 
 type TProps = {
@@ -81,6 +79,9 @@ export class ProfilePageEditorPassword extends Block {
       textAlign: "right",
     });
     super("div", {
+      attr: {
+        class: `${s["container"]}`,
+      },
       CircleIconButtonArrowBack: new CircleIconButton({
         id: "arrowBackId",
         iconSrc: "/icons/arrowBack.svg",
@@ -92,7 +93,7 @@ export class ProfilePageEditorPassword extends Block {
       }),
       InputOldPassword: new Input({
         inputId: "oldPasswordId",
-        classStyle: "textRight",
+        textPosition: "right",
         nameInput: "oldPassword",
         variant: "text",
         value: props.valueOldPassword,
@@ -114,7 +115,7 @@ export class ProfilePageEditorPassword extends Block {
       }),
       InputNewPassword: new Input({
         inputId: "newPasswordId",
-        classStyle: "textRight",
+        textPosition: "right",
         nameInput: "newPassword",
         variant: "text",
         value: props.valueNewPassword,
@@ -145,7 +146,7 @@ export class ProfilePageEditorPassword extends Block {
       }),
       InputRepeatNewPassword: new Input({
         inputId: "repeatNewPasswordId",
-        classStyle: "textRight",
+        textPosition: "right",
         nameInput: "repeatNewPassword",
         variant: "text",
         value: props.valueRepeatNewPassword,
@@ -177,6 +178,7 @@ export class ProfilePageEditorPassword extends Block {
         id: "editProfileId",
         text: getLang("common.buttons.save"),
         disabled: false,
+        typeSubmit: true,
         onClick: (e: Event) => {
           e.preventDefault();
 
@@ -217,6 +219,8 @@ export class ProfilePageEditorPassword extends Block {
             }
           }
 
+          //TODO: Убрать после реализации API
+          // eslint-disable-next-line no-console
           console.log({
             oldPassword: props.valueOldPassword,
             newPassword: props.valueNewPassword,

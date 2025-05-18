@@ -12,7 +12,6 @@ import { getLang } from "../../8_utils/langs/getLang";
 import s from "./ProfilePageEditorInfo.module.scss";
 
 const profilePageEditorInfoTemplate = `
-<div class=${s["container"]}>
   <div class=${s["button-back-container"]}>
     <div class=${s["button-back"]}>
       {{{CircleIconButtonArrowBack}}}
@@ -71,7 +70,6 @@ const profilePageEditorInfoTemplate = `
       {{{ButtonSaveInfoProfile}}}
     </div>
   </form>
-</div>
 `;
 
 type TProps = {
@@ -117,6 +115,9 @@ export class ProfilePageEditorInfo extends Block {
     });
 
     super("div", {
+      attr: {
+        class: `${s["container"]}`,
+      },
       CircleIconButtonArrowBack: new CircleIconButton({
         id: "arrowBackId",
         iconSrc: "/icons/arrowBack.svg",
@@ -129,7 +130,7 @@ export class ProfilePageEditorInfo extends Block {
       InputEmail: new Input({
         value: "",
         inputId: "emailId",
-        classStyle: "textRight",
+        textPosition: "right",
         nameInput: "email",
         variant: "text",
         textPlaceholder: props.valueEmail,
@@ -153,7 +154,7 @@ export class ProfilePageEditorInfo extends Block {
       InputLogin: new Input({
         value: "",
         inputId: "loginId",
-        classStyle: "textRight",
+        textPosition: "right",
         nameInput: "login",
         variant: "text",
         textPlaceholder: props.valueLogin,
@@ -177,7 +178,7 @@ export class ProfilePageEditorInfo extends Block {
       InputUserName: new Input({
         value: "",
         inputId: "firstNameId",
-        classStyle: "textRight",
+        textPosition: "right",
         nameInput: "first_name",
         variant: "text",
         textPlaceholder: props.valueFirstName,
@@ -201,7 +202,7 @@ export class ProfilePageEditorInfo extends Block {
       InputSecondName: new Input({
         value: "",
         inputId: "secondNameId",
-        classStyle: "textRight",
+        textPosition: "right",
         nameInput: "second_name",
         variant: "text",
         textPlaceholder: props.valueSecondName,
@@ -225,7 +226,7 @@ export class ProfilePageEditorInfo extends Block {
       InputNickName: new Input({
         value: "",
         inputId: "displayNameId",
-        classStyle: "textRight",
+        textPosition: "right",
         nameInput: "display_name",
         variant: "text",
         textPlaceholder: props.valueNickName,
@@ -237,7 +238,7 @@ export class ProfilePageEditorInfo extends Block {
       InputPhone: new Input({
         value: "",
         inputId: "phoneId",
-        classStyle: "textRight",
+        textPosition: "right",
         nameInput: "phone",
         variant: "text",
         textPlaceholder: props.valuePhone,
@@ -258,6 +259,7 @@ export class ProfilePageEditorInfo extends Block {
         id: "buttonSaveProfile",
         text: getLang("common.buttons.save"),
         disabled: false,
+        typeSubmit: true,
         onClick: (e: Event) => {
           e.preventDefault();
 
@@ -307,6 +309,8 @@ export class ProfilePageEditorInfo extends Block {
             });
           }
 
+          //TODO: Убрать после реализации API
+          // eslint-disable-next-line no-console
           console.log({
             first_name: props.valueFirstName,
             second_name: props.valueSecondName,

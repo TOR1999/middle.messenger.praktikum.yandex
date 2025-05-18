@@ -8,6 +8,7 @@ import { getLang } from "../8_utils/langs/getLang";
 import { NamePages, TState } from "./types";
 import {
   AUTH_PAGE_DATA,
+  CHATS_PAGE_DATA,
   LIST_PAGES,
   PROFILE_PAGE_DATA,
   PROFILE_PAGE_EDIT_PASSWORD_DATA,
@@ -15,6 +16,7 @@ import {
 } from "./MockData";
 import { ProfilePageEditorInfo } from "../3_pages/ProfilePageEditorInfo/ProfilePageEditorInfo";
 import { ProfilePageEditorPassword } from "../3_pages/ProfilePageEditorPassword/ProfilePageEditorPassword";
+import { ChatsPage } from "../3_pages/ChatsPage/ChatsPage";
 
 export default class App {
   state: TState;
@@ -23,7 +25,7 @@ export default class App {
 
   constructor() {
     this.state = {
-      currentPage: NamePages.PROFILE_PAGE_EDITOR_PASSWORD,
+      currentPage: NamePages.PROFILE,
     };
     this.appElement = document.getElementById("app");
     this.navigationElement = document.getElementById("navigation");
@@ -101,10 +103,12 @@ export default class App {
         break;
       }
       case NamePages.CHATS: {
-        // template = Handlebars.compile(DevelopmentPage);
-        // this.appElement.innerHTML = template({
-        //   text: getLang("developmentPage"),
-        // });
+        const сhatsPage = new ChatsPage(CHATS_PAGE_DATA);
+
+        const сhatsPageContent: Node | null = сhatsPage.getContent();
+        if (сhatsPageContent) {
+          this.appElement.appendChild(сhatsPageContent);
+        }
         break;
       }
       case NamePages.NOTFOUND: {
@@ -136,6 +140,7 @@ export default class App {
         break;
       }
       default: {
+        // eslint-disable-next-line no-console
         console.log("error switch page");
         break;
       }

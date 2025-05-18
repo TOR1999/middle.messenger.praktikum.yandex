@@ -4,7 +4,6 @@ import { Typography } from "../../7_shared/Typography/Typography";
 import { Block } from "../../8_utils/helpers/block";
 
 const navigationTemplate = `
-<nav>
   <ul>
     {{{TypographyTitle}}}
     <li class="navigation-link">
@@ -32,7 +31,6 @@ const navigationTemplate = `
       {{{${NamePages.SERVERERROR}}}}
     </li> 
   </ul>
-</nav>
 `;
 
 type TProps = {
@@ -56,7 +54,8 @@ export class Navigation extends Block {
       };
     }, {});
 
-    super("div", {
+    super("nav", {
+      attr: {},
       TypographyTitle: new Typography({
         variant: "h2",
         text: props.title,

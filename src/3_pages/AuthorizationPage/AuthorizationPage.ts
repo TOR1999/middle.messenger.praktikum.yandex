@@ -3,9 +3,7 @@ import { Block } from "../../8_utils/helpers/block";
 import s from "./AuthorizationPage.module.scss";
 
 const authorizationPageTemplate = `
-<div class=${s["container"]}>
   {{{AuthorizationModal}}}
-</div>
 `;
 
 type TProps = {
@@ -16,6 +14,9 @@ type TProps = {
 export class AuthorizationPage extends Block {
   constructor(props: TProps) {
     super("div", {
+      attr: {
+        class: `${s["container"]}`,
+      },
       AuthorizationModal: new AuthorizationModal({
         valueLogin: props.valueLogin,
         valuePassword: props.valuePassword,

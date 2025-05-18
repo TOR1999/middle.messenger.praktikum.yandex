@@ -1,4 +1,4 @@
 export const validateName = (name: string) => {
-  const regex = /^[A-ZА-Я][a-zA-ZА-я-]*$/;
+  const regex = /^[A-ZА-ЯЁ][a-zA-ZА-яё-]*$/;
   return regex.test(name);
 };

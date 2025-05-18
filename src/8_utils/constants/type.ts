@@ -14,9 +14,11 @@ export enum METHODS {
 
 export type TOptions = {
   timeout: number;
-  data: any;
+  data: unknown;
   headers: { [key: string]: string };
   method: METHODS;
 };
 
-export type TBlockProps = Record<string, unknown>;
+export type TBlockProps = Record<string, unknown> & {
+  attr?: Record<string, string>;
+};
