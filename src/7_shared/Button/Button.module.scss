@@ -14,8 +14,22 @@
   color: colors.$white;
   border-radius: 8px;
   border: 0;
+}
 
-  &_disabled {
-    opacity: 0.4;
-  }
+.button-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 37px;
+
+  @include fonts.font-h4;
+
+  border: 0;
+  background-color: transparent;
+  color: colors.$blue;
+}
+
+.disabled {
+  opacity: 0.4;
 }
