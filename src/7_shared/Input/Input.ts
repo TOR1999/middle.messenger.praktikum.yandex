@@ -38,7 +38,7 @@ type TProps = {
   variant: "text" | "password" | "file";
   value: string;
   nameInput: string;
-  onBlur?: (e: Event) => void;
+  onBlur?: (e: FocusEvent) => void;
   textPlaceholder?: string;
   textPosition?: "right" | "center";
   inputId?: string;
