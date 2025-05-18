@@ -34,9 +34,9 @@ export class Block {
     eventBus.emit(Block.EVENTS.INIT);
   }
 
-  _getChildren(propsAndChildren: { [key: string]: any }) {
+  _getChildren(propsAndChildren: TBlockProps) {
     const children: { [key: string]: Block } = {};
-    const props: { [key: string]: TBlockProps } = {};
+    const props: TBlockProps = {};
 
     Object.entries(propsAndChildren).forEach(([key, value]) => {
       if (value instanceof Block) {
@@ -73,29 +73,29 @@ export class Block {
   }
 
   _componentDidMount() {
-    this.componentDidMount(this.props);
+    this.componentDidMount();
 
     Object.values(this.children).forEach((child) => {
       child.dispatchComponentDidMount();
     });
   }
-  // @ts-ignore: noUnusedParameters
-  componentDidMount(oldProps: TBlockProps) {}
+
+  componentDidMount() {}
 
   dispatchComponentDidMount() {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
 
-  _componentDidUpdate(oldProps: TBlockProps, newProps: TBlockProps) {
-    const response = this.componentDidUpdate(oldProps, newProps);
+  _componentDidUpdate() {
+    const response = this.componentDidUpdate();
     if (!response) {
       return;
     }
 
     this._render();
   }
-  // @ts-ignore: noUnusedParameters
-  componentDidUpdate(oldProps: TBlockProps, newProps: TBlockProps) {
+
+  componentDidUpdate() {
     return true;
   }
 
@@ -116,7 +116,6 @@ export class Block {
     }
 
     if (this._meta?.props?.onBlur) {
-      console.log("on blur", this._element);
       this._element?.children[0]?.addEventListener(
         "blur",
         this._meta.props.onBlur as EventListenerOrEventListenerObject,
@@ -140,7 +139,7 @@ export class Block {
     }
   }
 
-  compile(template: string, props: { [key: string]: any }) {
+  compile(template: string, props: { [key: string]: unknown }) {
     const propsAndStubs = { ...props };
 
     Object.entries(this.children).forEach(([key, child]) => {
@@ -197,8 +196,7 @@ export class Block {
   }
 
   _makePropsProxy(props: TBlockProps) {
-    // Можно и так передать this
-    // Такой способ больше не применяется с приходом ES6+
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
 
     return new Proxy(props, {
