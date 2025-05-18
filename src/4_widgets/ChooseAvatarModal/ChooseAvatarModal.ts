@@ -49,7 +49,7 @@ export class ChooseAvatarModal extends Block {
         disabled: false,
         text: getLang("ChooseAvatarModal.buttonText"),
         onClick: (e: Event) => {
-          e.stopPropagation();
+          e.preventDefault();
           const avatar = getValueById("avatarId");
           console.log({ avatar });
         },
