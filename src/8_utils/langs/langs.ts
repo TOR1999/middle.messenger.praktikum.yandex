@@ -70,4 +70,10 @@ export const langs = {
       placeHolderMessage: "Сообщение",
     },
   },
+  ChooseAvatarModal: {
+    title: "Загрузите файл",
+    textInput: "Выбрать файл на компьютере",
+    buttonText: "Поменять",
+    cancelButtonText: "Вернуться назад",
+  },
 };
