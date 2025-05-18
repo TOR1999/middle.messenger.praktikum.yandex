@@ -61,6 +61,7 @@ export class ListChats extends Block {
         borderRadius: true,
         textPosition: "center",
         textPlaceholder: getLang("chatsPage.listChats.search"),
+        upHeight: true,
       }),
     });
   }
@@ -74,7 +75,7 @@ export class ListChats extends Block {
           onClick: () => {
             console.log("Клик по чату");
           },
-          selectedChat: index === 1 ? true : false,
+          selectedChat: index === 0 ? true : false,
         });
         return acc;
       },

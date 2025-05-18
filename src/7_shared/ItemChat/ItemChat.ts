@@ -15,6 +15,7 @@ const listChatsTemplate = (props: TProps) => {
   <div class=${s["info-chat"]}>
   {{{TypographyName}}}
     <div class=${s["description"]}>
+    {{{TypographyDescriptionMyMessage}}}
     {{{TypographyDescription}}}
     </div>
   </div>
@@ -34,20 +35,24 @@ export type TProps = {
 
 export class ItemChat extends Block {
   constructor(props: TProps) {
-    console.log("props", props);
     super("div", {
       ...props,
       attr: {
-        class: `${s["container"]}`,
+        class: `${s["container"]} ${props.selectedChat ? s["container_selected-container"] : ""}`,
         id: `${props.chatId}`,
       },
       ImgAvatar: "",
       TypographyName: new Typography({
-        variant: "h5",
+        variant: "h4",
         text: props.chat.name,
+      }),
+      TypographyDescriptionMyMessage: new Typography({
+        variant: "b5",
+        text: props.chat.lastMessage.myMessage ? "Вы:" : "",
       }),
       TypographyDescription: new Typography({
         variant: "b5",
+        color: "grey",
         text: props.chat.lastMessage.text,
       }),
       TypographyDateTime: new Typography({
@@ -55,7 +60,9 @@ export class ItemChat extends Block {
         text: props.chat.lastMessage.timeSend,
       }),
       TypographyCountMessage: new Typography({
-        variant: "b5",
+        variant: "b6",
+        color: "white",
+        withoutLineHeight: true,
         text: String(props.chat.unreadMessagesCount),
       }),
     });

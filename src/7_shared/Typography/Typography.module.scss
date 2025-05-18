@@ -65,8 +65,20 @@
   @include fonts.font-h8;
 }
 
+.without-line-height {
+  line-height: normal;
+}
+
 .red-text {
   color: colors.$red;
+}
+
+.white-text {
+  color: colors.$white;
+}
+
+.grey-text {
+  color: colors.$grey-light;
 }
 
 .text-align-right {

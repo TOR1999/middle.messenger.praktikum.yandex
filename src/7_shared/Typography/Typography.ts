@@ -22,8 +22,9 @@ type TProps = {
     | "h6"
     | "h7";
   text?: string;
-  color?: "red";
+  color?: "red" | "white" | "grey";
   textAlign?: "right";
+  withoutLineHeight?: boolean;
 };
 
 export class Typography extends Block {
@@ -31,10 +32,13 @@ export class Typography extends Block {
     const baseSryleStr = `font-${props.variant}`;
     const colorStyle = `${props.color}-text`;
     const alignTextStyle = `text-align-${props.textAlign}`;
+    const withoutLineHeight = props.withoutLineHeight
+      ? `without-line-height`
+      : "";
 
     super("div", {
       attr: {
-        class: `${`${s[baseSryleStr]} ${s[colorStyle]} ${s[alignTextStyle]}`}`,
+        class: `${`${s[baseSryleStr]} ${s[withoutLineHeight]} ${s[colorStyle]} ${s[alignTextStyle]}`}`,
       },
       ...props,
     });

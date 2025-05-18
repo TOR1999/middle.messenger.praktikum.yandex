@@ -5,6 +5,7 @@ import { Input } from "../../7_shared/Input/Input";
 import { Message } from "../../7_shared/Message/Message";
 import { Typography } from "../../7_shared/Typography/Typography";
 import { Block } from "../../8_utils/helpers/block";
+import { getValueById } from "../../8_utils/helpers/getValueById";
 import { getLang } from "../../8_utils/langs/getLang";
 import s from "./ListMessages.module.scss";
 
@@ -61,18 +62,23 @@ export class ListMessages extends Block {
       }),
 
       MessageInput: new Input({
-        inputId: "searchChatsId",
-        nameInput: "searchChats",
+        inputId: "messageInputId",
+        nameInput: "message",
         value: "",
         variant: "text",
         backgroundColor: "grey",
         borderRadius: true,
         textPlaceholder: getLang("chatsPage.listMessages.placeHolderMessage"),
+        upHeight: true,
       }),
       IconButtonSendMessage: new CircleIconButton({
         id: "IconButtonSendMessageId",
         altText: "",
         iconSrc: "/icons/arrowRight.svg",
+        onClick: () => {
+          const message = getValueById("messageInputId");
+          console.log({ message });
+        },
       }),
     });
   }
@@ -89,7 +95,6 @@ export class ListMessages extends Block {
       },
       {} as Record<string, Message>,
     );
-    console.log("list_messages:", listMessages);
     this.children = { ...this.children, ...listMessages };
     return this.compile(listMessagesTemplate(this.props as TProps), this.props);
   }

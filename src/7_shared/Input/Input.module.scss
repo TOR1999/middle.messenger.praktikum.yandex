@@ -25,6 +25,10 @@
 
   @include fonts.font-b4;
 
+  &_up-height {
+    height: 30px;
+  }
+
   &_text-right {
     text-align: right;
   }

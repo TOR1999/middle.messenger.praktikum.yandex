@@ -5,7 +5,6 @@
   flex-direction: column;
   width: 310px;
   padding: 21px 0;
-  overflow: hidden;
   border-right: 2px solid colors.$grey;
   background-color: colors.$white;
 
@@ -34,6 +33,5 @@
   .list-chats-container {
     display: flex;
     flex-direction: column;
-    padding: 0 10px;
   }
 }
