@@ -5,15 +5,19 @@ import s from "./Input.module.scss";
 const inputTemplate = (props: TProps) => {
   const borderRadius = props.borderRadius ? "input_border-radius" : "";
   const upHeight = props.upHeight ? "input_up-height" : "";
+  const resultTextLabel =
+    props.variant === "file" ? "{{{TypographyFileLabel}}}" : "{{textLabel}}";
+  const styleFileLabel = props.variant === "file" ? "label_file" : "";
   return `
 {{#if textLabel}}
-  <label class=${s["label"]} for={{inputId}}>
-    {{textLabel}}
+  <label class="${`${s["label"]} ${s[styleFileLabel]}`}" for={{inputId}}>
+    ${resultTextLabel}
   </label>
 {{/if}}
 <input
  class="${`${s["input"]}
  ${s[`${upHeight}`]}
+ ${s[`input_${props.variant}`]}
  ${s[`input_text-${props.textPosition}`]} 
  ${s[`input_background-color-${props.backgroundColor}`]} 
  ${s[`${borderRadius}`]}`}"
@@ -21,7 +25,8 @@ id={{inputId}}
 name={{nameInput}}
 value="{{value}}"
 type=${props.variant}
-placeholder=${props.textPlaceholder}
+placeholder="${props.textPlaceholder}"
+accept=".png, .jpg, .jpeg"
 />
 <div class=${s["text-error"]}>
 {{{TypographyError}}}
@@ -30,7 +35,7 @@ placeholder=${props.textPlaceholder}
 };
 
 type TProps = {
-  variant: "text" | "password";
+  variant: "text" | "password" | "file";
   value: string;
   nameInput: string;
   onBlur?: (e: Event) => void;
@@ -51,6 +56,11 @@ export class Input extends Block {
       attr: {
         class: `${s["container"]}`,
       },
+      TypographyFileLabel: new Typography({
+        variant: "b6",
+        text: props.textLabel,
+        color: "blue",
+      }),
       TypographyError: new Typography({
         variant: "b6",
         text: props.textError,
