@@ -25,7 +25,7 @@ export default class App {
 
   constructor() {
     this.state = {
-      currentPage: NamePages.CHATS,
+      currentPage: NamePages.PROFILE,
     };
     this.appElement = document.getElementById("app");
     this.navigationElement = document.getElementById("navigation");

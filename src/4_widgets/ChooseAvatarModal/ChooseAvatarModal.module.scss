@@ -1,0 +1,42 @@
+@use "../../8_utils/styles/colors.scss" as colors;
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+
+  .background {
+    width: 100%;
+    height: 100%;
+    opacity: 0.4;
+    background-color: colors.$black-shadow;
+  }
+
+  .container-modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: absolute;
+    width: 340px;
+    height: 257px;
+    padding: 40px 30px;
+    border-radius: 9px;
+    background-color: colors.$white;
+
+    .title {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .input-file {
+      display: flex;
+      width: 100%;
+      padding: 43px 0 61px;
+    }
+  }
+}
