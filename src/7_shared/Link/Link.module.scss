@@ -4,16 +4,22 @@
 .link {
   &_text {
     @include fonts.font-h4;
+
     color: colors.$blue;
   }
 
   &_underline {
     @include fonts.font-h4;
+
     color: colors.$blue;
     text-decoration: underline;
   }
 
   &_red-text {
     color: colors.$red;
+  }
+
+  &_grey-text {
+    color: colors.$grey-light;
   }
 }

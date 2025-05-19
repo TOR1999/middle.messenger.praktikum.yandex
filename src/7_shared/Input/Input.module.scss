@@ -1,30 +1,69 @@
 @use "../../8_utils/styles/colors.scss" as colors;
 @use "../../8_utils/styles/fonts.scss" as fonts;
 
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 .label {
   display: flex;
   width: 100%;
 
   @include fonts.font-b6;
+
   color: colors.$grey-light;
+
+  &_file {
+    justify-content: center;
+  }
 }
 
 .input {
   display: flex;
   width: 100%;
   height: 20px;
-  padding-bottom: 7px;
   outline: none;
   border: 0;
 
   @include fonts.font-b4;
 
-  &_text_right {
+  &_file {
+    opacity: 0;
+  }
+
+  &_up-height {
+    height: 30px;
+  }
+
+  &_text-right {
     text-align: right;
+  }
+
+  &_text-center {
+    text-align: center;
+  }
+
+  &_background-color-grey {
+    background-color: colors.$grey;
+  }
+
+  &_border-radius {
+    border-radius: 9px;
   }
 }
 
 .input::placeholder {
   @include fonts.font-b4;
+
+  padding: 5px;
   color: colors.$grey-light;
+}
+
+.text-error {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: end;
 }

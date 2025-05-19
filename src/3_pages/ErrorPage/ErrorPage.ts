@@ -1,23 +1,46 @@
+import { Link } from "../../7_shared/Link/Link";
+import { Typography } from "../../7_shared/Typography/Typography";
+import { Block } from "../../8_utils/helpers/block";
 import s from "./ErrorPage.module.scss";
 
-export const ErrorPage = `
-<div class=${s["container"]}>
+const errorPageTemplate = `
   <div class=${s["code-container"]}>
-    {{> Typography
-        variant="h1"
-        text=textCode
-     }}
+    {{{TypographyTextCode}}}
   </div>
   <div class=${s["message-container"]}>
-     {{> Typography
-          variant="b2"
-          text=textMessage
-      }}
+     {{{TypographyTextMessage}}}
   </div>
-  {{> Link
-      href="#"
-      variant="text"
-      text=textLink
-   }}
-</div>
+  {{{LinkBack}}}
 `;
+type TProps = {
+  textCode: string;
+  textLink: string;
+  textMessage: string;
+};
+
+export class ErrorPage extends Block {
+  constructor(props: TProps) {
+    super("div", {
+      attr: {
+        class: `${s["container"]}`,
+      },
+      TypographyTextCode: new Typography({
+        variant: "h1",
+        text: props.textCode,
+      }),
+      TypographyTextMessage: new Typography({
+        variant: "b2",
+        text: props.textMessage,
+      }),
+      LinkBack: new Link({
+        href: "#",
+        variant: "text",
+        text: props.textLink,
+      }),
+    });
+  }
+
+  override render() {
+    return this.compile(errorPageTemplate, this.props);
+  }
+}

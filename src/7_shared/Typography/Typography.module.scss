@@ -1,4 +1,5 @@
 @use "../../8_utils/styles/fonts.scss" as fonts;
+@use "../../8_utils/styles/colors.scss" as colors;
 
 .font-b1 {
   @include fonts.font-b1;
@@ -62,4 +63,28 @@
 
 .font-h8 {
   @include fonts.font-h8;
+}
+
+.without-line-height {
+  line-height: normal;
+}
+
+.red-text {
+  color: colors.$red;
+}
+
+.white-text {
+  color: colors.$white;
+}
+
+.grey-text {
+  color: colors.$grey-light;
+}
+
+.blue-text {
+  color: colors.$blue;
+}
+
+.text-align-right {
+  text-align: right;
 }
