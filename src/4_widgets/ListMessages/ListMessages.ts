@@ -25,13 +25,13 @@ const listMessagesTemplate = (props: TProps) => {
   <div class=${s["content"]}>
      ${listMessages}
   </div>
-  <div class=${s["footer"]}>
+  <form class=${s["footer"]}>
     {{{IconButtonPaperClip}}}
     <div class=${s["input-container"]}>
       {{{MessageInput}}}
     </div>   
     {{{IconButtonSendMessage}}}
-   </div>
+   </form>
 `;
 };
 
@@ -74,6 +74,7 @@ export class ListMessages extends Block {
       IconButtonSendMessage: new CircleIconButton({
         id: "IconButtonSendMessageId",
         altText: "",
+        submit: true,
         iconSrc: "/icons/arrowRight.svg",
         onClick: () => {
           const message = getValueById("messageInputId");
