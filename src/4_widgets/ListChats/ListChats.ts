@@ -21,9 +21,9 @@ const listChatsTemplate = (props: TProps) => {
         />
       </div>
     </div>
-    <div class=${s["search-input"]}>
+    <form class=${s["search-input"]}>
     {{{SearchChatInput}}}
-    </div>
+    </form>
   </div>
   <div class=${s["list-chats-container"]}>
     ${listChats}

@@ -93,6 +93,7 @@ export class AuthorizationModal extends Block {
         id: "button-auth",
         text: getLang("authorizationModal.buttonsText.auth"),
         disabled: false,
+        typeSubmit: true,
         onClick: (e: Event) => {
           e.preventDefault();
 

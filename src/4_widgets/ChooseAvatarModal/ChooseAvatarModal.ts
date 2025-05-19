@@ -29,7 +29,7 @@ export type TProps = {
 
 export class ChooseAvatarModal extends Block {
   constructor(props: TProps) {
-    super("div", {
+    super("form", {
       ...props,
       attr: {
         class: `${s["container"]}`,

@@ -266,6 +266,7 @@ export class RegistrationModal extends Block {
         id: "ButtonRegistration",
         text: getLang("registrationModal.buttonsText.registration"),
         disabled: false,
+        typeSubmit: true,
         onClick: (e: Event) => {
           e.preventDefault();
 
