@@ -52,4 +52,28 @@ export const langs = {
       textLink: "Назад к чатам",
     },
   },
+  validateText: {
+    password:
+      "Пароль должен содержать от 8 до 40 символов, одна заглавная буква и цифра",
+    name: "Первая буква даолжна быть заглавной, используйте только латиницу или кириллицу",
+    login: "Логин должен содержать от 3 до 20 символов, без спецсимволов",
+    email: "Некорректный email",
+    phone: "Некорректный номер телефона",
+    repeatPassword: "Пароли не совпадают",
+    oldPassword: "Старый пароль неверный",
+  },
+  chatsPage: {
+    unSelectChat: "Выберите чат чтобы отправить сообщение",
+    listChats: { linkProfile: "Профиль", search: "Поиск" },
+    listMessages: {
+      unselectedChat: "Выберите чат чтобы отправить сообщение",
+      placeHolderMessage: "Сообщение",
+    },
+  },
+  ChooseAvatarModal: {
+    title: "Загрузите файл",
+    textInput: "Выбрать файл на компьютере",
+    buttonText: "Поменять",
+    cancelButtonText: "Вернуться назад",
+  },
 };

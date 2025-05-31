@@ -10,6 +10,9 @@
 - `npm run build` - сборка проекта
 - `npm run server` - запуск express сервера
 - `npm run type-check` - проверка типов
+- `npm run lint` - запуск линтинга
+- `npm run stylelint` - запуск stylelint
+- `npm run lint-fix` - запуск автоматического исправления ошибок линтинга
 
 ## Дополнительная информация
 

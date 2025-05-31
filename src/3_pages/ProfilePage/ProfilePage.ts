@@ -1,14 +1,22 @@
+import { ChooseAvatarModal } from "../../4_widgets/ChooseAvatarModal/ChooseAvatarModal";
+import { Button } from "../../7_shared/Button/Button";
+import { CircleIconButton } from "../../7_shared/CircleIconButton/CircleIconButton";
+import { Link } from "../../7_shared/Link/Link";
+import { Typography } from "../../7_shared/Typography/Typography";
+import { Block } from "../../8_utils/helpers/block";
 import { getLang } from "../../8_utils/langs/getLang";
 import s from "./ProfilePage.module.scss";
 
-export const ProfilePage = `
-<div class=${s["container"]}>
+const profilePageTemplate = (props: TProps) => {
+  const showChooseAvatarModal = props.openedChooseAvatarModal
+    ? "{{{ChooseAvatarModalComponent}}}"
+    : "";
+
+  return `
+  ${showChooseAvatarModal}
   <div class=${s["button-back-container"]}>
     <div class=${s["button-back"]}>
-      {{> CircleIconButton 
-       iconSrc="/icons/arrowBack.svg"
-       altText="${getLang("common.buttons.altBack")}"
-       }}
+      {{{CircleIconButtonArrowBack}}}
     </div>
   </div>
   <div class=${s["content"]}>
@@ -18,112 +26,172 @@ export const ProfilePage = `
       alt="${getLang("profilePage.altImageProfile")}"
       />
     </div>
-    {{> Link href="#"
-        variant="text"
-        text="${getLang("profilePage.changeImageProfile")}"
-      }}
+    {{{ChangeImageProfileButton}}}
     <div class=${s["user-name"]}>
-      {{> Typography
-          variant="h2"
-          text=valueNickName
-       }}
+      {{{TypographyNickName}}}
     </div>
     <div class=${s["info-line-container"]}>
-      {{> Typography
-          variant="h3"
-          text="${getLang("profilePage.email")}"
-       }}
+      {{{TypographyEmail}}}
       <div class=${s["info"]}>
-        {{> Typography
-            variant="h3"
-            text=valueEmail
-         }}
+        {{{TypographyValueEmail}}}
       </div>
     </div>
     <div class=${s["info-line-container"]}>
-      {{> Typography
-          variant="h3"
-          text="${getLang("common.login")}"
-       }}
+      {{{TypographyLogin}}}
       <div class=${s["info"]}>
-        {{> Typography
-            variant="h3"
-            text=valueLogin
-         }}
+        {{{TypographyValueLogin}}}
       </div>
     </div>
     <div class=${s["info-line-container"]}>
-      {{> Typography
-          variant="h3"
-          text="${getLang("profilePage.name")}"
-       }}
+      {{{TypographyUserName}}}
       <div class=${s["info"]}>
-        {{> Typography
-            variant="h3"
-            text=valueFirstName
-         }}
+        {{{TypographyValueFirstName}}}
       </div>
     </div>
     <div class=${s["info-line-container"]}>
-      {{> Typography
-          variant="h3"
-          text="${getLang("profilePage.secondName")}"
-       }}
+      {{{TypographySecondName}}}
       <div class=${s["info"]}>
-        {{> Typography
-            variant="h3"
-            text=valueSecondName
-         }}
+        {{{TypographyValueSecondName}}}
       </div>
     </div>
     <div class=${s["info-line-container"]}>
-      {{> Typography
-          variant="h3"
-          text="${getLang("profilePage.nickName")}"
-       }}
+      {{{TypographyNickNameData}}}
       <div class=${s["info"]}>
-        {{> Typography
-            variant="h3"
-            text=valueNickName
-         }}
+        {{{TypographyValueNickName}}}
       </div>
     </div>
     <div class=${s["info-line-container"]}>
-      {{> Typography
-          variant="h3"
-          text="${getLang("profilePage.phone")}"
-       }}
+      {{{TypographyPhone}}}
       <div class=${s["info"]}>
-        {{> Typography
-            variant="h3"
-            text=valuePhone
-         }}
+        {{{TypographyValuePhone}}}
       </div>
     </div>
     <div class=${s["actions-container"]}>
       <div class=${s["info-line-container"]}>
-        {{> Link
-            href="#"
-            variant="text"
-            text="${getLang("profilePage.changeData")}"
-        }}
+        {{{LinkChangeData}}}
       </div>
        <div class=${s["info-line-container"]}>
-        {{> Link
-            href="#"
-            variant="text"
-            text="${getLang("profilePage.changePassword")}"
-        }}
+        {{{LinkChangePassword}}}
       </div>
        <div class=${s["info-line-container"]}>
-        {{> Link
-            href="#"
-            variant="text"
-            color="red"
-            text="${getLang("profilePage.logOut")}"
-        }}
+        {{{LinkLogOut}}}
       </div>
     </div>
   </div>
-</div>
 `;
+};
+
+type TProps = {
+  valueEmail: string;
+  valueLogin: string;
+  valueFirstName: string;
+  valueSecondName: string;
+  valueNickName: string;
+  valuePhone: string;
+  openedChooseAvatarModal?: boolean;
+};
+
+export class ProfilePage extends Block {
+  constructor(props: TProps) {
+    const ChooseAvatarModalComponent = new ChooseAvatarModal({
+      onClickCancel: () => {
+        this.setProps({ openedChooseAvatarModal: false });
+      },
+    });
+
+    super("div", {
+      attr: {
+        class: `${s["container"]}`,
+      },
+      ChooseAvatarModalComponent,
+      CircleIconButtonArrowBack: new CircleIconButton({
+        id: "arrowBackId",
+        iconSrc: "/icons/arrowBack.svg",
+        altText: getLang("common.buttons.altBack"),
+      }),
+
+      ChangeImageProfileButton: new Button({
+        disabled: false,
+        id: "buttonsId",
+        text: getLang("profilePage.changeImageProfile"),
+        variantText: true,
+        onClick: () => {
+          this.setProps({ openedChooseAvatarModal: true });
+        },
+      }),
+
+      TypographyNickName: new Typography({
+        variant: "h2",
+        text: props.valueNickName,
+      }),
+      TypographyEmail: new Typography({
+        variant: "h3",
+        text: getLang("profilePage.email"),
+      }),
+      TypographyValueEmail: new Typography({
+        variant: "h3",
+        text: props.valueEmail,
+      }),
+      TypographyLogin: new Typography({
+        variant: "h3",
+        text: getLang("common.login"),
+      }),
+      TypographyValueLogin: new Typography({
+        variant: "h3",
+        text: props.valueLogin,
+      }),
+      TypographyUserName: new Typography({
+        variant: "h3",
+        text: getLang("profilePage.name"),
+      }),
+      TypographyValueFirstName: new Typography({
+        variant: "h3",
+        text: props.valueFirstName,
+      }),
+      TypographySecondName: new Typography({
+        variant: "h3",
+        text: getLang("profilePage.secondName"),
+      }),
+      TypographyValueSecondName: new Typography({
+        variant: "h3",
+        text: props.valueSecondName,
+      }),
+      TypographyNickNameData: new Typography({
+        variant: "h3",
+        text: getLang("profilePage.nickName"),
+      }),
+      TypographyValueNickName: new Typography({
+        variant: "h3",
+        text: props.valueNickName,
+      }),
+      TypographyPhone: new Typography({
+        variant: "h3",
+        text: getLang("profilePage.phone"),
+      }),
+      TypographyValuePhone: new Typography({
+        variant: "h3",
+        text: props.valuePhone,
+      }),
+      LinkChangeData: new Link({
+        href: "#",
+        variant: "text",
+        text: getLang("profilePage.changeData"),
+      }),
+      LinkChangePassword: new Link({
+        href: "#",
+        variant: "text",
+        text: getLang("profilePage.changePassword"),
+      }),
+      LinkLogOut: new Link({
+        href: "#",
+        variant: "text",
+        color: "red",
+        text: getLang("profilePage.logOut"),
+      }),
+    });
+  }
+
+  override render() {
+    return this.compile(profilePageTemplate(this.props as TProps), this.props);
+  }
+}

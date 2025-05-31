@@ -1,22 +1,14 @@
-import Handlebars from "handlebars";
-import { Button } from "../7_shared/Button/Button";
 import { AuthorizationPage } from "../3_pages/AuthorizationPage/AuthorizationPage";
-import { Link } from "../7_shared/Link/Link";
 import { Navigation } from "../4_widgets/Navigation/Navigation";
 import { RegistrationPage } from "../3_pages/RegistrationPage/RegistrationPage";
 import "../8_utils/helpers/isSimpleEquals";
-import { Typography } from "../7_shared/Typography/Typography";
-import { AuthorizationModal } from "../4_widgets/AuthorizationModal/AuthorizationModal";
-import { Input } from "../7_shared/Input/Input";
-import { RegistrationModal } from "../4_widgets/RegistrationModal/RegistrationModal";
 import { ProfilePage } from "../3_pages/ProfilePage/ProfilePage";
-import { CircleIconButton } from "../7_shared/CircleIconButton/CircleIconButton";
 import { ErrorPage } from "../3_pages/ErrorPage/ErrorPage";
 import { getLang } from "../8_utils/langs/getLang";
-import { DevelopmentPage } from "../3_pages/DevelopmentPage/DevelopmentPage";
 import { NamePages, TState } from "./types";
 import {
   AUTH_PAGE_DATA,
+  CHATS_PAGE_DATA,
   LIST_PAGES,
   PROFILE_PAGE_DATA,
   PROFILE_PAGE_EDIT_PASSWORD_DATA,
@@ -24,14 +16,7 @@ import {
 } from "./MockData";
 import { ProfilePageEditorInfo } from "../3_pages/ProfilePageEditorInfo/ProfilePageEditorInfo";
 import { ProfilePageEditorPassword } from "../3_pages/ProfilePageEditorPassword/ProfilePageEditorPassword";
-
-Handlebars.registerPartial("Typography", Typography);
-Handlebars.registerPartial("Button", Button);
-Handlebars.registerPartial("Link", Link);
-Handlebars.registerPartial("Input", Input);
-Handlebars.registerPartial("AuthorizationModal", AuthorizationModal);
-Handlebars.registerPartial("RegistrationModal", RegistrationModal);
-Handlebars.registerPartial("CircleIconButton", CircleIconButton);
+import { ChatsPage } from "../3_pages/ChatsPage/ChatsPage";
 
 export default class App {
   state: TState;
@@ -40,7 +25,7 @@ export default class App {
 
   constructor() {
     this.state = {
-      currentPage: NamePages.PROFILE_PAGE_EDITOR_PASSWORD,
+      currentPage: NamePages.PROFILE,
     };
     this.appElement = document.getElementById("app");
     this.navigationElement = document.getElementById("navigation");
@@ -49,65 +34,113 @@ export default class App {
   render() {
     if (!this.appElement || !this.navigationElement) return;
 
-    let template;
-    template = Handlebars.compile(Navigation);
-    this.navigationElement.innerHTML = template({
+    //чистим перед рендером новой страницы
+    this.appElement.innerHTML = "";
+
+    const navigationWidget = new Navigation({
       title: "Список страниц:",
       pages: LIST_PAGES,
     });
 
+    const navigationWidgetContent: Node | null = navigationWidget.getContent();
+    if (navigationWidgetContent) {
+      this.navigationElement.innerHTML = "";
+      this.navigationElement.appendChild(navigationWidgetContent);
+    }
+
     switch (this.state.currentPage) {
       case NamePages.AUTHORIZATION: {
-        template = Handlebars.compile(AuthorizationPage);
-        this.appElement.innerHTML = template(AUTH_PAGE_DATA);
+        const authorizationPage = new AuthorizationPage(AUTH_PAGE_DATA);
+
+        const authorizationPageContent: Node | null =
+          authorizationPage.getContent();
+        if (authorizationPageContent) {
+          this.appElement.appendChild(authorizationPageContent);
+        }
         break;
       }
       case NamePages.REGISTRATION: {
-        template = Handlebars.compile(RegistrationPage);
-        this.appElement.innerHTML = template(REGISTRATION_PAGE_DATA);
+        const registrationPage = new RegistrationPage(REGISTRATION_PAGE_DATA);
+
+        const registrationPageContent: Node | null =
+          registrationPage.getContent();
+        if (registrationPageContent) {
+          this.appElement.appendChild(registrationPageContent);
+        }
         break;
       }
       case NamePages.PROFILE: {
-        template = Handlebars.compile(ProfilePage);
-        this.appElement.innerHTML = template(PROFILE_PAGE_DATA);
+        const profilePage = new ProfilePage(PROFILE_PAGE_DATA);
+
+        const profilePageContent: Node | null = profilePage.getContent();
+        if (profilePageContent) {
+          this.appElement.appendChild(profilePageContent);
+        }
         break;
       }
       case NamePages.PROFILE_PAGE_EDITOR_INFO: {
-        template = Handlebars.compile(ProfilePageEditorInfo);
-        this.appElement.innerHTML = template(PROFILE_PAGE_DATA);
+        const profilePageEditorInfo = new ProfilePageEditorInfo(
+          PROFILE_PAGE_DATA,
+        );
+
+        const profilePageEditorInfoContent: Node | null =
+          profilePageEditorInfo.getContent();
+        if (profilePageEditorInfoContent) {
+          this.appElement.appendChild(profilePageEditorInfoContent);
+        }
         break;
       }
       case NamePages.PROFILE_PAGE_EDITOR_PASSWORD: {
-        template = Handlebars.compile(ProfilePageEditorPassword);
-        this.appElement.innerHTML = template(PROFILE_PAGE_EDIT_PASSWORD_DATA);
+        const profilePageEditorPassword = new ProfilePageEditorPassword(
+          PROFILE_PAGE_EDIT_PASSWORD_DATA,
+        );
+
+        const profilePageEditorPasswordContent: Node | null =
+          profilePageEditorPassword.getContent();
+        if (profilePageEditorPasswordContent) {
+          this.appElement.appendChild(profilePageEditorPasswordContent);
+        }
         break;
       }
       case NamePages.CHATS: {
-        template = Handlebars.compile(DevelopmentPage);
-        this.appElement.innerHTML = template({
-          text: getLang("developmentPage"),
-        });
+        const сhatsPage = new ChatsPage(CHATS_PAGE_DATA);
+
+        const сhatsPageContent: Node | null = сhatsPage.getContent();
+        if (сhatsPageContent) {
+          this.appElement.appendChild(сhatsPageContent);
+        }
         break;
       }
       case NamePages.NOTFOUND: {
-        template = Handlebars.compile(ErrorPage);
-        this.appElement.innerHTML = template({
+        const notFoundPage = new ErrorPage({
           textCode: getLang("ErrorPage.notFound.textCode"),
           textMessage: getLang("ErrorPage.notFound.textMessage"),
           textLink: getLang("ErrorPage.notFound.textLink"),
         });
+
+        const errorPageContent: Node | null = notFoundPage.getContent();
+        if (errorPageContent) {
+          this.appElement.appendChild(errorPageContent);
+        }
+
         break;
       }
       case NamePages.SERVERERROR: {
-        template = Handlebars.compile(ErrorPage);
-        this.appElement.innerHTML = template({
+        const serverErrorPage = new ErrorPage({
           textCode: getLang("ErrorPage.serverError.textCode"),
           textMessage: getLang("ErrorPage.serverError.textMessage"),
           textLink: getLang("ErrorPage.serverError.textLink"),
         });
+
+        const errorPageContent: Node | null = serverErrorPage.getContent();
+        if (errorPageContent) {
+          this.appElement.appendChild(errorPageContent);
+        }
+
         break;
       }
       default: {
+        // eslint-disable-next-line no-console
         console.log("error switch page");
         break;
       }
