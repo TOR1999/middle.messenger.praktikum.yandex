@@ -22,3 +22,16 @@ export type TOptions = {
 export type TBlockProps = Record<string, unknown> & {
   attr?: Record<string, string>;
 };
+
+export type TProps = Record<string, unknown>;
+
+export const URL_NAMES = {
+  SIGNIN: "/",
+  SIGNUP: "/sign-up",
+  SETTINGS: "/settings",
+  MESSAGER: "/messenger",
+  EDIT_SETTINGS: "/edit-settings",
+  EDIT_PASSWORD: "/edit-password",
+  NOT_FOUND: "/not-found",
+  SERVER_ERROR: "/server-error",
+};
