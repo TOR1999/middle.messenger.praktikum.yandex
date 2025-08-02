@@ -2,8 +2,10 @@ import { Button } from "../../7_shared/Button/Button";
 import { Input } from "../../7_shared/Input/Input";
 import { Link } from "../../7_shared/Link/Link";
 import { Typography } from "../../7_shared/Typography/Typography";
+import { URL_NAMES } from "../../8_utils/constants/type";
 import { Block } from "../../8_utils/helpers/block";
 import { getValueById } from "../../8_utils/helpers/getValueById";
+import router from "../../8_utils/helpers/router";
 import { validateLogin } from "../../8_utils/helpers/validateLogin";
 import { validatePassword } from "../../8_utils/helpers/validatePassword";
 import { getLang } from "../../8_utils/langs/getLang";
@@ -122,12 +124,18 @@ export class AuthorizationModal extends Block {
             login: login,
             password: password,
           });
+          router.go(URL_NAMES.MESSAGER);
         },
       }),
       LinkRegistration: new Link({
         href: "#",
         variant: "text",
         text: getLang("authorizationModal.buttonsText.registration"),
+        dataPage: "iliya",
+        onClick: (e: Event) => {
+          e.preventDefault();
+          router.go(URL_NAMES.SIGNUP);
+        },
       }),
       TypographyLoginError,
       TypographyPasswordError,

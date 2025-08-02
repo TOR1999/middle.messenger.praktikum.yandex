@@ -4,6 +4,7 @@ import { Input } from "../../7_shared/Input/Input";
 import { Typography } from "../../7_shared/Typography/Typography";
 import { Block } from "../../8_utils/helpers/block";
 import { getValueById } from "../../8_utils/helpers/getValueById";
+import router from "../../8_utils/helpers/router";
 import { validateEmail } from "../../8_utils/helpers/validateEmail";
 import { validateLogin } from "../../8_utils/helpers/validateLogin";
 import { validateName } from "../../8_utils/helpers/validateName";
@@ -122,6 +123,10 @@ export class ProfilePageEditorInfo extends Block {
         id: "arrowBackId",
         iconSrc: "/icons/arrowBack.svg",
         altText: getLang("common.buttons.altBack"),
+        onClick: (e: Event) => {
+          e.preventDefault();
+          router.back();
+        },
       }),
       TypographyEmail: new Typography({
         variant: "h3",

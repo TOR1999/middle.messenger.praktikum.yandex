@@ -2,8 +2,10 @@ import { Button } from "../../7_shared/Button/Button";
 import { Input } from "../../7_shared/Input/Input";
 import { Link } from "../../7_shared/Link/Link";
 import { Typography } from "../../7_shared/Typography/Typography";
+import { URL_NAMES } from "../../8_utils/constants/type";
 import { Block } from "../../8_utils/helpers/block";
 import { getValueById } from "../../8_utils/helpers/getValueById";
+import router from "../../8_utils/helpers/router";
 import { validateEmail } from "../../8_utils/helpers/validateEmail";
 import { validateLogin } from "../../8_utils/helpers/validateLogin";
 import { validateName } from "../../8_utils/helpers/validateName";
@@ -349,12 +351,18 @@ export class RegistrationModal extends Block {
             password: password,
             phone: phone,
           });
+
+          router.go(URL_NAMES.SIGNIN);
         },
       }),
       LinkAuth: new Link({
         href: "#",
         variant: "text",
         text: getLang("registrationModal.buttonsText.auth"),
+        onClick: (e: Event) => {
+          e.preventDefault();
+          router.go(URL_NAMES.SIGNIN);
+        },
       }),
     });
   }

@@ -4,6 +4,7 @@ import { Input } from "../../7_shared/Input/Input";
 import { Typography } from "../../7_shared/Typography/Typography";
 import { Block } from "../../8_utils/helpers/block";
 import { getValueById } from "../../8_utils/helpers/getValueById";
+import router from "../../8_utils/helpers/router";
 import { validatePassword } from "../../8_utils/helpers/validatePassword";
 import { getLang } from "../../8_utils/langs/getLang";
 import s from "./ProfilePageEditorPassword.module.scss";
@@ -86,6 +87,10 @@ export class ProfilePageEditorPassword extends Block {
         id: "arrowBackId",
         iconSrc: "/icons/arrowBack.svg",
         altText: getLang("common.buttons.altBack"),
+        onClick: (e: Event) => {
+          e.preventDefault();
+          router.back();
+        },
       }),
       TypographyOldPassword: new Typography({
         variant: "h3",

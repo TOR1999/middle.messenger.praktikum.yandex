@@ -2,7 +2,9 @@ import { TChat } from "../../1_app/types";
 import { Input } from "../../7_shared/Input/Input";
 import { ItemChat } from "../../7_shared/ItemChat/ItemChat";
 import { Link } from "../../7_shared/Link/Link";
+import { URL_NAMES } from "../../8_utils/constants/type";
 import { Block } from "../../8_utils/helpers/block";
+import router from "../../8_utils/helpers/router";
 import { getLang } from "../../8_utils/langs/getLang";
 import s from "./ListChats.module.scss";
 
@@ -47,6 +49,10 @@ export class ListChats extends Block {
         variant: "text",
         text: getLang("chatsPage.listChats.linkProfile"),
         color: "grey",
+        onClick: (e: Event) => {
+          e.preventDefault();
+          router.go(URL_NAMES.SETTINGS);
+        },
       }),
       ArrowRightIcon: "",
       SearchChatInput: new Input({

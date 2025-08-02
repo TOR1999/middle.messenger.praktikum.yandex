@@ -3,7 +3,9 @@ import { Button } from "../../7_shared/Button/Button";
 import { CircleIconButton } from "../../7_shared/CircleIconButton/CircleIconButton";
 import { Link } from "../../7_shared/Link/Link";
 import { Typography } from "../../7_shared/Typography/Typography";
+import { URL_NAMES } from "../../8_utils/constants/type";
 import { Block } from "../../8_utils/helpers/block";
+import router from "../../8_utils/helpers/router";
 import { getLang } from "../../8_utils/langs/getLang";
 import s from "./ProfilePage.module.scss";
 
@@ -108,6 +110,10 @@ export class ProfilePage extends Block {
         id: "arrowBackId",
         iconSrc: "/icons/arrowBack.svg",
         altText: getLang("common.buttons.altBack"),
+        onClick: (e: Event) => {
+          e.preventDefault();
+          router.back();
+        },
       }),
 
       ChangeImageProfileButton: new Button({
@@ -176,17 +182,29 @@ export class ProfilePage extends Block {
         href: "#",
         variant: "text",
         text: getLang("profilePage.changeData"),
+        onClick: (e: Event) => {
+          e.preventDefault();
+          router.go(URL_NAMES.EDIT_SETTINGS);
+        },
       }),
       LinkChangePassword: new Link({
         href: "#",
         variant: "text",
         text: getLang("profilePage.changePassword"),
+        onClick: (e: Event) => {
+          e.preventDefault();
+          router.go(URL_NAMES.EDIT_PASSWORD);
+        },
       }),
       LinkLogOut: new Link({
         href: "#",
         variant: "text",
         color: "red",
         text: getLang("profilePage.logOut"),
+        onClick: (e: Event) => {
+          e.preventDefault();
+          router.go(URL_NAMES.SIGNIN);
+        },
       }),
     });
   }
