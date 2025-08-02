@@ -1,3 +1,4 @@
+import { URL_NAMES } from "../constants/type";
 import { Block } from "./block";
 import { Route } from "./route";
 
@@ -42,6 +43,7 @@ class Router {
     const route = this.getRoute(pathname);
 
     if (!route) {
+      this.go(URL_NAMES.NOT_FOUND);
       return;
     }
 

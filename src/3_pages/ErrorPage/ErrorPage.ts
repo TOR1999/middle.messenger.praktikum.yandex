@@ -1,6 +1,8 @@
 import { Link } from "../../7_shared/Link/Link";
 import { Typography } from "../../7_shared/Typography/Typography";
+import { URL_NAMES } from "../../8_utils/constants/type";
 import { Block } from "../../8_utils/helpers/block";
+import router from "../../8_utils/helpers/router";
 import s from "./ErrorPage.module.scss";
 
 const errorPageTemplate = `
@@ -36,6 +38,11 @@ export class ErrorPage extends Block {
         href: "#",
         variant: "text",
         text: props.textLink,
+        onClick(e) {
+          e.stopPropagation();
+
+          router.go(URL_NAMES.SIGNIN);
+        },
       }),
     });
   }
