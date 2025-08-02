@@ -220,7 +220,7 @@ export class Block {
   show() {
     const element = this.getContent();
     if (element === null) return;
-    element.style.display = "block";
+    element.style.display = "flex";
   }
 
   hide() {
