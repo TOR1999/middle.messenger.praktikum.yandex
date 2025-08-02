@@ -51,7 +51,7 @@ export class AuthorizationModal extends Block {
       attr: {
         class: `${s["content"]}`,
       },
-      Typography: new Typography({
+      TypographyTitle: new Typography({
         variant: "b1",
         text: getLang("authorizationModal.tittle"),
       }),
