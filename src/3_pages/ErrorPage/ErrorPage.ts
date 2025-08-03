@@ -2,6 +2,7 @@ import { Link } from "../../7_shared/Link/Link";
 import { Typography } from "../../7_shared/Typography/Typography";
 import { URL_NAMES } from "../../8_utils/constants/type";
 import { Block } from "../../8_utils/helpers/block";
+import { checkAuth } from "../../8_utils/helpers/checkAuth";
 import router from "../../8_utils/helpers/router";
 import s from "./ErrorPage.module.scss";
 
@@ -41,6 +42,10 @@ export class ErrorPage extends Block {
         onClick(e) {
           e.stopPropagation();
 
+          if (checkAuth()) {
+            router.go(URL_NAMES.MESSAGER);
+            return;
+          }
           router.go(URL_NAMES.SIGNIN);
         },
       }),
