@@ -99,7 +99,7 @@ export class Block {
     return true;
   }
 
-  setProps = (nextProps: TBlockProps) => {
+  setProps = (nextProps: TBlockProps | null) => {
     if (!nextProps) {
       return;
     }
