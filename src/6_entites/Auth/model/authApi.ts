@@ -1,4 +1,9 @@
 import HTTPTransport from "../../../8_utils/api/HTTPTransport";
+import { STORAGE_IS_AUTH } from "../../../8_utils/constants/constants";
+import { URL_NAMES } from "../../../8_utils/constants/type";
+import router from "../../../8_utils/helpers/router";
+import { getLang } from "../../../8_utils/langs/getLang";
+import { AuthStore } from "./store";
 import { TSigInRequest, TUserRegistrationRequest } from "./types";
 
 class AuthAPI {
@@ -8,47 +13,49 @@ class AuthAPI {
   }
 
   signUp(data: TUserRegistrationRequest) {
-    //   alert("Успех!");
-    // };
-    // AuthStore.setState({ 1: "успех" });
-
     HTTPTransport.post(`${this.__basePath}/signup`, { data })
-      .then(({ response }: any) => {
-        console.log("Sucssesful signup");
-        console.log("response:", response);
+      .then(() => {
+        router.go(URL_NAMES.SIGNIN);
       })
       .catch(() => {
-        console.log("Error");
+        alert(getLang("errorRequest.badRequest"));
       });
   }
 
   signIn(data: TSigInRequest) {
     HTTPTransport.post(`${this.__basePath}/signin`, { data })
       .then(() => {
-        console.log("Sucssesful sigin");
+        router.go(URL_NAMES.MESSAGER);
+        localStorage.setItem(STORAGE_IS_AUTH, "true");
       })
       .catch(() => {
-        console.log("Error");
+        alert(getLang("errorRequest.badRequest"));
+        router.go(URL_NAMES.SERVER_ERROR);
       });
   }
 
   getUserInfo() {
     HTTPTransport.get(`${this.__basePath}/user`)
       .then(({ response }: any) => {
-        console.log("response:", response);
+        const data = JSON.parse(response);
+
+        AuthStore.setState({ ...data });
       })
       .catch(() => {
-        console.log("Error");
+        alert(getLang("errorRequest.badRequest"));
+        router.go(URL_NAMES.SERVER_ERROR);
       });
   }
 
   logout() {
     HTTPTransport.post(`${this.__basePath}/logout`)
       .then(() => {
-        console.log("Sucssesful logout");
+        localStorage.removeItem(STORAGE_IS_AUTH);
+        router.go(URL_NAMES.SIGNIN);
       })
       .catch(() => {
-        console.log("Error");
+        alert(getLang("errorRequest.badRequest"));
+        router.go(URL_NAMES.SERVER_ERROR);
       });
   }
 }

@@ -1,11 +1,15 @@
 import { ChooseAvatarModal } from "../../4_widgets/ChooseAvatarModal/ChooseAvatarModal";
+import authApi from "../../6_entites/Auth/model/authApi";
+import { AuthStore } from "../../6_entites/Auth/model/store";
 import { Button } from "../../7_shared/Button/Button";
 import { CircleIconButton } from "../../7_shared/CircleIconButton/CircleIconButton";
 import { Link } from "../../7_shared/Link/Link";
 import { Typography } from "../../7_shared/Typography/Typography";
 import { URL_NAMES } from "../../8_utils/constants/type";
 import { Block } from "../../8_utils/helpers/block";
+import { checkAuth } from "../../8_utils/helpers/checkAuth";
 import router from "../../8_utils/helpers/router";
+import { StoreEvents } from "../../8_utils/helpers/store";
 import { getLang } from "../../8_utils/langs/getLang";
 import s from "./ProfilePage.module.scss";
 
@@ -13,6 +17,10 @@ const profilePageTemplate = (props: TProps) => {
   const showChooseAvatarModal = props.openedChooseAvatarModal
     ? "{{{ChooseAvatarModalComponent}}}"
     : "";
+
+  const avatarImg = props.valueAvatar
+    ? props.valueAvatar
+    : "/icons/imageProfile.svg";
 
   return `
   ${showChooseAvatarModal}
@@ -24,7 +32,7 @@ const profilePageTemplate = (props: TProps) => {
   <div class=${s["content"]}>
     <div class=${s["image-profile-container"]}>
       <img 
-      src="/icons/imageProfile.svg"
+      src=${avatarImg}
       alt="${getLang("profilePage.altImageProfile")}"
       />
     </div>
@@ -90,15 +98,33 @@ type TProps = {
   valueSecondName: string;
   valueNickName: string;
   valuePhone: string;
+  valueAvatar: string;
   openedChooseAvatarModal?: boolean;
 };
 
-export class ProfilePage extends Block {
-  constructor(props: TProps) {
+export class ProfilePage extends Block<TProps> {
+  constructor() {
+    if (checkAuth()) {
+      authApi.getUserInfo();
+    }
+
     const ChooseAvatarModalComponent = new ChooseAvatarModal({
       onClickCancel: () => {
         this.setProps({ openedChooseAvatarModal: false });
       },
+    });
+
+    AuthStore.on(StoreEvents.UPDATE, () => {
+      const storeState = AuthStore.getState();
+      this.setProps({
+        valueAvatar: storeState.avatar,
+        valueEmail: storeState.email,
+        valueFirstName: storeState.first_name,
+        valueLogin: storeState.login,
+        valueNickName: storeState.display_name,
+        valuePhone: storeState.phone,
+        valueSecondName: storeState.second_name,
+      });
     });
 
     super("div", {
@@ -115,7 +141,6 @@ export class ProfilePage extends Block {
           router.back();
         },
       }),
-
       ChangeImageProfileButton: new Button({
         disabled: false,
         id: "buttonsId",
@@ -125,58 +150,29 @@ export class ProfilePage extends Block {
           this.setProps({ openedChooseAvatarModal: true });
         },
       }),
-
-      TypographyNickName: new Typography({
-        variant: "h2",
-        text: props.valueNickName,
-      }),
       TypographyEmail: new Typography({
         variant: "h3",
         text: getLang("profilePage.email"),
-      }),
-      TypographyValueEmail: new Typography({
-        variant: "h3",
-        text: props.valueEmail,
       }),
       TypographyLogin: new Typography({
         variant: "h3",
         text: getLang("common.login"),
       }),
-      TypographyValueLogin: new Typography({
-        variant: "h3",
-        text: props.valueLogin,
-      }),
       TypographyUserName: new Typography({
         variant: "h3",
         text: getLang("profilePage.name"),
-      }),
-      TypographyValueFirstName: new Typography({
-        variant: "h3",
-        text: props.valueFirstName,
       }),
       TypographySecondName: new Typography({
         variant: "h3",
         text: getLang("profilePage.secondName"),
       }),
-      TypographyValueSecondName: new Typography({
-        variant: "h3",
-        text: props.valueSecondName,
-      }),
       TypographyNickNameData: new Typography({
         variant: "h3",
         text: getLang("profilePage.nickName"),
       }),
-      TypographyValueNickName: new Typography({
-        variant: "h3",
-        text: props.valueNickName,
-      }),
       TypographyPhone: new Typography({
         variant: "h3",
         text: getLang("profilePage.phone"),
-      }),
-      TypographyValuePhone: new Typography({
-        variant: "h3",
-        text: props.valuePhone,
       }),
       LinkChangeData: new Link({
         href: "#",
@@ -203,13 +199,47 @@ export class ProfilePage extends Block {
         text: getLang("profilePage.logOut"),
         onClick: (e: Event) => {
           e.preventDefault();
-          router.go(URL_NAMES.SIGNIN);
+          authApi.logout();
         },
       }),
     });
   }
 
   override render() {
+    const props = this.props;
+
+    this.children = {
+      ...this.children,
+      TypographyValueEmail: new Typography({
+        variant: "h3",
+        text: props.valueEmail,
+      }),
+      TypographyNickName: new Typography({
+        variant: "h2",
+        text: props.valueNickName,
+      }),
+      TypographyValueLogin: new Typography({
+        variant: "h3",
+        text: props.valueLogin,
+      }),
+      TypographyValueFirstName: new Typography({
+        variant: "h3",
+        text: props.valueFirstName,
+      }),
+      TypographyValueSecondName: new Typography({
+        variant: "h3",
+        text: props.valueSecondName,
+      }),
+      TypographyValueNickName: new Typography({
+        variant: "h3",
+        text: props.valueNickName,
+      }),
+      TypographyValuePhone: new Typography({
+        variant: "h3",
+        text: props.valuePhone,
+      }),
+    };
+
     return this.compile(profilePageTemplate(this.props as TProps), this.props);
   }
 }
