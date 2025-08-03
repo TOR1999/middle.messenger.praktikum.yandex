@@ -1,5 +1,11 @@
 import { METHODS, TOptions } from "../constants/type";
 
+const BASE_URL = "https://ya-praktikum.tech/api/v2";
+
+// const HEADERS = {
+//   CONTENT_TYPE_APPLICATION_JSON: { "Content-Type": "application/json" },
+// };
+
 const queryStringify = (
   data: Record<string, string | boolean | number>,
 ): string => {
@@ -13,25 +19,26 @@ const queryStringify = (
   }, "?");
 };
 
-export class HTTPTransport {
-  get = (url: string, options: TOptions) => {
+class HTTPTransport {
+  get = (url: string, options?: TOptions) => {
     return this.request(url, { ...options, method: METHODS.GET });
   };
 
-  post = (url: string, options: TOptions) => {
+  post = (url: string, options?: TOptions) => {
     return this.request(url, { ...options, method: METHODS.POST });
   };
 
-  put = (url: string, options: TOptions) => {
+  put = (url: string, options?: TOptions) => {
     return this.request(url, { ...options, method: METHODS.PUT });
   };
 
-  delete = (url: string, options: TOptions) => {
+  delete = (url: string, options?: TOptions) => {
     return this.request(url, { ...options, method: METHODS.DELETE });
   };
 
   request = (url: string, options: TOptions) => {
-    const { headers = {}, method, data, timeout } = options;
+    const { method, data } = options;
+    const timeout = 10000;
 
     return new Promise((resolve, reject) => {
       if (!method) {
@@ -45,13 +52,15 @@ export class HTTPTransport {
       xhr.open(
         method,
         isGet && !!data
-          ? `${url}${queryStringify(data as Record<string, string | boolean | number>)}`
-          : url,
+          ? `${BASE_URL}/${url}${queryStringify(data as Record<string, string | boolean | number>)}`
+          : `${BASE_URL}/${url}`,
       );
 
-      Object.keys(headers).forEach((key) => {
-        xhr.setRequestHeader(key, headers[key]);
-      });
+      // Object.keys(headers).forEach((key) => {
+      //   xhr.setRequestHeader(key, headers[key]);
+      // });
+
+      xhr.setRequestHeader("Content-Type", "application/json");
 
       xhr.onload = function () {
         resolve(xhr);
@@ -71,3 +80,5 @@ export class HTTPTransport {
     });
   };
 }
+
+export default new HTTPTransport();
