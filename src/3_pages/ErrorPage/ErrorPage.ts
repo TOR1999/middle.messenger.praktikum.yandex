@@ -21,7 +21,7 @@ type TProps = {
   textMessage: string;
 };
 
-export class ErrorPage extends Block {
+export class ErrorPage extends Block<TProps> {
   constructor(props: TProps) {
     super("div", {
       attr: {

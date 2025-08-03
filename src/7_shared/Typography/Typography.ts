@@ -27,7 +27,7 @@ type TProps = {
   withoutLineHeight?: boolean;
 };
 
-export class Typography extends Block {
+export class Typography extends Block<TProps> {
   constructor(props: TProps) {
     const baseSryleStr = `font-${props.variant}`;
     const colorStyle = `${props.color}-text`;
