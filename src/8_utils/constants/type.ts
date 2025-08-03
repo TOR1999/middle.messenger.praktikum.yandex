@@ -13,10 +13,8 @@ export enum METHODS {
 }
 
 export type TOptions = {
-  timeout: number;
-  data: unknown;
-  headers: { [key: string]: string };
-  method: METHODS;
+  data?: unknown;
+  method?: METHODS;
 };
 
 export type TBlockProps = Record<string, unknown> & {
