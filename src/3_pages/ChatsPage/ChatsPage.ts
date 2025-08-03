@@ -13,7 +13,7 @@ type TProps = {
   chats: TChat[];
 };
 
-export class ChatsPage extends Block {
+export class ChatsPage extends Block<TProps> {
   constructor(props: TProps) {
     super("div", {
       attr: {

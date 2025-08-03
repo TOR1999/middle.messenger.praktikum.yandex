@@ -49,7 +49,7 @@ type TProps = {
   upHeight?: boolean;
 };
 
-export class Input extends Block {
+export class Input extends Block<TProps> {
   constructor(props: TProps) {
     super("div", {
       ...props,

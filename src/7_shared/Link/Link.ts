@@ -20,7 +20,7 @@ export type TLink = {
   color?: "red" | "grey";
 };
 
-export class Link extends Block {
+export class Link extends Block<TLink> {
   constructor(props: TLink) {
     super("div", {
       ...props,

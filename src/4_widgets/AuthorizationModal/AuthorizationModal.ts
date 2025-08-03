@@ -35,7 +35,7 @@ type TProps = {
   valuePassword: string;
 };
 
-export class AuthorizationModal extends Block {
+export class AuthorizationModal extends Block<TProps> {
   constructor(props: TProps) {
     const TypographyLoginError = new Typography({
       variant: "b7",

@@ -27,7 +27,7 @@ export type TProps = {
   onClickCancel?: (e: Event) => void;
 };
 
-export class ChooseAvatarModal extends Block {
+export class ChooseAvatarModal extends Block<TProps> {
   constructor(props: TProps) {
     super("form", {
       ...props,

@@ -82,7 +82,7 @@ type TProps = {
   valuePhone: string;
 };
 
-export class ProfilePageEditorInfo extends Block {
+export class ProfilePageEditorInfo extends Block<TProps> {
   constructor(props: TProps) {
     const TypographyEmailError = new Typography({
       variant: "b7",

@@ -63,7 +63,7 @@ type TProps = {
   valueRepeatPassword: string;
 };
 
-export class RegistrationModal extends Block {
+export class RegistrationModal extends Block<TProps> {
   constructor(props: TProps) {
     const TypographyEmailError = new Typography({
       variant: "b7",

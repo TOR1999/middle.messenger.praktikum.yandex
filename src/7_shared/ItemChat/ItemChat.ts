@@ -33,7 +33,7 @@ export type TProps = {
   onClick?: (e: Event) => void;
 };
 
-export class ItemChat extends Block {
+export class ItemChat extends Block<TProps> {
   constructor(props: TProps) {
     super("div", {
       ...props,

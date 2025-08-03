@@ -17,7 +17,7 @@ type TProps = {
   onClick?: (e: Event) => void;
 };
 
-export class CircleIconButton extends Block {
+export class CircleIconButton extends Block<TProps> {
   constructor(props: TProps) {
     super("button", {
       ...props,

@@ -37,7 +37,7 @@ export type TProps = {
   chats: TChat[];
 };
 
-export class ListChats extends Block {
+export class ListChats extends Block<TProps> {
   constructor(props: TProps) {
     super("div", {
       ...props,

@@ -57,7 +57,7 @@ type TProps = {
   onClick?: (e: Event) => void;
 };
 
-export class ProfilePageEditorPassword extends Block {
+export class ProfilePageEditorPassword extends Block<TProps> {
   textError = false;
 
   constructor(props: TProps) {
