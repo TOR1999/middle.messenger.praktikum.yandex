@@ -76,4 +76,7 @@ export const langs = {
     buttonText: "Поменять",
     cancelButtonText: "Вернуться назад",
   },
+  errorRequest: {
+    badRequest: "Что-то пошло не так... Попробуте попытку снова",
+  },
 };

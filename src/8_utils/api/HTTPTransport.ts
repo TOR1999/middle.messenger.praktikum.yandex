@@ -1,10 +1,22 @@
 import { METHODS, TOptions } from "../constants/type";
 
-const BASE_URL = "https://ya-praktikum.tech/api/v2";
+const getBaseUrl = () => {
+  if (window.location.host === "localhost:3000") {
+    return "/api/v2";
+  }
+
+  return "https://ya-praktikum.tech/api/v2";
+};
 
 // const HEADERS = {
 //   CONTENT_TYPE_APPLICATION_JSON: { "Content-Type": "application/json" },
 // };
+enum REQUEST_STATUSES {
+  "OK" = 200,
+  "BAD_REQUEST" = 400,
+  "UNAUTHORIZED" = 401,
+  "SERVER_ERROR" = 500,
+}
 
 const queryStringify = (
   data: Record<string, string | boolean | number>,
@@ -39,6 +51,7 @@ class HTTPTransport {
   request = (url: string, options: TOptions) => {
     const { method, data } = options;
     const timeout = 10000;
+    const baseUrl = getBaseUrl();
 
     return new Promise((resolve, reject) => {
       if (!method) {
@@ -52,8 +65,8 @@ class HTTPTransport {
       xhr.open(
         method,
         isGet && !!data
-          ? `${BASE_URL}/${url}${queryStringify(data as Record<string, string | boolean | number>)}`
-          : `${BASE_URL}/${url}`,
+          ? `${baseUrl}/${url}${queryStringify(data as Record<string, string | boolean | number>)}`
+          : `${baseUrl}/${url}`,
       );
 
       // Object.keys(headers).forEach((key) => {
@@ -63,7 +76,11 @@ class HTTPTransport {
       xhr.setRequestHeader("Content-Type", "application/json");
 
       xhr.onload = function () {
-        resolve(xhr);
+        if (xhr.status === REQUEST_STATUSES.OK) {
+          resolve(xhr);
+        }
+
+        reject(xhr);
       };
 
       xhr.onabort = reject;
@@ -75,7 +92,7 @@ class HTTPTransport {
       if (isGet || !data) {
         xhr.send();
       } else {
-        xhr.send(data as Document | XMLHttpRequestBodyInit);
+        xhr.send(JSON.stringify(data) as Document | XMLHttpRequestBodyInit);
       }
     });
   };
