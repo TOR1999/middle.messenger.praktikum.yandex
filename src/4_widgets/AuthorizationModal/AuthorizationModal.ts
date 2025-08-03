@@ -1,3 +1,4 @@
+import authApi from "../../6_entites/Auth/model/authApi";
 import { Button } from "../../7_shared/Button/Button";
 import { Input } from "../../7_shared/Input/Input";
 import { Link } from "../../7_shared/Link/Link";
@@ -102,7 +103,11 @@ export class AuthorizationModal extends Block {
           const login = getValueById("loginId");
           const password = getValueById("passwordId");
 
-          if (validateLogin(login)) {
+          const isValidLogin = validateLogin(login);
+          const isValidPassword = validatePassword(password);
+          const isValidForm = isValidLogin && isValidPassword;
+
+          if (isValidLogin) {
             TypographyLoginError.setProps({ text: "" });
           } else {
             TypographyLoginError.setProps({
@@ -110,7 +115,7 @@ export class AuthorizationModal extends Block {
             });
           }
 
-          if (validatePassword(password)) {
+          if (isValidPassword) {
             TypographyPasswordError.setProps({ text: "" });
           } else {
             TypographyPasswordError.setProps({
@@ -118,13 +123,12 @@ export class AuthorizationModal extends Block {
             });
           }
 
-          //TODO: Убрать после реализации API
-          // eslint-disable-next-line no-console
-          console.log({
-            login: login,
-            password: password,
-          });
-          router.go(URL_NAMES.MESSAGER);
+          if (isValidForm) {
+            authApi.signIn({
+              login: login,
+              password: password,
+            });
+          }
         },
       }),
       LinkRegistration: new Link({
