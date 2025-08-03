@@ -17,6 +17,7 @@ import { ProfilePageEditorPassword } from "../3_pages/ProfilePageEditorPassword/
 import { ChatsPage } from "../3_pages/ChatsPage/ChatsPage";
 import { URL_NAMES } from "../8_utils/constants/type";
 import router from "../8_utils/helpers/router";
+import "../6_entites/Auth/model/index";
 
 export default class App {
   state: TState;
