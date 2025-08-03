@@ -5,9 +5,9 @@ export enum StoreEvents {
 }
 
 export class Store<T> extends EventBus {
-  state: T | null;
+  state: T;
 
-  constructor(initialData: T | null = null) {
+  constructor(initialData: T) {
     super();
     this.state = initialData;
   }

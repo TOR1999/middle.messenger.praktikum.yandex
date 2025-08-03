@@ -22,8 +22,12 @@ class Router {
     Router.__instance = this;
   }
 
-  use(pathname: string, block: Block): Router {
-    const route = new Route(pathname, block);
+  use(
+    pathname: string,
+    block: Block,
+    getIsPageAvaible?: () => boolean,
+  ): Router {
+    const route = new Route(pathname, block, getIsPageAvaible);
 
     this.routes.push(route);
 
@@ -42,7 +46,7 @@ class Router {
   _onRoute(pathname: string) {
     const route = this.getRoute(pathname);
 
-    if (!route) {
+    if (!route || !route.getIsPageAvaible()) {
       this.go(URL_NAMES.NOT_FOUND);
       return;
     }

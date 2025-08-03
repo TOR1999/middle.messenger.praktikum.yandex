@@ -1,4 +1,3 @@
-import { TProps } from "../constants/type";
 import { Block } from "./block";
 import { renderDOM } from "./renderDOM";
 
@@ -6,13 +5,13 @@ export class Route {
   _pathname: string = "";
   _blockClass: Block;
   _block: Block | null = null;
-  _props: TProps | null;
+  getIsPageAvaible: () => boolean;
 
-  constructor(pathname: string, view: Block, props?: TProps) {
+  constructor(pathname: string, view: Block, getIsPageAvaible?: () => boolean) {
     this._pathname = pathname;
     this._blockClass = view;
     this._block = null;
-    this._props = props || null;
+    this.getIsPageAvaible = getIsPageAvaible ?? (() => true);
   }
 
   navigate(pathname: string) {
@@ -34,7 +33,6 @@ export class Route {
 
   render() {
     const newBlock = this._blockClass;
-    newBlock.setProps({ ...this._props });
     this._block = newBlock;
 
     renderDOM(this._block);

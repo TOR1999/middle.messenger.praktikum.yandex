@@ -18,6 +18,7 @@ import { ChatsPage } from "../3_pages/ChatsPage/ChatsPage";
 import { URL_NAMES } from "../8_utils/constants/type";
 import router from "../8_utils/helpers/router";
 import "../6_entites/Auth/model/index";
+import { checkAuth } from "../8_utils/helpers/checkAuth";
 
 export default class App {
   state: TState;
@@ -35,7 +36,7 @@ export default class App {
   render() {
     const authorizationPage = new AuthorizationPage(AUTH_PAGE_DATA);
     const registrationPage = new RegistrationPage(REGISTRATION_PAGE_DATA);
-    const profilePage = new ProfilePage(PROFILE_PAGE_DATA);
+    const profilePage = new ProfilePage();
     const profilePageEditorInfo = new ProfilePageEditorInfo(PROFILE_PAGE_DATA);
     const profilePageEditorPassword = new ProfilePageEditorPassword(
       PROFILE_PAGE_EDIT_PASSWORD_DATA,
@@ -53,12 +54,14 @@ export default class App {
     });
 
     router
-      .use(URL_NAMES.SIGNIN, authorizationPage)
-      .use(URL_NAMES.SIGNUP, registrationPage)
-      .use(URL_NAMES.MESSAGER, сhatsPage)
-      .use(URL_NAMES.SETTINGS, profilePage)
-      .use(URL_NAMES.EDIT_SETTINGS, profilePageEditorInfo)
-      .use(URL_NAMES.EDIT_PASSWORD, profilePageEditorPassword)
+      .use(URL_NAMES.SIGNIN, authorizationPage, () => !checkAuth())
+      .use(URL_NAMES.SIGNUP, registrationPage, () => !checkAuth())
+      .use(URL_NAMES.MESSAGER, сhatsPage, () => checkAuth())
+      .use(URL_NAMES.SETTINGS, profilePage, () => checkAuth())
+      .use(URL_NAMES.EDIT_SETTINGS, profilePageEditorInfo, () => checkAuth())
+      .use(URL_NAMES.EDIT_PASSWORD, profilePageEditorPassword, () =>
+        checkAuth(),
+      )
       .use(URL_NAMES.NOT_FOUND, notFoundPage)
       .use(URL_NAMES.SERVER_ERROR, serverErrorPage)
       .start();
