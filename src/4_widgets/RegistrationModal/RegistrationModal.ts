@@ -1,3 +1,4 @@
+import authApi from "../../6_entites/Auth/model/authApi";
 import { Button } from "../../7_shared/Button/Button";
 import { Input } from "../../7_shared/Input/Input";
 import { Link } from "../../7_shared/Link/Link";
@@ -280,7 +281,23 @@ export class RegistrationModal extends Block {
           const password = getValueById("passwordId");
           const repeatPassword = getValueById("repeatPasswordId");
 
-          if (validateEmail(email)) {
+          const isValidEmail = validateEmail(email);
+          const isValidLogin = validateLogin(login);
+          const isValidFirstName = validateName(firstName);
+          const isValidSecondName = validateName(secondName);
+          const isValidPhone = validatePhone(phone);
+          const isValidPassword = validatePassword(password);
+          const isNotValidRepeatPassword = password !== repeatPassword;
+          const isValidForm =
+            isValidEmail &&
+            isValidLogin &&
+            isValidFirstName &&
+            isValidSecondName &&
+            isValidPhone &&
+            isValidPassword &&
+            !isNotValidRepeatPassword;
+
+          if (isValidEmail) {
             TypographyEmailError.setProps({ text: "" });
           } else {
             TypographyEmailError.setProps({
@@ -288,7 +305,7 @@ export class RegistrationModal extends Block {
             });
           }
 
-          if (validateLogin(login)) {
+          if (isValidLogin) {
             TypographyLoginError.setProps({ text: "" });
           } else {
             TypographyLoginError.setProps({
@@ -296,7 +313,7 @@ export class RegistrationModal extends Block {
             });
           }
 
-          if (validateName(firstName)) {
+          if (isValidFirstName) {
             TypographyFirstNameError.setProps({ text: "" });
           } else {
             TypographyFirstNameError.setProps({
@@ -304,7 +321,7 @@ export class RegistrationModal extends Block {
             });
           }
 
-          if (validateName(secondName)) {
+          if (isValidSecondName) {
             TypographySecondNameError.setProps({ text: "" });
           } else {
             TypographySecondNameError.setProps({
@@ -312,7 +329,7 @@ export class RegistrationModal extends Block {
             });
           }
 
-          if (validatePhone(phone)) {
+          if (isValidPhone) {
             TypographyPhoneError.setProps({ text: "" });
           } else {
             TypographyPhoneError.setProps({
@@ -320,7 +337,7 @@ export class RegistrationModal extends Block {
             });
           }
 
-          if (password !== repeatPassword) {
+          if (isNotValidRepeatPassword) {
             TypographyPasswordError.setProps({
               text: getLang("validateText.repeatPassword"),
             });
@@ -329,7 +346,7 @@ export class RegistrationModal extends Block {
               text: getLang("validateText.repeatPassword"),
             });
           } else {
-            if (validatePassword(password)) {
+            if (isValidPassword) {
               TypographyPasswordError.setProps({
                 text: "",
               });
@@ -341,18 +358,16 @@ export class RegistrationModal extends Block {
             }
           }
 
-          //TODO: Убрать после реализации API
-          // eslint-disable-next-line no-console
-          console.log({
-            first_name: firstName,
-            second_name: secondName,
-            login: login,
-            email: email,
-            password: password,
-            phone: phone,
-          });
-
-          router.go(URL_NAMES.SIGNIN);
+          if (isValidForm) {
+            authApi.signUp({
+              first_name: firstName,
+              second_name: secondName,
+              login: login,
+              email: email,
+              password: password,
+              phone: phone,
+            });
+          }
         },
       }),
       LinkAuth: new Link({
