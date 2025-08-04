@@ -138,7 +138,7 @@ export class ProfilePage extends Block<TProps> {
         altText: getLang("common.buttons.altBack"),
         onClick: (e: Event) => {
           e.preventDefault();
-          router.back();
+          router.go(URL_NAMES.MESSAGER);
         },
       }),
       ChangeImageProfileButton: new Button({

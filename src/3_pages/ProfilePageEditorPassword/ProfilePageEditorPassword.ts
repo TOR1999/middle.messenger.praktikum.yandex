@@ -4,6 +4,7 @@ import { Button } from "../../7_shared/Button/Button";
 import { CircleIconButton } from "../../7_shared/CircleIconButton/CircleIconButton";
 import { Input } from "../../7_shared/Input/Input";
 import { Typography } from "../../7_shared/Typography/Typography";
+import { URL_NAMES } from "../../8_utils/constants/type";
 import { Block } from "../../8_utils/helpers/block";
 import { getValueById } from "../../8_utils/helpers/getValueById";
 import router from "../../8_utils/helpers/router";
@@ -88,7 +89,7 @@ export class ProfilePageEditorPassword extends Block<TProps> {
         altText: getLang("common.buttons.altBack"),
         onClick: (e: Event) => {
           e.preventDefault();
-          router.back();
+          router.go(URL_NAMES.SETTINGS);
         },
       }),
       TypographyOldPassword: new Typography({

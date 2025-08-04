@@ -14,6 +14,7 @@ import { validateName } from "../../8_utils/helpers/validateName";
 import { validatePhone } from "../../8_utils/helpers/validatePhone";
 import { getLang } from "../../8_utils/langs/getLang";
 import s from "./ProfilePageEditorInfo.module.scss";
+import { URL_NAMES } from "../../8_utils/constants/type";
 
 const profilePageEditorInfoTemplate = `
   <div class=${s["button-back-container"]}>
@@ -110,7 +111,7 @@ export class ProfilePageEditorInfo extends Block<TProps> {
         altText: getLang("common.buttons.altBack"),
         onClick: (e: Event) => {
           e.preventDefault();
-          router.back();
+          router.go(URL_NAMES.SETTINGS);
         },
       }),
       TypographyEmail: new Typography({
