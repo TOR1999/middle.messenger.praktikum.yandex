@@ -3,7 +3,7 @@ import { STORAGE_IS_AUTH } from "../../../8_utils/constants/constants";
 import { URL_NAMES } from "../../../8_utils/constants/type";
 import router from "../../../8_utils/helpers/router";
 import { getLang } from "../../../8_utils/langs/getLang";
-import { AuthStore } from "./store";
+import { ProfileStore } from "../../Profile/model/store";
 import { TSigInRequest, TUserRegistrationRequest } from "./types";
 
 class AuthAPI {
@@ -15,7 +15,8 @@ class AuthAPI {
   signUp(data: TUserRegistrationRequest) {
     HTTPTransport.post(`${this.__basePath}/signup`, { data })
       .then(() => {
-        router.go(URL_NAMES.SIGNIN);
+        router.go(URL_NAMES.MESSAGER);
+        this.getUserInfo();
       })
       .catch(() => {
         alert(getLang("errorRequest.badRequest"));
@@ -27,6 +28,7 @@ class AuthAPI {
       .then(() => {
         router.go(URL_NAMES.MESSAGER);
         localStorage.setItem(STORAGE_IS_AUTH, "true");
+        this.getUserInfo();
       })
       .catch(() => {
         alert(getLang("errorRequest.badRequest"));
@@ -39,7 +41,7 @@ class AuthAPI {
       .then(({ response }: any) => {
         const data = JSON.parse(response);
 
-        AuthStore.setState({ ...data });
+        ProfileStore.setState({ ...data });
       })
       .catch(() => {
         alert(getLang("errorRequest.badRequest"));

@@ -1,6 +1,6 @@
 import { ChooseAvatarModal } from "../../4_widgets/ChooseAvatarModal/ChooseAvatarModal";
 import authApi from "../../6_entites/Auth/model/authApi";
-import { AuthStore } from "../../6_entites/Auth/model/store";
+import { ProfileStore } from "../../6_entites/Profile/model/store";
 import { Button } from "../../7_shared/Button/Button";
 import { CircleIconButton } from "../../7_shared/CircleIconButton/CircleIconButton";
 import { Link } from "../../7_shared/Link/Link";
@@ -114,10 +114,10 @@ export class ProfilePage extends Block<TProps> {
       },
     });
 
-    AuthStore.on(StoreEvents.UPDATE, () => {
-      const storeState = AuthStore.getState();
+    ProfileStore.on(StoreEvents.UPDATE, () => {
+      const storeState = ProfileStore.getState();
       this.setProps({
-        valueAvatar: storeState.avatar,
+        valueAvatar: storeState.avatar || "",
         valueEmail: storeState.email,
         valueFirstName: storeState.first_name,
         valueLogin: storeState.login,

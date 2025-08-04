@@ -1,3 +1,5 @@
+import { ProfileStore } from "../../6_entites/Profile/model/store";
+import profileApi from "../../6_entites/Profile/model/profileApi";
 import { Button } from "../../7_shared/Button/Button";
 import { CircleIconButton } from "../../7_shared/CircleIconButton/CircleIconButton";
 import { Input } from "../../7_shared/Input/Input";
@@ -5,6 +7,7 @@ import { Typography } from "../../7_shared/Typography/Typography";
 import { Block } from "../../8_utils/helpers/block";
 import { getValueById } from "../../8_utils/helpers/getValueById";
 import router from "../../8_utils/helpers/router";
+import { StoreEvents } from "../../8_utils/helpers/store";
 import { validateEmail } from "../../8_utils/helpers/validateEmail";
 import { validateLogin } from "../../8_utils/helpers/validateLogin";
 import { validateName } from "../../8_utils/helpers/validateName";
@@ -83,7 +86,59 @@ type TProps = {
 };
 
 export class ProfilePageEditorInfo extends Block<TProps> {
-  constructor(props: TProps) {
+  constructor() {
+    ProfileStore.on(StoreEvents.UPDATE, () => {
+      const storeState = ProfileStore.getState();
+      this.setProps({
+        valueAvatar: storeState.avatar,
+        valueEmail: storeState.email,
+        valueFirstName: storeState.first_name,
+        valueLogin: storeState.login,
+        valueNickName: storeState.display_name ?? "",
+        valuePhone: storeState.phone,
+        valueSecondName: storeState.second_name,
+      });
+    });
+
+    super("div", {
+      attr: {
+        class: `${s["container"]}`,
+      },
+      CircleIconButtonArrowBack: new CircleIconButton({
+        id: "arrowBackId",
+        iconSrc: "/icons/arrowBack.svg",
+        altText: getLang("common.buttons.altBack"),
+        onClick: (e: Event) => {
+          e.preventDefault();
+          router.back();
+        },
+      }),
+      TypographyEmail: new Typography({
+        variant: "h3",
+        text: getLang("profilePage.email"),
+      }),
+      TypographyLogin: new Typography({
+        variant: "h3",
+        text: getLang("common.login"),
+      }),
+      TypographyUserName: new Typography({
+        variant: "h3",
+        text: getLang("profilePage.name"),
+      }),
+      TypographyNickName: new Typography({
+        variant: "h3",
+        text: getLang("profilePage.nickName"),
+      }),
+      TypographyPhone: new Typography({
+        variant: "h3",
+        text: getLang("profilePage.phone"),
+      }),
+    });
+  }
+
+  override render() {
+    const props = this.props;
+
     const TypographyEmailError = new Typography({
       variant: "b7",
       text: "",
@@ -115,25 +170,10 @@ export class ProfilePageEditorInfo extends Block<TProps> {
       textAlign: "right",
     });
 
-    super("div", {
-      attr: {
-        class: `${s["container"]}`,
-      },
-      CircleIconButtonArrowBack: new CircleIconButton({
-        id: "arrowBackId",
-        iconSrc: "/icons/arrowBack.svg",
-        altText: getLang("common.buttons.altBack"),
-        onClick: (e: Event) => {
-          e.preventDefault();
-          router.back();
-        },
-      }),
-      TypographyEmail: new Typography({
-        variant: "h3",
-        text: getLang("profilePage.email"),
-      }),
+    this.children = {
+      ...this.children,
       InputEmail: new Input({
-        value: "",
+        value: props.valueEmail,
         inputId: "emailId",
         textPosition: "right",
         nameInput: "email",
@@ -152,12 +192,8 @@ export class ProfilePageEditorInfo extends Block<TProps> {
         },
       }),
       TypographyEmailError,
-      TypographyLogin: new Typography({
-        variant: "h3",
-        text: getLang("common.login"),
-      }),
       InputLogin: new Input({
-        value: "",
+        value: props.valueLogin,
         inputId: "loginId",
         textPosition: "right",
         nameInput: "login",
@@ -176,12 +212,8 @@ export class ProfilePageEditorInfo extends Block<TProps> {
         },
       }),
       TypographyLoginError,
-      TypographyUserName: new Typography({
-        variant: "h3",
-        text: getLang("profilePage.name"),
-      }),
       InputUserName: new Input({
-        value: "",
+        value: props.valueFirstName,
         inputId: "firstNameId",
         textPosition: "right",
         nameInput: "first_name",
@@ -205,7 +237,7 @@ export class ProfilePageEditorInfo extends Block<TProps> {
         text: getLang("profilePage.secondName"),
       }),
       InputSecondName: new Input({
-        value: "",
+        value: props.valueSecondName,
         inputId: "secondNameId",
         textPosition: "right",
         nameInput: "second_name",
@@ -224,24 +256,16 @@ export class ProfilePageEditorInfo extends Block<TProps> {
         },
       }),
       TypographySecondNameError,
-      TypographyNickName: new Typography({
-        variant: "h3",
-        text: getLang("profilePage.nickName"),
-      }),
       InputNickName: new Input({
-        value: "",
+        value: props.valueNickName,
         inputId: "displayNameId",
         textPosition: "right",
         nameInput: "display_name",
         variant: "text",
         textPlaceholder: props.valueNickName,
       }),
-      TypographyPhone: new Typography({
-        variant: "h3",
-        text: getLang("profilePage.phone"),
-      }),
       InputPhone: new Input({
-        value: "",
+        value: props.valuePhone,
         inputId: "phoneId",
         textPosition: "right",
         nameInput: "phone",
@@ -273,8 +297,22 @@ export class ProfilePageEditorInfo extends Block<TProps> {
           const firstName = getValueById("firstNameId");
           const secondName = getValueById("secondNameId");
           const phone = getValueById("phoneId");
+          const nickName = getValueById("displayNameId");
 
-          if (validateEmail(email)) {
+          const isValidEmail = validateEmail(email);
+          const isValidLogin = validateLogin(login);
+          const isValidFistName = validateName(firstName);
+          const isValidSecondName = validateName(secondName);
+          const isValidPhone = validatePhone(phone);
+
+          const isValidForm =
+            isValidEmail &&
+            isValidLogin &&
+            isValidFistName &&
+            isValidSecondName &&
+            isValidPhone;
+
+          if (isValidEmail) {
             TypographyEmailError.setProps({ text: "" });
           } else {
             TypographyEmailError.setProps({
@@ -282,7 +320,7 @@ export class ProfilePageEditorInfo extends Block<TProps> {
             });
           }
 
-          if (validateLogin(login)) {
+          if (isValidLogin) {
             TypographyLoginError.setProps({ text: "" });
           } else {
             TypographyLoginError.setProps({
@@ -290,7 +328,7 @@ export class ProfilePageEditorInfo extends Block<TProps> {
             });
           }
 
-          if (validateName(firstName)) {
+          if (isValidFistName) {
             TypographyFirstNameError.setProps({ text: "" });
           } else {
             TypographyFirstNameError.setProps({
@@ -298,7 +336,7 @@ export class ProfilePageEditorInfo extends Block<TProps> {
             });
           }
 
-          if (validateName(secondName)) {
+          if (isValidSecondName) {
             TypographySecondNameError.setProps({ text: "" });
           } else {
             TypographySecondNameError.setProps({
@@ -306,7 +344,7 @@ export class ProfilePageEditorInfo extends Block<TProps> {
             });
           }
 
-          if (validatePhone(phone)) {
+          if (isValidPhone) {
             TypographyPhoneError.setProps({ text: "" });
           } else {
             TypographyPhoneError.setProps({
@@ -314,22 +352,20 @@ export class ProfilePageEditorInfo extends Block<TProps> {
             });
           }
 
-          //TODO: Убрать после реализации API
-          // eslint-disable-next-line no-console
-          console.log({
-            first_name: props.valueFirstName,
-            second_name: props.valueSecondName,
-            display_name: props.valueNickName,
-            login: props.valueLogin,
-            email: props.valueEmail,
-            phone: props.valuePhone,
-          });
+          if (isValidForm) {
+            profileApi.changeUserInfo({
+              first_name: firstName,
+              second_name: secondName,
+              display_name: nickName,
+              login: login,
+              email: email,
+              phone: phone,
+            });
+          }
         },
       }),
-    });
-  }
+    };
 
-  override render() {
     return this.compile(profilePageEditorInfoTemplate, this.props);
   }
 }

@@ -1,4 +1,5 @@
 import { Store } from "../../../8_utils/helpers/store";
+import { TUserInfo } from "../../Auth/model/types";
 
 const initialState = {
   id: 0,
@@ -11,4 +12,4 @@ const initialState = {
   avatar: "",
 };
 
-export const AuthStore = new Store(initialState);
+export const ProfileStore = new Store<TUserInfo>(initialState);

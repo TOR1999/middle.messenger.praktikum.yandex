@@ -8,8 +8,6 @@ import { NamePages, TState } from "./types";
 import {
   AUTH_PAGE_DATA,
   CHATS_PAGE_DATA,
-  PROFILE_PAGE_DATA,
-  PROFILE_PAGE_EDIT_PASSWORD_DATA,
   REGISTRATION_PAGE_DATA,
 } from "./MockData";
 import { ProfilePageEditorInfo } from "../3_pages/ProfilePageEditorInfo/ProfilePageEditorInfo";
@@ -17,8 +15,6 @@ import { ProfilePageEditorPassword } from "../3_pages/ProfilePageEditorPassword/
 import { ChatsPage } from "../3_pages/ChatsPage/ChatsPage";
 import { URL_NAMES } from "../8_utils/constants/type";
 import router from "../8_utils/helpers/router";
-import "../6_entites/Auth/model/index";
-import { checkAuth } from "../8_utils/helpers/checkAuth";
 
 export default class App {
   state: TState;
@@ -37,10 +33,8 @@ export default class App {
     const authorizationPage = new AuthorizationPage(AUTH_PAGE_DATA);
     const registrationPage = new RegistrationPage(REGISTRATION_PAGE_DATA);
     const profilePage = new ProfilePage();
-    const profilePageEditorInfo = new ProfilePageEditorInfo(PROFILE_PAGE_DATA);
-    const profilePageEditorPassword = new ProfilePageEditorPassword(
-      PROFILE_PAGE_EDIT_PASSWORD_DATA,
-    );
+    const profilePageEditorInfo = new ProfilePageEditorInfo();
+    const profilePageEditorPassword = new ProfilePageEditorPassword();
     const сhatsPage = new ChatsPage(CHATS_PAGE_DATA);
     const notFoundPage = new ErrorPage({
       textCode: getLang("ErrorPage.notFound.textCode"),
@@ -53,15 +47,26 @@ export default class App {
       textLink: getLang("ErrorPage.serverError.textLink"),
     });
 
+    // router
+    //   .use(URL_NAMES.SIGNIN, authorizationPage, () => !checkAuth())
+    //   .use(URL_NAMES.SIGNUP, registrationPage, () => !checkAuth())
+    //   .use(URL_NAMES.MESSAGER, сhatsPage, () => checkAuth())
+    //   .use(URL_NAMES.SETTINGS, profilePage, () => checkAuth())
+    //   .use(URL_NAMES.EDIT_SETTINGS, profilePageEditorInfo, () => checkAuth())
+    //   .use(URL_NAMES.EDIT_PASSWORD, profilePageEditorPassword, () =>
+    //     checkAuth(),
+    //   )
+    //   .use(URL_NAMES.NOT_FOUND, notFoundPage)
+    //   .use(URL_NAMES.SERVER_ERROR, serverErrorPage)
+    //   .start();
+
     router
-      .use(URL_NAMES.SIGNIN, authorizationPage, () => !checkAuth())
-      .use(URL_NAMES.SIGNUP, registrationPage, () => !checkAuth())
-      .use(URL_NAMES.MESSAGER, сhatsPage, () => checkAuth())
-      .use(URL_NAMES.SETTINGS, profilePage, () => checkAuth())
-      .use(URL_NAMES.EDIT_SETTINGS, profilePageEditorInfo, () => checkAuth())
-      .use(URL_NAMES.EDIT_PASSWORD, profilePageEditorPassword, () =>
-        checkAuth(),
-      )
+      .use(URL_NAMES.SIGNIN, authorizationPage)
+      .use(URL_NAMES.SIGNUP, registrationPage)
+      .use(URL_NAMES.MESSAGER, сhatsPage)
+      .use(URL_NAMES.SETTINGS, profilePage)
+      .use(URL_NAMES.EDIT_SETTINGS, profilePageEditorInfo)
+      .use(URL_NAMES.EDIT_PASSWORD, profilePageEditorPassword)
       .use(URL_NAMES.NOT_FOUND, notFoundPage)
       .use(URL_NAMES.SERVER_ERROR, serverErrorPage)
       .start();
