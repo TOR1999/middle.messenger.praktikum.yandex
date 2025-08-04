@@ -15,8 +15,8 @@ class AuthAPI {
   signUp(data: TUserRegistrationRequest) {
     HTTPTransport.post(`${this.__basePath}/signup`, { data })
       .then(() => {
-        router.go(URL_NAMES.MESSAGER);
         this.getUserInfo();
+        router.go(URL_NAMES.MESSAGER);
       })
       .catch(() => {
         alert(getLang("errorRequest.badRequest"));
@@ -26,9 +26,9 @@ class AuthAPI {
   signIn(data: TSigInRequest) {
     HTTPTransport.post(`${this.__basePath}/signin`, { data })
       .then(() => {
-        router.go(URL_NAMES.MESSAGER);
         localStorage.setItem(STORAGE_IS_AUTH, "true");
         this.getUserInfo();
+        router.go(URL_NAMES.MESSAGER);
       })
       .catch(() => {
         alert(getLang("errorRequest.badRequest"));
