@@ -25,7 +25,7 @@ id={{inputId}}
 name={{nameInput}}
 value="{{value}}"
 type=${props.variant}
-placeholder="${props.textPlaceholder}"
+placeholder="${props?.textPlaceholder || ""}"
 accept=".png, .jpg, .jpeg .gif .WebP"
 />
 <div class=${s["text-error"]}>

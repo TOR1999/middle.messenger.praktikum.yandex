@@ -61,6 +61,7 @@ export const langs = {
     phone: "Некорректный номер телефона",
     repeatPassword: "Пароли не совпадают",
     oldPassword: "Старый пароль неверный",
+    emtyFields: "Все поля должны быть заполнены",
   },
   chatsPage: {
     unSelectChat: "Выберите чат чтобы отправить сообщение",
