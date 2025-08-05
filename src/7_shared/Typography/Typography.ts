@@ -23,7 +23,7 @@ type TProps = {
     | "h7";
   text?: string;
   color?: "red" | "white" | "grey" | "blue";
-  textAlign?: "right";
+  textAlign?: "right" | "center";
   withoutLineHeight?: boolean;
 };
 
