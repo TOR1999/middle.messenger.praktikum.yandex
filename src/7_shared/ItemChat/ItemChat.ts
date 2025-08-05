@@ -9,19 +9,24 @@ const listChatsTemplate = (props: TProps) => {
     : "";
 
   return `
-  <div class=${s["avatar"]}>
-    {{{ImgAvatar}}}
-  </div>
-  <div class=${s["info-chat"]}>
-  {{{TypographyName}}}
-    <div class=${s["description"]}>
-    {{{TypographyDescriptionMyMessage}}}
-    {{{TypographyDescription}}}
+  <div
+  class="${`${s["container"]} ${props.selectedChat ? s["container_selected-container"] : ""}`}"
+  id=${props.chatId}
+  >
+    <div class=${s["avatar"]}>
+      {{{ImgAvatar}}}
     </div>
-  </div>
-  <div class=${s["data-chat"]}>
-  {{{TypographyDateTime}}}
-    ${resultCountUnreadMessage}
+    <div class=${s["info-chat"]}>
+    {{{TypographyName}}}
+      <div class=${s["description"]}>
+      {{{TypographyDescriptionMyMessage}}}
+      {{{TypographyDescription}}}
+      </div>
+    </div>
+    <div class=${s["data-chat"]}>
+    {{{TypographyDateTime}}}
+      ${resultCountUnreadMessage}
+    </div>
   </div>
 `;
 };
@@ -37,38 +42,39 @@ export class ItemChat extends Block<TProps> {
   constructor(props: TProps) {
     super("div", {
       ...props,
-      attr: {
-        class: `${s["container"]} ${props.selectedChat ? s["container_selected-container"] : ""}`,
-        id: `${props.chatId}`,
-      },
       ImgAvatar: "",
+    });
+    this.setProps(props);
+  }
+
+  override render() {
+    this.children = {
+      ...this.children,
       TypographyName: new Typography({
         variant: "h4",
-        text: props.chat.name,
+        text: this.props.chat.name,
       }),
       TypographyDescriptionMyMessage: new Typography({
         variant: "b5",
-        text: props.chat.lastMessage.myMessage ? "Вы:" : "",
+        text: this.props.chat.lastMessage.myMessage ? "Вы:" : "",
       }),
       TypographyDescription: new Typography({
         variant: "b5",
         color: "grey",
-        text: props.chat.lastMessage.text,
+        text: this.props.chat.lastMessage.text,
       }),
       TypographyDateTime: new Typography({
         variant: "b5",
-        text: props.chat.lastMessage.timeSend,
+        text: this.props.chat.lastMessage.timeSend,
       }),
       TypographyCountMessage: new Typography({
         variant: "b6",
         color: "white",
         withoutLineHeight: true,
-        text: String(props.chat.unreadMessagesCount),
+        text: String(this.props.chat.unreadMessagesCount),
       }),
-    });
-  }
+    };
 
-  override render() {
     return this.compile(listChatsTemplate(this.props as TProps), this.props);
   }
 }
