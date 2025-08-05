@@ -61,6 +61,7 @@ export const langs = {
     phone: "Некорректный номер телефона",
     repeatPassword: "Пароли не совпадают",
     oldPassword: "Старый пароль неверный",
+    emtyFields: "Все поля должны быть заполнены",
   },
   chatsPage: {
     unSelectChat: "Выберите чат чтобы отправить сообщение",
@@ -75,5 +76,8 @@ export const langs = {
     textInput: "Выбрать файл на компьютере",
     buttonText: "Поменять",
     cancelButtonText: "Вернуться назад",
+  },
+  errorRequest: {
+    badRequest: "Что-то пошло не так... Попробуте попытку снова",
   },
 };

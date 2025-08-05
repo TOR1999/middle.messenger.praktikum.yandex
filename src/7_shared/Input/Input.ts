@@ -25,7 +25,7 @@ id={{inputId}}
 name={{nameInput}}
 value="{{value}}"
 type=${props.variant}
-placeholder="${props.textPlaceholder}"
+placeholder="${props?.textPlaceholder || ""}"
 accept=".png, .jpg, .jpeg .gif .WebP"
 />
 <div class=${s["text-error"]}>
@@ -49,7 +49,7 @@ type TProps = {
   upHeight?: boolean;
 };
 
-export class Input extends Block {
+export class Input extends Block<TProps> {
   constructor(props: TProps) {
     super("div", {
       ...props,

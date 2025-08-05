@@ -2,7 +2,9 @@ import { TChat } from "../../1_app/types";
 import { Input } from "../../7_shared/Input/Input";
 import { ItemChat } from "../../7_shared/ItemChat/ItemChat";
 import { Link } from "../../7_shared/Link/Link";
+import { URL_NAMES } from "../../8_utils/constants/type";
 import { Block } from "../../8_utils/helpers/block";
+import router from "../../8_utils/helpers/router";
 import { getLang } from "../../8_utils/langs/getLang";
 import s from "./ListChats.module.scss";
 
@@ -33,9 +35,11 @@ const listChatsTemplate = (props: TProps) => {
 
 export type TProps = {
   chats: TChat[];
+  selectedChat?: number;
+  onSelectedChat: (index: number) => void;
 };
 
-export class ListChats extends Block {
+export class ListChats extends Block<TProps> {
   constructor(props: TProps) {
     super("div", {
       ...props,
@@ -47,6 +51,10 @@ export class ListChats extends Block {
         variant: "text",
         text: getLang("chatsPage.listChats.linkProfile"),
         color: "grey",
+        onClick: (e: Event) => {
+          e.preventDefault();
+          router.go(URL_NAMES.SETTINGS);
+        },
       }),
       ArrowRightIcon: "",
       SearchChatInput: new Input({
@@ -66,10 +74,16 @@ export class ListChats extends Block {
   override render() {
     const listChats = (this.props as TProps).chats.reduce(
       (acc, curr, index) => {
-        acc[`ItemChat${index + 1}`] = new ItemChat({
+        acc[`ItemChat${index}`] = new ItemChat({
           chat: curr,
-          chatId: `ItemChat${index + 1}`,
-          selectedChat: index === 0 ? true : false,
+          chatId: `ItemChat${index}`,
+          selectedChat: index === this.props.selectedChat ? true : false,
+          onClick: (e: Event) => {
+            e.stopPropagation();
+
+            this.props.onSelectedChat(index);
+            this.setProps({ selectedChat: index });
+          },
         });
         return acc;
       },

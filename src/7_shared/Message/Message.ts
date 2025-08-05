@@ -23,7 +23,7 @@ export type TProps = {
   onClick?: (e: Event) => void;
 };
 
-export class Message extends Block {
+export class Message extends Block<TProps> {
   constructor(props: TProps) {
     const messagePosition = props.myMessage ? "" : "container_message-right";
 

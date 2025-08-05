@@ -23,11 +23,11 @@ type TProps = {
     | "h7";
   text?: string;
   color?: "red" | "white" | "grey" | "blue";
-  textAlign?: "right";
+  textAlign?: "right" | "center";
   withoutLineHeight?: boolean;
 };
 
-export class Typography extends Block {
+export class Typography extends Block<TProps> {
   constructor(props: TProps) {
     const baseSryleStr = `font-${props.variant}`;
     const colorStyle = `${props.color}-text`;

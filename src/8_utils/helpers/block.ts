@@ -3,17 +3,19 @@ import { EventBus } from "./eventBus";
 import Handlebars from "handlebars";
 import { getUUID } from "./getUUID";
 
-export class Block {
+//используется any так как пропсы children не совпадают с проспсами текущего компонента
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export class Block<T = any> {
   static EVENTS = EVENTS;
 
   _id: string = "";
   _element: HTMLElement | null = null;
   _meta: {
     tagName: string;
-    props: TBlockProps;
+    props: TBlockProps & T;
   } | null = null;
   children: { [key: string]: Block };
-  props: TBlockProps;
+  props: TBlockProps & T;
   eventBus;
 
   constructor(tagName: string = "div", propsAndChildren: TBlockProps = {}) {
@@ -24,10 +26,10 @@ export class Block {
     this.children = children;
     this._meta = {
       tagName,
-      props,
+      props: props as TBlockProps & T,
     };
 
-    this.props = this._makePropsProxy(props);
+    this.props = this._makePropsProxy(props) as TBlockProps & T;
 
     this.eventBus = () => eventBus;
     this._registerEvents(eventBus);
@@ -99,7 +101,7 @@ export class Block {
     return true;
   }
 
-  setProps = (nextProps: TBlockProps) => {
+  setProps = (nextProps: (TBlockProps & Partial<T>) | null) => {
     if (!nextProps) {
       return;
     }
@@ -121,6 +123,13 @@ export class Block {
         this._meta.props.onBlur as EventListenerOrEventListenerObject,
       );
     }
+
+    if (this._meta?.props?.onChange) {
+      this._element?.children[0]?.addEventListener(
+        "change",
+        this._meta.props.onChange as EventListenerOrEventListenerObject,
+      );
+    }
   }
 
   _removeEvents() {
@@ -135,6 +144,13 @@ export class Block {
       this._element?.children[0]?.removeEventListener(
         "blur",
         this._meta.props.onBlur as EventListenerOrEventListenerObject,
+      );
+    }
+
+    if (this._meta?.props?.onChange) {
+      this._element?.children[0]?.removeEventListener(
+        "change",
+        this._meta.props.onChange as EventListenerOrEventListenerObject,
       );
     }
   }
@@ -220,7 +236,7 @@ export class Block {
   show() {
     const element = this.getContent();
     if (element === null) return;
-    element.style.display = "block";
+    element.style.display = "flex";
   }
 
   hide() {

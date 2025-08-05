@@ -1,26 +1,35 @@
+import profileApi from "../../6_entites/Profile/model/profileApi";
+import { ProfileStore } from "../../6_entites/Profile/model/store";
 import { Button } from "../../7_shared/Button/Button";
 import { CircleIconButton } from "../../7_shared/CircleIconButton/CircleIconButton";
 import { Input } from "../../7_shared/Input/Input";
 import { Typography } from "../../7_shared/Typography/Typography";
+import { BASE_URLS } from "../../8_utils/constants/constants";
+import { URL_NAMES } from "../../8_utils/constants/type";
 import { Block } from "../../8_utils/helpers/block";
 import { getValueById } from "../../8_utils/helpers/getValueById";
+import router from "../../8_utils/helpers/router";
+import { StoreEvents } from "../../8_utils/helpers/store";
 import { validatePassword } from "../../8_utils/helpers/validatePassword";
 import { getLang } from "../../8_utils/langs/getLang";
 import s from "./ProfilePageEditorPassword.module.scss";
 
-const profilePageEditorPasswordTemplate = `
+const profilePageEditorPasswordTemplate = (avatar: string) => {
+  const imgAvatar = avatar
+    ? `${BASE_URLS.RESOURCES}${avatar}`
+    : "/icons/imageProfile.svg";
+  return `
   <div class=${s["button-back-container"]}>
     <div class=${s["button-back"]}>
       {{{CircleIconButtonArrowBack}}}
     </div>
   </div>
   <form class=${s["content"]}>
-    <div class=${s["image-profile-container"]}>
-      <img 
-      src="/icons/imageProfile.svg"
+      <img
+      class=${s["image-profile"]} 
+      src=${imgAvatar}
       alt="${getLang("profilePage.altImageProfile")}"
       />
-    </div>
     <div class=${s["info-line-container"]}>
       {{{TypographyOldPassword}}}
       <div class=${s["info"]}>
@@ -48,18 +57,61 @@ const profilePageEditorPasswordTemplate = `
     </div>
   </form>
 `;
+};
 
 type TProps = {
+  valueAvatar: string;
   valueOldPassword: string;
   valueNewPassword: string;
   valueRepeatNewPassword: string;
   onClick?: (e: Event) => void;
 };
 
-export class ProfilePageEditorPassword extends Block {
+export class ProfilePageEditorPassword extends Block<TProps> {
   textError = false;
 
-  constructor(props: TProps) {
+  constructor() {
+    ProfileStore.on(StoreEvents.UPDATE, () => {
+      const storeState = ProfileStore.getState();
+      this.setProps({
+        valueAvatar: storeState.avatar || "",
+        valueNewPassword: "",
+        valueOldPassword: "",
+        valueRepeatNewPassword: "",
+      });
+    });
+
+    super("div", {
+      attr: {
+        class: `${s["container"]}`,
+      },
+      CircleIconButtonArrowBack: new CircleIconButton({
+        id: "arrowBackId",
+        iconSrc: "/icons/arrowBack.svg",
+        altText: getLang("common.buttons.altBack"),
+        onClick: (e: Event) => {
+          e.preventDefault();
+          router.go(URL_NAMES.SETTINGS);
+        },
+      }),
+      TypographyOldPassword: new Typography({
+        variant: "h3",
+        text: getLang("profilePage.editPassword.old"),
+      }),
+      TypographyNewPassword: new Typography({
+        variant: "h3",
+        text: getLang("profilePage.editPassword.new"),
+      }),
+      TypographyRepeatNewPassword: new Typography({
+        variant: "h3",
+        text: getLang("profilePage.editPassword.repeatNew"),
+      }),
+    });
+  }
+
+  override render() {
+    const props = this.props;
+
     const TypographyOldPasswordError = new Typography({
       variant: "b7",
       text: "",
@@ -78,40 +130,15 @@ export class ProfilePageEditorPassword extends Block {
       color: "red",
       textAlign: "right",
     });
-    super("div", {
-      attr: {
-        class: `${s["container"]}`,
-      },
-      CircleIconButtonArrowBack: new CircleIconButton({
-        id: "arrowBackId",
-        iconSrc: "/icons/arrowBack.svg",
-        altText: getLang("common.buttons.altBack"),
-      }),
-      TypographyOldPassword: new Typography({
-        variant: "h3",
-        text: getLang("profilePage.editPassword.old"),
-      }),
+
+    this.children = {
+      ...this.children,
       InputOldPassword: new Input({
         inputId: "oldPasswordId",
         textPosition: "right",
         nameInput: "oldPassword",
         variant: "text",
         value: props.valueOldPassword,
-        onBlur: () => {
-          const oldPassword = getValueById("oldPasswordId");
-
-          if (oldPassword !== props.valueOldPassword) {
-            TypographyOldPasswordError.setProps({
-              text: getLang("validateText.oldPassword"),
-            });
-          } else {
-            TypographyOldPasswordError.setProps({ text: "" });
-          }
-        },
-      }),
-      TypographyNewPassword: new Typography({
-        variant: "h3",
-        text: getLang("profilePage.editPassword.new"),
       }),
       InputNewPassword: new Input({
         inputId: "newPasswordId",
@@ -139,10 +166,6 @@ export class ProfilePageEditorPassword extends Block {
             }
           }
         },
-      }),
-      TypographyRepeatNewPassword: new Typography({
-        variant: "h3",
-        text: getLang("profilePage.editPassword.repeatNew"),
       }),
       InputRepeatNewPassword: new Input({
         inputId: "repeatNewPasswordId",
@@ -181,17 +204,40 @@ export class ProfilePageEditorPassword extends Block {
         typeSubmit: true,
         onClick: (e: Event) => {
           e.preventDefault();
-
           const oldPassword = getValueById("oldPasswordId");
           const newPassword = getValueById("newPasswordId");
           const repeatNewPassword = getValueById("repeatNewPasswordId");
 
-          if (oldPassword !== props.valueOldPassword) {
+          const notEmptyForm =
+            oldPassword.length > 0 &&
+            newPassword.length > 0 &&
+            repeatNewPassword.length > 0;
+          const isValidForm =
+            notEmptyForm &&
+            validatePassword(newPassword) &&
+            newPassword === repeatNewPassword;
+
+          if (!notEmptyForm) {
             TypographyOldPasswordError.setProps({
-              text: getLang("validateText.oldPassword"),
+              text: getLang("validateText.emtyFields"),
             });
+            TypographyRepeatNewPasswordError.setProps({
+              text: getLang("validateText.emtyFields"),
+            });
+            TypographyNewPasswordError.setProps({
+              text: getLang("validateText.emtyFields"),
+            });
+            return;
           } else {
-            TypographyOldPasswordError.setProps({ text: "" });
+            TypographyOldPasswordError.setProps({
+              text: "",
+            });
+            TypographyRepeatNewPasswordError.setProps({
+              text: "",
+            });
+            TypographyNewPasswordError.setProps({
+              text: "",
+            });
           }
 
           if (newPassword !== repeatNewPassword) {
@@ -219,18 +265,16 @@ export class ProfilePageEditorPassword extends Block {
             }
           }
 
-          //TODO: Убрать после реализации API
-          // eslint-disable-next-line no-console
-          console.log({
-            oldPassword: props.valueOldPassword,
-            newPassword: props.valueNewPassword,
-          });
+          if (isValidForm) {
+            profileApi.changeUserPassword({ oldPassword, newPassword });
+          }
         },
       }),
-    });
-  }
+    };
 
-  override render() {
-    return this.compile(profilePageEditorPasswordTemplate, this.props);
+    return this.compile(
+      profilePageEditorPasswordTemplate(this.props.valueAvatar),
+      this.props,
+    );
   }
 }

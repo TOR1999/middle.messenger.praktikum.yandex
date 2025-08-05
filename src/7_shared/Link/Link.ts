@@ -1,9 +1,15 @@
 import { Block } from "../../8_utils/helpers/block";
 import s from "./Link.module.scss";
 
-const linkTemplate = `
-{{text}}
+const linkTemplate = (props: TLink) => {
+  return `
+  <button 
+    class="${`${`${s[`link_${props.variant}`]} ${s[`link_${props.color}-text`]}`}`}"
+  >
+    {{text}}
+  </button>
 `;
+};
 
 export type TLink = {
   href: string;
@@ -14,19 +20,14 @@ export type TLink = {
   color?: "red" | "grey";
 };
 
-export class Link extends Block {
+export class Link extends Block<TLink> {
   constructor(props: TLink) {
-    super("a", {
-      attr: {
-        href: props.href,
-        "data-page": props.dataPage || "",
-        class: `${`${s[`link_${props.variant}`]} ${s[`link_${props.color}-text`]}`}`,
-      },
+    super("div", {
       ...props,
     });
   }
 
   override render() {
-    return this.compile(linkTemplate, this.props);
+    return this.compile(linkTemplate(this.props as TLink), this.props);
   }
 }

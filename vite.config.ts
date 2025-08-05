@@ -10,6 +10,25 @@ export default defineConfig({
   server: {
     host: "localhost",
     port: 3000,
+    proxy: {
+      "/api": {
+        target: "https://ya-praktikum.tech",
+        changeOrigin: true,
+        configure: (proxy) => {
+          proxy.on("proxyRes", (proxyRes) => {
+            const cookies = proxyRes.headers["set-cookie"];
+            if (cookies) {
+              proxyRes.headers["set-cookie"] = cookies.map((cookie) =>
+                cookie
+                  .replace(/;\s*Secure/i, "")
+                  .replace(/;\s*SameSite=None/i, "")
+                  .replace(/domain=[^;]+/i, "domain=localhost"),
+              );
+            }
+          });
+        },
+      },
+    },
   },
   plugins: [
     handlebars(),

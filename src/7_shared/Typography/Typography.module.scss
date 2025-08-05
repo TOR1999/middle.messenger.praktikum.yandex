@@ -88,3 +88,10 @@
 .text-align-right {
   text-align: right;
 }
+
+.text-align-center {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}

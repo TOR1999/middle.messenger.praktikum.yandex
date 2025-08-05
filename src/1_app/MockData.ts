@@ -60,18 +60,18 @@ export const LIST_PAGES: TLink[] = [
 ];
 
 export const AUTH_PAGE_DATA: TAuthData = {
-  valueLogin: "Iliya",
-  valuePassword: "Qwerty",
+  valueLogin: "Torzh",
+  valuePassword: "12345Qwerty",
 };
 
 export const REGISTRATION_PAGE_DATA: TRegistrationData = {
-  valueEmail: "Torzhyandex.ru",
+  valueEmail: "Torzhyandex@mail.ru",
   valueLogin: "Torzh",
-  valueFirstName: "лья",
-  valueSecondName: "оржевский",
-  valuePhone: "-913-170-50-60",
-  valuePassword: "werty",
-  valueRepeatPassword: "werty",
+  valueFirstName: "Петя",
+  valueSecondName: "Оржевский",
+  valuePhone: "+7-913-999-99-99",
+  valuePassword: "12345Qwerty",
+  valueRepeatPassword: "12345Qwerty",
 };
 
 export const PROFILE_PAGE_DATA: TProfileData = {
@@ -81,6 +81,7 @@ export const PROFILE_PAGE_DATA: TProfileData = {
   valueSecondName: "Торжевский",
   valueNickName: "Torzh_TOP",
   valuePhone: "+7-913-170-50-60",
+  valueAvatar: "/icons/imageProfile.svg",
 };
 
 export const PROFILE_PAGE_EDIT_PASSWORD_DATA: TNewPasswordData = {

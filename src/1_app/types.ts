@@ -39,6 +39,7 @@ export type TProfileData = Omit<
   TRegistrationData,
   "valueRepeatPassword" | "valuePassword"
 > & {
+  valueAvatar: string;
   valueNickName: string;
 };
 
