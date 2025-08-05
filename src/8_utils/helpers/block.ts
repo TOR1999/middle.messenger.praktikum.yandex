@@ -146,6 +146,13 @@ export class Block<T = any> {
         this._meta.props.onBlur as EventListenerOrEventListenerObject,
       );
     }
+
+    if (this._meta?.props?.onChange) {
+      this._element?.children[0]?.removeEventListener(
+        "change",
+        this._meta.props.onChange as EventListenerOrEventListenerObject,
+      );
+    }
   }
 
   compile(template: string, props: { [key: string]: unknown }) {
