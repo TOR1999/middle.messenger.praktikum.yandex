@@ -17,7 +17,11 @@ class ProfileAPI {
 
   changeAvatar(data: FormData) {
     HTTPTransport.put(`${this.__basePath}/profile/avatar`, { data })
-      .then(() => {})
+      .then(({ response }: any) => {
+        const data = JSON.parse(response);
+
+        ProfileStore.setState({ ...data });
+      })
       .catch(() => {
         alert(getLang("errorRequest.badRequest"));
       });
