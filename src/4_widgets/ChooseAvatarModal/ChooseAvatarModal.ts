@@ -1,3 +1,4 @@
+import profileApi from "../../6_entites/Profile/model/profileApi";
 import { Button } from "../../7_shared/Button/Button";
 import { FileInput } from "../../7_shared/FileInput/FileInput";
 import { Typography } from "../../7_shared/Typography/Typography";
@@ -23,7 +24,8 @@ const chooseAvatarModalTemplate = `
 `;
 
 export type TProps = {
-  valueFile?: string;
+  fileName?: string;
+  formFile?: HTMLFormElement;
   onClickCancel?: (e: Event) => void;
 };
 
@@ -37,16 +39,6 @@ export class ChooseAvatarModal extends Block<TProps> {
       TypographyTittle: new Typography({
         variant: "h4",
         text: getLang("ChooseAvatarModal.title"),
-      }),
-
-      ButtonChangeAvatar: new Button({
-        id: "ButtonChangeAvatarId",
-        disabled: false,
-        typeSubmit: true,
-        text: getLang("ChooseAvatarModal.buttonText"),
-        onClick: (e: Event) => {
-          e.preventDefault();
-        },
       }),
       CancelButtonChangeAvatar: new Button({
         id: "CancelButtonChangeAvatarId",
@@ -63,7 +55,7 @@ export class ChooseAvatarModal extends Block<TProps> {
       InputFile: new FileInput({
         inputId: "avatarId",
         nameInput: "avatar",
-        value: this.props.valueFile ?? "",
+        value: this.props.fileName ?? "",
         onChange: (e) => {
           const target = e.target as HTMLInputElement;
           if (!target.files?.[0]) return;
@@ -73,17 +65,26 @@ export class ChooseAvatarModal extends Block<TProps> {
           img.src = URL.createObjectURL(fileImg);
 
           img.onload = () => {
-            const imageFormData = new FormData();
-            imageFormData.append("image", fileImg);
-
             this.setProps({
-              valueFile: fileImg.name,
+              fileName: fileImg.name,
+              formFile: document.forms[1],
             });
           };
         },
-        textLabel: this.props.valueFile
-          ? this.props.valueFile
+        textLabel: this.props.fileName
+          ? this.props.fileName
           : getLang("ChooseAvatarModal.textInput"),
+      }),
+      ButtonChangeAvatar: new Button({
+        id: "ButtonChangeAvatarId",
+        disabled: false,
+        typeSubmit: true,
+        text: getLang("ChooseAvatarModal.buttonText"),
+        onClick: (e: Event) => {
+          e.preventDefault();
+          const imageFormData = new FormData(this.props.formFile);
+          profileApi.changeAvatar(imageFormData);
+        },
       }),
     };
     return this.compile(chooseAvatarModalTemplate, this.props);

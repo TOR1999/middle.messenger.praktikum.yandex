@@ -5,8 +5,8 @@ import s from "./FileInput.module.scss";
 const inputTemplate = `
   <input
  class="${s[`input-file`]}"
-id={{inputId}}
-name={{nameInput}}
+id="{{inputId}}"
+name="{{nameInput}}"
 value="{{value}}"
 type="file"
 accept=".png, .jpg, .jpeg .gif .WebP"
@@ -67,7 +67,7 @@ export class FileInput extends Block<TProps> {
         color: "blue",
       }),
       input: new Input({
-        nameInput: "fileInput",
+        nameInput: this.props.nameInput,
         value: this.props.value,
         onBlur: this.props.onBlur,
         onChange: this.props.onChange,

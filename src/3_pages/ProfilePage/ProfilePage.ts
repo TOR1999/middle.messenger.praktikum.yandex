@@ -5,6 +5,7 @@ import { Button } from "../../7_shared/Button/Button";
 import { CircleIconButton } from "../../7_shared/CircleIconButton/CircleIconButton";
 import { Link } from "../../7_shared/Link/Link";
 import { Typography } from "../../7_shared/Typography/Typography";
+import { BASE_URLS } from "../../8_utils/constants/constants";
 import { URL_NAMES } from "../../8_utils/constants/type";
 import { Block } from "../../8_utils/helpers/block";
 import { checkAuth } from "../../8_utils/helpers/checkAuth";
@@ -19,7 +20,7 @@ const profilePageTemplate = (props: TProps) => {
     : "";
 
   const avatarImg = props.valueAvatar
-    ? props.valueAvatar
+    ? `${BASE_URLS.RESOURCES}${props.valueAvatar}`
     : "/icons/imageProfile.svg";
 
   return `
@@ -30,12 +31,11 @@ const profilePageTemplate = (props: TProps) => {
     </div>
   </div>
   <div class=${s["content"]}>
-    <div class=${s["image-profile-container"]}>
-      <img 
-      src=${avatarImg}
-      alt="${getLang("profilePage.altImageProfile")}"
-      />
-    </div>
+    <img
+    class=${s["image-profile"]} 
+    src=${avatarImg}
+    alt="${getLang("profilePage.altImageProfile")}"
+    />
     {{{ChangeImageProfileButton}}}
     <div class=${s["user-name"]}>
       {{{TypographyNickName}}}

@@ -15,20 +15,25 @@ import { validatePhone } from "../../8_utils/helpers/validatePhone";
 import { getLang } from "../../8_utils/langs/getLang";
 import s from "./ProfilePageEditorInfo.module.scss";
 import { URL_NAMES } from "../../8_utils/constants/type";
+import { BASE_URLS } from "../../8_utils/constants/constants";
 
-const profilePageEditorInfoTemplate = `
+const profilePageEditorInfoTemplate = (props: TProps) => {
+  const imgAvatar = props.valueAvatar
+    ? `${BASE_URLS.RESOURCES}${props.valueAvatar}`
+    : "/icons/imageProfile.svg";
+
+  return `
   <div class=${s["button-back-container"]}>
     <div class=${s["button-back"]}>
       {{{CircleIconButtonArrowBack}}}
     </div>
   </div>
   <form class=${s["content"]}>
-    <div class=${s["image-profile-container"]}>
-      <img 
-      src="/icons/imageProfile.svg"
+      <img
+      class=${s["image-profile"]}
+      src=${imgAvatar}
       alt="${getLang("profilePage.altImageProfile")}"
       />
-    </div>
     <div class=${s["info-line-container"]}>
       {{{TypographyEmail}}}
       <div class=${s["info"]}>
@@ -76,8 +81,10 @@ const profilePageEditorInfoTemplate = `
     </div>
   </form>
 `;
+};
 
 type TProps = {
+  valueAvatar: string;
   valueEmail: string;
   valueLogin: string;
   valueFirstName: string;
@@ -91,7 +98,7 @@ export class ProfilePageEditorInfo extends Block<TProps> {
     ProfileStore.on(StoreEvents.UPDATE, () => {
       const storeState = ProfileStore.getState();
       this.setProps({
-        valueAvatar: storeState.avatar,
+        valueAvatar: storeState.avatar || "",
         valueEmail: storeState.email,
         valueFirstName: storeState.first_name,
         valueLogin: storeState.login,
@@ -367,6 +374,9 @@ export class ProfilePageEditorInfo extends Block<TProps> {
       }),
     };
 
-    return this.compile(profilePageEditorInfoTemplate, this.props);
+    return this.compile(
+      profilePageEditorInfoTemplate(this.props as TProps),
+      this.props,
+    );
   }
 }

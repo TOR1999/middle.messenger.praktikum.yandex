@@ -4,6 +4,7 @@ import { Button } from "../../7_shared/Button/Button";
 import { CircleIconButton } from "../../7_shared/CircleIconButton/CircleIconButton";
 import { Input } from "../../7_shared/Input/Input";
 import { Typography } from "../../7_shared/Typography/Typography";
+import { BASE_URLS } from "../../8_utils/constants/constants";
 import { URL_NAMES } from "../../8_utils/constants/type";
 import { Block } from "../../8_utils/helpers/block";
 import { getValueById } from "../../8_utils/helpers/getValueById";
@@ -14,7 +15,9 @@ import { getLang } from "../../8_utils/langs/getLang";
 import s from "./ProfilePageEditorPassword.module.scss";
 
 const profilePageEditorPasswordTemplate = (avatar: string) => {
-  const imgAvatar = avatar ? avatar : "/icons/imageProfile.svg";
+  const imgAvatar = avatar
+    ? `${BASE_URLS.RESOURCES}${avatar}`
+    : "/icons/imageProfile.svg";
   return `
   <div class=${s["button-back-container"]}>
     <div class=${s["button-back"]}>
@@ -22,12 +25,11 @@ const profilePageEditorPasswordTemplate = (avatar: string) => {
     </div>
   </div>
   <form class=${s["content"]}>
-    <div class=${s["image-profile-container"]}>
-      <img 
+      <img
+      class=${s["image-profile"]} 
       src=${imgAvatar}
       alt="${getLang("profilePage.altImageProfile")}"
       />
-    </div>
     <div class=${s["info-line-container"]}>
       {{{TypographyOldPassword}}}
       <div class=${s["info"]}>
