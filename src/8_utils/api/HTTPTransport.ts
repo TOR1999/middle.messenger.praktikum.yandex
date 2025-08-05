@@ -1,3 +1,4 @@
+import { BASE_URLS } from "../constants/constants";
 import { METHODS, TOptions } from "../constants/type";
 
 const getBaseUrl = () => {
@@ -5,12 +6,9 @@ const getBaseUrl = () => {
     return "/api/v2";
   }
 
-  return "https://ya-praktikum.tech/api/v2";
+  return BASE_URLS.API;
 };
 
-// const HEADERS = {
-//   CONTENT_TYPE_APPLICATION_JSON: { "Content-Type": "application/json" },
-// };
 enum REQUEST_STATUSES {
   "OK" = 200,
   "BAD_REQUEST" = 400,
@@ -69,12 +67,6 @@ class HTTPTransport {
           : `${baseUrl}/${url}`,
       );
 
-      // Object.keys(headers).forEach((key) => {
-      //   xhr.setRequestHeader(key, headers[key]);
-      // });
-
-      xhr.setRequestHeader("Content-Type", "application/json");
-
       xhr.onload = function () {
         if (xhr.status === REQUEST_STATUSES.OK) {
           resolve(xhr);
@@ -89,9 +81,13 @@ class HTTPTransport {
       xhr.timeout = timeout;
       xhr.ontimeout = reject;
 
-      if (isGet || !data) {
+      if (data?.constructor.name === "FormData") {
+        xhr.send(data as Document | XMLHttpRequestBodyInit);
+      } else if (isGet || !data) {
+        xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send();
       } else {
+        xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send(JSON.stringify(data) as Document | XMLHttpRequestBodyInit);
       }
     });
