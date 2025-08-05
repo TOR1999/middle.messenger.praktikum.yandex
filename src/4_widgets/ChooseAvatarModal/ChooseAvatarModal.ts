@@ -82,6 +82,7 @@ export class ChooseAvatarModal extends Block<TProps> {
         text: getLang("ChooseAvatarModal.buttonText"),
         onClick: (e: Event) => {
           e.preventDefault();
+          if (!this.props.formFile) return;
           const imageFormData = new FormData(this.props.formFile);
           profileApi.changeAvatar(imageFormData);
         },

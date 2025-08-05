@@ -26,7 +26,6 @@ const listMessagesTemplate = (props: TProps) => {
      ${listMessages}
   </div>
   <form class=${s["footer"]}>
-    {{{IconButtonPaperClip}}}
     <div class=${s["input-container"]}>
       {{{MessageInput}}}
     </div>   
@@ -54,11 +53,6 @@ export class ListMessages extends Block<TProps> {
         id: "IconButtonActionChatId",
         altText: "",
         iconSrc: "/icons/threeDots.svg",
-      }),
-      IconButtonPaperClip: new IconButton({
-        id: "IconButtonActionChatId",
-        altText: "",
-        iconSrc: "/icons/paperClip.svg",
       }),
 
       MessageInput: new Input({
