@@ -1,4 +1,5 @@
 import { TChat } from "../../1_app/types";
+import { Button } from "../../7_shared/Button/Button";
 import { Input } from "../../7_shared/Input/Input";
 import { ItemChat } from "../../7_shared/ItemChat/ItemChat";
 import { Link } from "../../7_shared/Link/Link";
@@ -26,6 +27,9 @@ const listChatsTemplate = (props: TProps) => {
     <form class=${s["search-input"]}>
     {{{SearchChatInput}}}
     </form>
+    <div class=${s["create-chat-button"]}>
+      {{{CreateChatButton}}}
+    </div>
   </div>
   <div class=${s["list-chats-container"]}>
     ${listChats}
@@ -37,6 +41,7 @@ export type TProps = {
   chats: TChat[];
   selectedChat?: number;
   onSelectedChat: (index: number) => void;
+  onOpenCreateChatModal: () => void;
 };
 
 export class ListChats extends Block<TProps> {
@@ -56,7 +61,6 @@ export class ListChats extends Block<TProps> {
           router.go(URL_NAMES.SETTINGS);
         },
       }),
-      ArrowRightIcon: "",
       SearchChatInput: new Input({
         inputId: "searchChatsId",
         nameInput: "searchChats",
@@ -67,6 +71,12 @@ export class ListChats extends Block<TProps> {
         textPosition: "center",
         textPlaceholder: getLang("chatsPage.listChats.search"),
         upHeight: true,
+      }),
+      CreateChatButton: new Button({
+        disabled: false,
+        id: "createChatButton",
+        text: getLang("chatsPage.listChats.createChat"),
+        onClick: props.onOpenCreateChatModal,
       }),
     });
   }

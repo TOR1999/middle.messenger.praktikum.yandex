@@ -6,6 +6,9 @@ export const langs = {
     buttons: {
       altBack: "Кнопка назад.",
       save: "Сохранить",
+      cancel: "Отмена",
+      add: "Добавить",
+      delete: "Удалить",
     },
   },
   authorizationModal: {
@@ -65,10 +68,32 @@ export const langs = {
   },
   chatsPage: {
     unSelectChat: "Выберите чат чтобы отправить сообщение",
-    listChats: { linkProfile: "Профиль", search: "Поиск" },
+    listChats: {
+      linkProfile: "Профиль",
+      search: "Поиск",
+      createChat: "Создать чат",
+    },
     listMessages: {
       unselectedChat: "Выберите чат чтобы отправить сообщение",
       placeHolderMessage: "Сообщение",
+    },
+    createChatModal: {
+      title: "Создать новый чат",
+      label: "Название",
+    },
+    actionChatModal: {
+      title: "Создать новый чат",
+      addUserButton: "Добавить пользователя",
+      deleteUserButton: "Удалить пользователя",
+      deleteChatButton: "Удалить чат",
+    },
+    addUserModal: {
+      title: "Добавить пользователя",
+      label: "Логин",
+    },
+    deleteUserModal: {
+      title: "Удалить пользователя",
+      label: "Логин",
     },
   },
   ChooseAvatarModal: {

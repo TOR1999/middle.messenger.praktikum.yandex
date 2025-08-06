@@ -26,7 +26,6 @@ const listMessagesTemplate = (props: TProps) => {
      ${listMessages}
   </div>
   <form class=${s["footer"]}>
-    {{{IconButtonPaperClip}}}
     <div class=${s["input-container"]}>
       {{{MessageInput}}}
     </div>   
@@ -37,6 +36,7 @@ const listMessagesTemplate = (props: TProps) => {
 
 export type TProps = {
   chat: TChat;
+  onOpenActionChatModal: () => void;
 };
 
 export class ListMessages extends Block<TProps> {
@@ -49,16 +49,6 @@ export class ListMessages extends Block<TProps> {
       TypographyName: new Typography({
         variant: "h5",
         text: props.chat.name,
-      }),
-      IconButtonActionChat: new IconButton({
-        id: "IconButtonActionChatId",
-        altText: "",
-        iconSrc: "/icons/threeDots.svg",
-      }),
-      IconButtonPaperClip: new IconButton({
-        id: "IconButtonActionChatId",
-        altText: "",
-        iconSrc: "/icons/paperClip.svg",
       }),
 
       MessageInput: new Input({
@@ -98,7 +88,16 @@ export class ListMessages extends Block<TProps> {
       },
       {} as Record<string, Message>,
     );
-    this.children = { ...this.children, ...listMessages };
+    this.children = {
+      ...this.children,
+      ...listMessages,
+      IconButtonActionChat: new IconButton({
+        id: "IconButtonActionChatId",
+        altText: "",
+        iconSrc: "/icons/threeDots.svg",
+        onClick: this.props.onOpenActionChatModal,
+      }),
+    };
     return this.compile(listMessagesTemplate(this.props as TProps), this.props);
   }
 }
