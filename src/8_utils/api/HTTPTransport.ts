@@ -1,14 +1,6 @@
 import { BASE_URLS } from "../constants/constants";
 import { METHODS, TOptions } from "../constants/type";
 
-const getBaseUrl = () => {
-  if (window.location.host === "localhost:3000") {
-    return "/api/v2";
-  }
-
-  return BASE_URLS.API;
-};
-
 enum REQUEST_STATUSES {
   "OK" = 200,
   "BAD_REQUEST" = 400,
@@ -49,7 +41,7 @@ class HTTPTransport {
   request = (url: string, options: TOptions) => {
     const { method, data } = options;
     const timeout = 10000;
-    const baseUrl = getBaseUrl();
+    const baseUrl = BASE_URLS.API;
 
     return new Promise((resolve, reject) => {
       if (!method) {
@@ -66,6 +58,8 @@ class HTTPTransport {
           ? `${baseUrl}/${url}${queryStringify(data as Record<string, string | boolean | number>)}`
           : `${baseUrl}/${url}`,
       );
+
+      xhr.withCredentials = true;
 
       xhr.onload = function () {
         if (xhr.status === REQUEST_STATUSES.OK) {
