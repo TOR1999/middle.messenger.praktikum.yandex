@@ -1,4 +1,4 @@
-import { TChat } from "../../1_app/types";
+import { TChat } from "../../6_entites/Chat/types";
 import { CircleIconButton } from "../../7_shared/CircleIconButton/CircleIconButton";
 import { IconButton } from "../../7_shared/IconButton/IconButton";
 import { Input } from "../../7_shared/Input/Input";
@@ -10,9 +10,10 @@ import { getLang } from "../../8_utils/langs/getLang";
 import s from "./ListMessages.module.scss";
 
 const listMessagesTemplate = (props: TProps) => {
-  const listMessages = props.chat.messages
-    .map((_, index) => `{{{message_${index + 1}}}}`)
-    .join("");
+  // const listMessages = props.chat.messages
+  //   .map((_, index) => `{{{message_${index + 1}}}}`)
+  //   .join("");
+  const listMessages = "";
   return `
   <div class=${s["header"]}>
    <div class=${s["recipient-info"]}>
@@ -48,7 +49,7 @@ export class ListMessages extends Block<TProps> {
       },
       TypographyName: new Typography({
         variant: "h5",
-        text: props.chat.name,
+        text: props.chat?.title || "",
       }),
 
       MessageInput: new Input({
@@ -77,20 +78,20 @@ export class ListMessages extends Block<TProps> {
   }
 
   override render() {
-    const listMessages = (this.props as TProps).chat.messages.reduce(
-      (acc, curr, index) => {
-        acc[`message_${index + 1}`] = new Message({
-          message: curr,
-          messageId: `message_${index + 1}`,
-          myMessage: curr.myMessage,
-        });
-        return acc;
-      },
-      {} as Record<string, Message>,
-    );
+    // const listMessages = (this.props as TProps).chat.messages.reduce(
+    //   (acc, curr, index) => {
+    //     acc[`message_${index + 1}`] = new Message({
+    //       message: curr,
+    //       messageId: `message_${index + 1}`,
+    //       myMessage: curr.myMessage,
+    //     });
+    //     return acc;
+    //   },
+    //   {} as Record<string, Message>,
+    // );
     this.children = {
       ...this.children,
-      ...listMessages,
+      // ...listMessages,
       IconButtonActionChat: new IconButton({
         id: "IconButtonActionChatId",
         altText: "",

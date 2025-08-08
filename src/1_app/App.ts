@@ -5,11 +5,7 @@ import { ProfilePage } from "../3_pages/ProfilePage/ProfilePage";
 import { ErrorPage } from "../3_pages/ErrorPage/ErrorPage";
 import { getLang } from "../8_utils/langs/getLang";
 import { NamePages, TState } from "./types";
-import {
-  AUTH_PAGE_DATA,
-  CHATS_PAGE_DATA,
-  REGISTRATION_PAGE_DATA,
-} from "./MockData";
+import { AUTH_PAGE_DATA, REGISTRATION_PAGE_DATA } from "./MockData";
 import { ProfilePageEditorInfo } from "../3_pages/ProfilePageEditorInfo/ProfilePageEditorInfo";
 import { ProfilePageEditorPassword } from "../3_pages/ProfilePageEditorPassword/ProfilePageEditorPassword";
 import { ChatsPage } from "../3_pages/ChatsPage/ChatsPage";
@@ -36,7 +32,7 @@ export default class App {
     const profilePage = new ProfilePage();
     const profilePageEditorInfo = new ProfilePageEditorInfo();
     const profilePageEditorPassword = new ProfilePageEditorPassword();
-    const сhatsPage = new ChatsPage(CHATS_PAGE_DATA);
+    const сhatsPage = new ChatsPage();
     const notFoundPage = new ErrorPage({
       textCode: getLang("ErrorPage.notFound.textCode"),
       textMessage: getLang("ErrorPage.notFound.textMessage"),

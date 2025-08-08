@@ -10,6 +10,7 @@ export const langs = {
       add: "Добавить",
       delete: "Удалить",
     },
+    you: "Вы",
   },
   authorizationModal: {
     tittle: "Вход",

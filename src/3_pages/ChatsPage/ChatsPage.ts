@@ -1,10 +1,15 @@
-import { TChat } from "../../1_app/types";
 import { ListChats } from "../../4_widgets/ListChats/ListChats";
 import { ListMessages } from "../../4_widgets/ListMessages/ListMessages";
+import chatApi from "../../6_entites/Chat/chatApi";
+import { ChatStore } from "../../6_entites/Chat/store";
+import { TChat } from "../../6_entites/Chat/types";
 import { ActionChatModal } from "../../7_shared/ActionChatModal/ActionChatModal";
 import { ModalWithInput } from "../../7_shared/ModalWithInput/ModalWithInput";
 import { Typography } from "../../7_shared/Typography/Typography";
 import { Block } from "../../8_utils/helpers/block";
+import { checkAuth } from "../../8_utils/helpers/checkAuth";
+import { getValueById } from "../../8_utils/helpers/getValueById";
+import { StoreEvents } from "../../8_utils/helpers/store";
 import { getLang } from "../../8_utils/langs/getLang";
 import s from "./ChatsPage.module.scss";
 
@@ -40,9 +45,19 @@ type TProps = {
 };
 
 export class ChatsPage extends Block<TProps> {
-  constructor(props: TProps) {
+  constructor() {
+    if (checkAuth()) {
+      chatApi.getChats({ offset: 0, limit: 10, title: "" });
+    }
+
+    ChatStore.on(StoreEvents.UPDATE, () => {
+      const storeState = ChatStore.getState();
+      this.setProps({
+        chats: storeState.chats,
+      });
+    });
+
     super("div", {
-      ...props,
       attr: {
         class: `${s["container"]}`,
       },
@@ -50,19 +65,21 @@ export class ChatsPage extends Block<TProps> {
   }
 
   override render() {
-    const childListMessages = this.props.selectedChat
-      ? new ListMessages({
-          chat: this.props.chats[this.props.selectedChat],
-          onOpenActionChatModal: () => {
-            this.setProps({ openedActionChatModal: true });
-          },
-        })
-      : new Typography({
-          variant: "b5",
-          text: getLang("chatsPage.listMessages.unselectedChat"),
-          color: "grey",
-          textAlign: "center",
-        });
+    const childListMessages =
+      this.props.selectedChat !== undefined
+        ? new ListMessages({
+            chat: this.props.chats[this.props.selectedChat],
+            onOpenActionChatModal: () => {
+              this.setProps({ openedActionChatModal: true });
+            },
+          })
+        : new Typography({
+            variant: "b5",
+            text: getLang("chatsPage.listMessages.unselectedChat"),
+            color: "grey",
+            textAlign: "center",
+          });
+
     this.children = {
       ...this.children,
       ListChats: new ListChats({
@@ -81,7 +98,13 @@ export class ChatsPage extends Block<TProps> {
         textLabel: getLang("chatsPage.createChatModal.label"),
         textApplyButton: getLang("common.buttons.add"),
         textCancelButton: getLang("common.buttons.cancel"),
-        onClickApply: () => {},
+        onClickApply: (e) => {
+          e.preventDefault();
+
+          const title = getValueById("modalInputId");
+          chatApi.createChat({ title });
+          this.setProps({ openedCreateChatModal: false });
+        },
         onClickCancel: () => {
           this.setProps({ openedCreateChatModal: false });
         },
@@ -99,7 +122,14 @@ export class ChatsPage extends Block<TProps> {
             openedDeleteUserModal: true,
           });
         },
-        onClickDeleteChat: () => {
+        onClickDeleteChat: (e) => {
+          e.preventDefault();
+
+          if (this.props.selectedChat === undefined) return;
+
+          const chatId = ChatStore.getState().chats[this.props.selectedChat].id;
+          chatApi.deleteChatById({ chatId: String(chatId) });
+
           this.setProps({ openedActionChatModal: false });
         },
         onClickCancel: () => {
