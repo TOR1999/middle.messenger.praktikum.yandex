@@ -20,7 +20,7 @@ class ProfileAPI {
       .then(({ response }: any) => {
         const data = JSON.parse(response);
 
-        ProfileStore.setState({ ...data });
+        ProfileStore.setState({ myUser: { ...data } });
       })
       .catch(() => {
         alert(getLang("errorRequest.badRequest"));
@@ -32,7 +32,7 @@ class ProfileAPI {
       .then(({ response }: any) => {
         const data = JSON.parse(response);
 
-        ProfileStore.setState({ ...data });
+        ProfileStore.setState({ myUser: { ...data } });
         router.go(URL_NAMES.SETTINGS);
       })
       .catch(() => {
@@ -54,7 +54,10 @@ class ProfileAPI {
 
   searchUserByLogin(data: TFindUserRequest) {
     HTTPTransport.post(`${this.__basePath}/search`, { data })
-      .then(() => {})
+      .then(({ response }: any) => {
+        const data = JSON.parse(response);
+        ProfileStore.setState({ searchingUsers: data });
+      })
       .catch(() => {
         alert(getLang("errorRequest.badRequest"));
       });
