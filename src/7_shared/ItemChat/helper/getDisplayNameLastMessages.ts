@@ -9,7 +9,7 @@ type TLastMessage = {
 } | null;
 
 export const getDisplayNameLastMessages = (lastMessage: TLastMessage) => {
-  const myUserId = ProfileStore.getState().id;
+  const myUserId = ProfileStore.getState().myUser.id;
   if (!lastMessage || !myUserId) return "";
 
   if (myUserId === lastMessage.user.id) {
