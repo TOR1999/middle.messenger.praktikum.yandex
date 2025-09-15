@@ -96,7 +96,7 @@ type TProps = {
 export class ProfilePageEditorInfo extends Block<TProps> {
   constructor() {
     ProfileStore.on(StoreEvents.UPDATE, () => {
-      const storeState = ProfileStore.getState();
+      const storeState = ProfileStore.getState().myUser;
       this.setProps({
         valueAvatar: storeState.avatar || "",
         valueEmail: storeState.email,

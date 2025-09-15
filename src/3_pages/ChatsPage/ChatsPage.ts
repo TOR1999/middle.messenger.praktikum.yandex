@@ -1,8 +1,15 @@
 import { ListChats } from "../../4_widgets/ListChats/ListChats";
 import { ListMessages } from "../../4_widgets/ListMessages/ListMessages";
+import { ModalActionChatWithUser } from "../../5_features/ModalActionChatWithUser/ModalActionChatWithUser";
+import {
+  TFoundUserInfo,
+  TUserFromChat,
+} from "../../6_entites/Auth/model/types";
 import chatApi from "../../6_entites/Chat/chatApi";
 import { ChatStore } from "../../6_entites/Chat/store";
 import { TChat } from "../../6_entites/Chat/types";
+import profileApi from "../../6_entites/Profile/model/profileApi";
+import { ProfileStore } from "../../6_entites/Profile/model/store";
 import { ActionChatModal } from "../../7_shared/ActionChatModal/ActionChatModal";
 import { ModalWithInput } from "../../7_shared/ModalWithInput/ModalWithInput";
 import { Typography } from "../../7_shared/Typography/Typography";
@@ -42,6 +49,8 @@ type TProps = {
   openedActionChatModal?: boolean;
   openedAddUserModal?: boolean;
   openedDeleteUserModal?: boolean;
+  searchingUsers?: TFoundUserInfo[];
+  listUsersFromChat?: TUserFromChat[];
 };
 
 export class ChatsPage extends Block<TProps> {
@@ -54,6 +63,20 @@ export class ChatsPage extends Block<TProps> {
       const storeState = ChatStore.getState();
       this.setProps({
         chats: storeState.chats,
+      });
+    });
+
+    ChatStore.on(StoreEvents.UPDATE, () => {
+      const listUsersFromChat = ChatStore.getState().listUsersFromChat;
+      this.setProps({
+        listUsersFromChat,
+      });
+    });
+
+    ProfileStore.on(StoreEvents.UPDATE, () => {
+      const storeState = ProfileStore.getState().searchingUsers;
+      this.setProps({
+        searchingUsers: storeState,
       });
     });
 
@@ -121,6 +144,8 @@ export class ChatsPage extends Block<TProps> {
             openedActionChatModal: false,
             openedDeleteUserModal: true,
           });
+          const selectedChatId = ChatStore.getState().selectedChatId;
+          chatApi.getUsersFromChat(selectedChatId);
         },
         onClickDeleteChat: (e) => {
           e.preventDefault();
@@ -136,24 +161,36 @@ export class ChatsPage extends Block<TProps> {
           this.setProps({ openedActionChatModal: false });
         },
       }),
-      AddUserModal: new ModalWithInput({
+      AddUserModal: new ModalActionChatWithUser({
         title: getLang("chatsPage.addUserModal.title"),
         textLabel: getLang("chatsPage.addUserModal.label"),
-        textApplyButton: getLang("common.buttons.add"),
+        textApplyButton: getLang("common.buttons.find"),
         textCancelButton: getLang("common.buttons.cancel"),
-        onClickApply: () => {},
+        searchingUsers: this.props.searchingUsers,
+        mode: "addUser",
+        onClickApply: (e) => {
+          e.preventDefault();
+
+          profileApi.searchUserByLogin({
+            login: getValueById("modalInputId"),
+          });
+        },
         onClickCancel: () => {
           this.setProps({ openedAddUserModal: false });
+          ProfileStore.setState({ searchingUsers: [] });
         },
       }),
-      DeleteUserModal: new ModalWithInput({
+      DeleteUserModal: new ModalActionChatWithUser({
         title: getLang("chatsPage.deleteUserModal.title"),
         textLabel: getLang("chatsPage.deleteUserModal.label"),
         textApplyButton: getLang("common.buttons.delete"),
         textCancelButton: getLang("common.buttons.cancel"),
+        mode: "deleteUser",
+        listUsersFromChat: this.props.listUsersFromChat,
         onClickApply: () => {},
         onClickCancel: () => {
           this.setProps({ openedDeleteUserModal: false });
+          ChatStore.setState({ listUsersFromChat: [] });
         },
       }),
     };

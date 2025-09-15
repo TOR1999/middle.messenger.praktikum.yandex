@@ -1,3 +1,4 @@
+import { ChatStore } from "../../6_entites/Chat/store";
 import { TChat } from "../../6_entites/Chat/types";
 import { Button } from "../../7_shared/Button/Button";
 import { Input } from "../../7_shared/Input/Input";
@@ -95,6 +96,7 @@ export class ListChats extends Block<TProps> {
 
               this.props.onSelectedChat(index);
               this.setProps({ selectedChat: index });
+              ChatStore.setState({ selectedChatId: curr.id });
             },
           });
           return acc;

@@ -115,7 +115,7 @@ export class ProfilePage extends Block<TProps> {
     });
 
     ProfileStore.on(StoreEvents.UPDATE, () => {
-      const storeState = ProfileStore.getState();
+      const storeState = ProfileStore.getState().myUser;
       this.setProps({
         valueAvatar: storeState.avatar || "",
         valueEmail: storeState.email,
