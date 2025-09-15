@@ -1,0 +1,19 @@
+@use "../../8_utils/styles/colors.scss" as colors;
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 12px 10px;
+  border-bottom: 2px solid colors.$grey;
+  background-color: colors.$white;
+
+  .login {
+    display: flex;
+  }
+
+  .role {
+    display: flex;
+  }
+}
