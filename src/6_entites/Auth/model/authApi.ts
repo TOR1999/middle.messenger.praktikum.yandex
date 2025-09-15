@@ -44,7 +44,7 @@ class AuthAPI {
       .then(({ response }: any) => {
         const data = JSON.parse(response);
 
-        ProfileStore.setState({ ...data });
+        ProfileStore.setState({ myUser: { ...data } });
       })
       .catch(() => {
         alert(getLang("errorRequest.badRequest"));
