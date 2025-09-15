@@ -9,6 +9,7 @@ export const langs = {
       cancel: "Отмена",
       add: "Добавить",
       delete: "Удалить",
+      find: "Найти",
     },
     you: "Вы",
   },
@@ -105,5 +106,9 @@ export const langs = {
   },
   errorRequest: {
     badRequest: "Что-то пошло не так... Попробуте попытку снова",
+  },
+  notificationInfo: {
+    successfulAddUserToChat: "Пользователь успешно добавлен в чат",
+    successfulDeleteUserToChat: "Пользователь успешно удалён из чата",
   },
 };

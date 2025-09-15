@@ -1,7 +1,7 @@
 import { BASE_URLS } from "../constants/constants";
 import { METHODS, TOptions } from "../constants/type";
 
-enum REQUEST_STATUSES {
+export enum REQUEST_STATUSES {
   "OK" = 200,
   "BAD_REQUEST" = 400,
   "UNAUTHORIZED" = 401,
