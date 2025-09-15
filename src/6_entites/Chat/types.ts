@@ -1,4 +1,4 @@
-import { TUserInfo } from "../Auth/model/types";
+import { TUserFromChat, TUserInfo } from "../Auth/model/types";
 
 export type TGetChatsRequest = {
   offset: number;
@@ -12,6 +12,11 @@ export type TCreateChatRequest = {
 
 export type TDeleteChatByIdRequest = {
   chatId: string;
+};
+
+export type TAddUsersToChatRequest = {
+  users: number[];
+  chatId: number | null;
 };
 
 type TMessage = {
@@ -35,6 +40,23 @@ export type TChat = {
   // messages: TMessage[];
 };
 
-export type TChats = {
+export type TInitialStateChats = {
   chats: TChat[];
+  selectedChatId: number | null;
+  listUsersFromChat: TUserFromChat[];
+  messages?: any;
 };
+
+export enum ACTIONS_WEBSOCKET {
+  OPEN = "open",
+  CLOSE = "close",
+  MESSAGE = "message",
+  ERROR = "error",
+}
+
+export enum TYPES_MESSAGE_WEBSOCKET {
+  PING = "ping",
+  PONG = "pong",
+  MESSAGE = "message",
+  GET_OLD = "get old",
+}

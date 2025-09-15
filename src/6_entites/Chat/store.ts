@@ -1,7 +1,7 @@
 import { Store } from "../../8_utils/helpers/store";
-import { TChats } from "./types";
+import { TInitialStateChats } from "./types";
 
-const initialState: TChats = {
+const initialState: TInitialStateChats = {
   chats: [
     {
       id: 0,
@@ -26,6 +26,8 @@ const initialState: TChats = {
       // created_by: 0,
     },
   ],
+  selectedChatId: null,
+  listUsersFromChat: [],
 };
 
-export const ChatStore = new Store<TChats>(initialState);
+export const ChatStore = new Store<TInitialStateChats>(initialState);

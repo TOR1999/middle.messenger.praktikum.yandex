@@ -1,7 +1,10 @@
-import HTTPTransport from "../../8_utils/api/HTTPTransport";
+import HTTPTransport, {
+  REQUEST_STATUSES,
+} from "../../8_utils/api/HTTPTransport";
 import { getLang } from "../../8_utils/langs/getLang";
 import { ChatStore } from "./store";
 import {
+  TAddUsersToChatRequest,
   TCreateChatRequest,
   TDeleteChatByIdRequest,
   TGetChatsRequest,
@@ -17,11 +20,29 @@ class ChatAPI {
     HTTPTransport.get(`${this.__basePath}`, { data: params })
       .then(({ response }: any) => {
         const data = JSON.parse(response);
-        console.log({ data });
+
         ChatStore.setState({ chats: data });
       })
-      .catch((e) => {
-        console.log(e);
+      .catch(() => {
+        alert(getLang("errorRequest.badRequest"));
+      });
+  }
+
+  getUsersFromChat(idChat: number | null) {
+    HTTPTransport.get(`${this.__basePath}/${idChat}/users`)
+      .then(({ response }: any) => {
+        const data = JSON.parse(response);
+        ChatStore.setState({ listUsersFromChat: data });
+      })
+      .catch(() => {
+        alert(getLang("errorRequest.badRequest"));
+      });
+  }
+
+  getChatToken(idChat: number) {
+    HTTPTransport.post(`${this.__basePath}/token/${idChat}`)
+      .then(({ response }: any) => JSON.parse(response))
+      .catch(() => {
         alert(getLang("errorRequest.badRequest"));
       });
   }
@@ -40,6 +61,30 @@ class ChatAPI {
     HTTPTransport.delete(`${this.__basePath}`, { data })
       .then(() => {
         this.getChats({ offset: 0, limit: 10, title: "" });
+      })
+      .catch(() => {
+        alert(getLang("errorRequest.badRequest"));
+      });
+  }
+
+  addUsersToChat(data: TAddUsersToChatRequest) {
+    HTTPTransport.put(`${this.__basePath}/users`, { data })
+      .then((response: any) => {
+        if (response.status == REQUEST_STATUSES.OK) {
+          alert(getLang("notificationInfo.successfulAddUserToChat"));
+        }
+      })
+      .catch(() => {
+        alert(getLang("errorRequest.badRequest"));
+      });
+  }
+
+  deleteUsersToChat(data: TAddUsersToChatRequest) {
+    HTTPTransport.delete(`${this.__basePath}/users`, { data })
+      .then((response: any) => {
+        if (response.status == REQUEST_STATUSES.OK) {
+          alert(getLang("notificationInfo.successfulDeleteUserToChat"));
+        }
       })
       .catch(() => {
         alert(getLang("errorRequest.badRequest"));
