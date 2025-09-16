@@ -2,6 +2,8 @@ import HTTPTransport, {
   REQUEST_STATUSES,
 } from "../../8_utils/api/HTTPTransport";
 import { getLang } from "../../8_utils/langs/getLang";
+import { ProfileStore } from "../Profile/model/store";
+import MessagesSoket from "./MessagesSoket";
 import { ChatStore } from "./store";
 import {
   TAddUsersToChatRequest,
@@ -39,9 +41,14 @@ class ChatAPI {
       });
   }
 
-  getChatToken(idChat: number) {
-    HTTPTransport.post(`${this.__basePath}/token/${idChat}`)
-      .then(({ response }: any) => JSON.parse(response))
+  getChatToken(chatId: number) {
+    HTTPTransport.post(`${this.__basePath}/token/${chatId}`)
+      .then(({ response }: any) => {
+        const { token } = JSON.parse(response);
+        const userId = ProfileStore.getState().myUser.id;
+
+        MessagesSoket.connect({ userId, chatId, token });
+      })
       .catch(() => {
         alert(getLang("errorRequest.badRequest"));
       });

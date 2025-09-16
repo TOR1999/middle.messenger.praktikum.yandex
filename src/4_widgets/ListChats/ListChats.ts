@@ -1,3 +1,4 @@
+import chatApi from "../../6_entites/Chat/chatApi";
 import { ChatStore } from "../../6_entites/Chat/store";
 import { TChat } from "../../6_entites/Chat/types";
 import { Button } from "../../7_shared/Button/Button";
@@ -13,8 +14,9 @@ import s from "./ListChats.module.scss";
 const listChatsTemplate = (props: TProps) => {
   const listChats =
     props.chats?.length > 0
-      ? props.chats.map((_, index) => `{{{ItemChat${index}}}}`).join("")
+      ? props.chats.map((_, index) => `{{{ItemChat_${index}}}}`).join("")
       : "";
+
   return `
   <div class=${s["header"]}>
     <div class=${s["link-back"]}>
@@ -87,9 +89,9 @@ export class ListChats extends Block<TProps> {
     const listChats =
       (this.props as TProps).chats?.reduce(
         (acc, curr, index) => {
-          acc[`ItemChat${index}`] = new ItemChat({
+          acc[`ItemChat_${index}`] = new ItemChat({
             chat: curr,
-            chatId: `ItemChat${index}`,
+            chatId: `ItemChat_${index}`,
             selectedChat: index === this.props.selectedChat ? true : false,
             onClick: (e: Event) => {
               e.stopPropagation();
@@ -97,12 +99,17 @@ export class ListChats extends Block<TProps> {
               this.props.onSelectedChat(index);
               this.setProps({ selectedChat: index });
               ChatStore.setState({ selectedChatId: curr.id });
+              chatApi.getUsersFromChat(curr.id);
+
+              if (curr.id) {
+                chatApi.getChatToken(curr.id);
+              }
             },
           });
           return acc;
         },
         {} as Record<string, ItemChat>,
-      ) || [];
+      ) || {};
 
     this.children = { ...this.children, ...listChats };
     return this.compile(listChatsTemplate(this.props as TProps), this.props);

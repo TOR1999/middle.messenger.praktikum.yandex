@@ -7,7 +7,7 @@ import {
 } from "../../6_entites/Auth/model/types";
 import chatApi from "../../6_entites/Chat/chatApi";
 import { ChatStore } from "../../6_entites/Chat/store";
-import { TChat } from "../../6_entites/Chat/types";
+import { TChat, TMessage } from "../../6_entites/Chat/types";
 import profileApi from "../../6_entites/Profile/model/profileApi";
 import { ProfileStore } from "../../6_entites/Profile/model/store";
 import { ActionChatModal } from "../../7_shared/ActionChatModal/ActionChatModal";
@@ -51,6 +51,7 @@ type TProps = {
   openedDeleteUserModal?: boolean;
   searchingUsers?: TFoundUserInfo[];
   listUsersFromChat?: TUserFromChat[];
+  messages?: TMessage[];
 };
 
 export class ChatsPage extends Block<TProps> {
@@ -58,6 +59,13 @@ export class ChatsPage extends Block<TProps> {
     if (checkAuth()) {
       chatApi.getChats({ offset: 0, limit: 10, title: "" });
     }
+
+    ChatStore.on(StoreEvents.UPDATE, () => {
+      const messages = ChatStore.getState().messages;
+      this.setProps({
+        messages,
+      });
+    });
 
     ChatStore.on(StoreEvents.UPDATE, () => {
       const storeState = ChatStore.getState();
@@ -92,6 +100,7 @@ export class ChatsPage extends Block<TProps> {
       this.props.selectedChat !== undefined
         ? new ListMessages({
             chat: this.props.chats[this.props.selectedChat],
+            messages: this.props.messages,
             onOpenActionChatModal: () => {
               this.setProps({ openedActionChatModal: true });
             },
@@ -190,7 +199,6 @@ export class ChatsPage extends Block<TProps> {
         onClickApply: () => {},
         onClickCancel: () => {
           this.setProps({ openedDeleteUserModal: false });
-          ChatStore.setState({ listUsersFromChat: [] });
         },
       }),
     };
