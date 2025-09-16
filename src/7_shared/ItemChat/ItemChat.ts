@@ -3,6 +3,7 @@ import s from "./ItemChat.module.scss";
 import { Typography } from "../Typography/Typography";
 import { TChat } from "../../6_entites/Chat/types";
 import { getDisplayNameLastMessages } from "./helper/getDisplayNameLastMessages";
+import { getDateTimeFromStr } from "../../8_utils/helpers/getDateTimeFromStr";
 
 const listChatsTemplate = (props: TProps) => {
   const resultCountUnreadMessage = props.chat.unread_count
@@ -66,7 +67,7 @@ export class ItemChat extends Block<TProps> {
       }),
       TypographyDateTime: new Typography({
         variant: "b5",
-        text: this.props.chat.last_message?.time || "",
+        text: getDateTimeFromStr(this.props.chat.last_message?.time || ""),
       }),
       TypographyCountMessage: new Typography({
         variant: "b6",
