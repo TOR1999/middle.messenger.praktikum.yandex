@@ -19,12 +19,12 @@ export type TAddUsersToChatRequest = {
   chatId: number | null;
 };
 
-type TMessage = {
-  text: string;
-  dataSend: string;
-  timeSend: string;
-  senderName: string;
-  myMessage: boolean;
+export type TMessage = {
+  chat_id: number;
+  time: string;
+  type: string;
+  user_id: string;
+  content: string;
 };
 
 export type TChat = {
@@ -37,14 +37,13 @@ export type TChat = {
     time: string;
     content: string;
   } | null;
-  // messages: TMessage[];
 };
 
 export type TInitialStateChats = {
   chats: TChat[];
   selectedChatId: number | null;
   listUsersFromChat: TUserFromChat[];
-  messages?: any;
+  messages?: TMessage[];
 };
 
 export enum ACTIONS_WEBSOCKET {
