@@ -93,11 +93,11 @@ export class ListMessages extends Block<TProps> {
       (this.props as TProps).messages?.reduce(
         (acc, curr, index) => {
           const isMyMessage =
-            listUsersFromChat.length > 1
+            listUsersFromChat.length > 0
               ? Number(curr.user_id) === myUser.id
               : true;
           const usersFromChat: null | Record<number, TUserFromChat> =
-            listUsersFromChat.length > 1
+            listUsersFromChat.length > 0
               ? listUsersFromChat.reduce(
                   (acc, curr) => ({
                     ...acc,

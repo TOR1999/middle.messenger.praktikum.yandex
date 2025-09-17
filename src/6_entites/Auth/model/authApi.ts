@@ -51,8 +51,7 @@ class AuthAPI {
 
         ProfileStore.setState({ myUser: { ...data } });
       })
-      .catch((e) => {
-        console.log(e);
+      .catch(() => {
         alert(getLang("errorRequest.badRequest"));
         router.go(URL_NAMES.SERVER_ERROR);
       });
