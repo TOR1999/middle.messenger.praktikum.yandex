@@ -98,7 +98,11 @@ export class ListChats extends Block<TProps> {
 
               this.props.onSelectedChat(index);
               this.setProps({ selectedChat: index });
-              ChatStore.setState({ selectedChatId: curr.id });
+
+              ChatStore.setState({
+                selectedChatIndex: index,
+                selectedChatId: curr.id,
+              });
               chatApi.getUsersFromChat(curr.id);
 
               if (curr.id) {

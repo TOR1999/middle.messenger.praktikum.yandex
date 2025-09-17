@@ -66,6 +66,7 @@ export class ChatsPage extends Block<TProps> {
         messages: store.messages,
         chats: store.chats,
         listUsersFromChat: store.listUsersFromChat,
+        selectedChat: store.selectedChatIndex,
       });
     });
 

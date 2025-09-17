@@ -106,6 +106,9 @@ export const langs = {
   },
   errorRequest: {
     badRequest: "Что-то пошло не так... Попробуте попытку снова",
+    loginOrPasswordIsIncorrect: "Логин или пароль неверный",
+    loginAlreadyExists: "Такой логин уже существует",
+    emailAlreadyExists: "Такой email уже существует",
   },
   notificationInfo: {
     successfulAddUserToChat: "Пользователь успешно добавлен в чат",

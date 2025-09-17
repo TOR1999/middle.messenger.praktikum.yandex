@@ -1,6 +1,7 @@
 import HTTPTransport from "../../../8_utils/api/HTTPTransport";
 import { STORAGE_IS_AUTH } from "../../../8_utils/constants/constants";
 import { URL_NAMES } from "../../../8_utils/constants/type";
+import { getMessageFromResponse } from "../../../8_utils/helpers/getMessageFromResponse";
 import router from "../../../8_utils/helpers/router";
 import { getLang } from "../../../8_utils/langs/getLang";
 import chatApi from "../../Chat/chatApi";
@@ -20,11 +21,32 @@ class AuthAPI {
   signUp(data: TUserRegistrationRequest) {
     HTTPTransport.post(`${this.__basePath}/signup`, { data })
       .then(() => {
+        localStorage.setItem(STORAGE_IS_AUTH, "true");
         chatApi.getChats({ offset: 0, limit: 10, title: "" });
         this.getUserInfo();
         router.go(URL_NAMES.MESSAGER);
       })
-      .catch(() => {
+      .catch((error) => {
+        const errorText = getMessageFromResponse(error.responseText);
+
+        if (errorText === "Login already exists") {
+          alert(getLang("errorRequest.loginAlreadyExists"));
+          return;
+        }
+
+        if (errorText === "Email already exists") {
+          alert(getLang("errorRequest.emailAlreadyExists"));
+          return;
+        }
+
+        if (errorText === "User already in system") {
+          localStorage.setItem(STORAGE_IS_AUTH, "true");
+          chatApi.getChats({ offset: 0, limit: 10, title: "" });
+          this.getUserInfo();
+          router.go(URL_NAMES.MESSAGER);
+          return;
+        }
+
         alert(getLang("errorRequest.badRequest"));
       });
   }
@@ -37,7 +59,19 @@ class AuthAPI {
         this.getUserInfo();
         router.go(URL_NAMES.MESSAGER);
       })
-      .catch(() => {
+      .catch((error) => {
+        const errorText = getMessageFromResponse(error.responseText);
+
+        if (errorText === "Login or password is incorrect") {
+          alert(getLang("errorRequest.loginOrPasswordIsIncorrect"));
+          return;
+        }
+
+        if (errorText === "User already in system") {
+          router.go(URL_NAMES.MESSAGER);
+          return;
+        }
+
         alert(getLang("errorRequest.badRequest"));
         router.go(URL_NAMES.SERVER_ERROR);
       });

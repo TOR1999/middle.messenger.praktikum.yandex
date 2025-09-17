@@ -24,6 +24,7 @@ export const initialStateChatStore: TInitialStateChats = {
       },
     },
   ],
+  selectedChatIndex: undefined,
   selectedChatId: null,
   listUsersFromChat: [],
 };

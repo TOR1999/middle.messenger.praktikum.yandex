@@ -92,10 +92,8 @@ export class ListMessages extends Block<TProps> {
     const listMessages =
       (this.props as TProps).messages?.reduce(
         (acc, curr, index) => {
-          const isMyMessage =
-            listUsersFromChat.length > 0
-              ? Number(curr.user_id) === myUser.id
-              : true;
+          const isMyMessage = Number(curr.user_id) === myUser.id;
+
           const usersFromChat: null | Record<number, TUserFromChat> =
             listUsersFromChat.length > 0
               ? listUsersFromChat.reduce(
@@ -106,6 +104,7 @@ export class ListMessages extends Block<TProps> {
                   {},
                 )
               : null;
+
           const nameSenderUser =
             !isMyMessage && usersFromChat
               ? usersFromChat[Number(curr.user_id)]?.login

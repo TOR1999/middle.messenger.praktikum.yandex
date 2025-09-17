@@ -41,6 +41,7 @@ export type TChat = {
 
 export type TInitialStateChats = {
   chats: TChat[];
+  selectedChatIndex: number | undefined;
   selectedChatId: number | null;
   listUsersFromChat: TUserFromChat[];
   messages?: TMessage[];
