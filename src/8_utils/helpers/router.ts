@@ -1,5 +1,6 @@
 import { URL_NAMES } from "../constants/type";
 import { Block } from "./block";
+import { checkAuth } from "./checkAuth";
 import { Route } from "./route";
 
 type PopStateEventTarget = EventTarget & { location: Location };
@@ -47,6 +48,22 @@ class Router {
     const route = this.getRoute(pathname);
 
     if (!route || !route.getIsPageAvaible()) {
+      if (
+        checkAuth() &&
+        [URL_NAMES.SIGNIN, URL_NAMES.SIGNUP].includes(pathname)
+      ) {
+        this.go(URL_NAMES.MESSAGER);
+        return;
+      }
+
+      if (
+        !checkAuth() &&
+        [URL_NAMES.SETTINGS, URL_NAMES.MESSAGER].includes(pathname)
+      ) {
+        this.go(URL_NAMES.SIGNIN);
+        return;
+      }
+
       this.go(URL_NAMES.NOT_FOUND);
       return;
     }
