@@ -4,15 +4,16 @@ import { ChatStore } from "./store";
 import {
   ACTIONS_WEBSOCKET,
   TInitialStateChats,
+  TMessage,
   TYPES_MESSAGE_WEBSOCKET,
 } from "./types";
 
 class MessagesSoket {
-  private _userId!: string | number;
-  private _chatId!: string | number;
-  private _token!: string;
-  private _wss!: WebSocket | null;
-  private _ping!: any;
+  private _userId: string | number = "";
+  private _chatId: string | number = "";
+  private _token: string = "";
+  private _wss: WebSocket | null = null;
+  private _ping: NodeJS.Timeout | null = null;
 
   constructor() {
     this._wss = null;
@@ -55,51 +56,83 @@ class MessagesSoket {
     }
   }
 
-  private _handleClose(evt: any) {
+  private _handleClose(ev: CloseEvent) {
     this._removeListeners();
-    if (!evt.wasClean) {
+    if (!ev.wasClean) {
       alert(`${getLang("errorRequest.badRequest")} : Ошибка закрытия сокета`);
     }
   }
 
-  private _handleMessage(evt: any) {
+  private _handleMessage(evt: MessageEvent<string>) {
     try {
-      const messages = JSON.parse(evt.data);
+      type TMessageFromSocket = {
+        id: number;
+        user_id: number;
+        chat_id: number;
+        type: "message";
+        time: string;
+        content: string;
+        is_read: boolean;
+        file: null;
+      };
+      const data = JSON.parse(evt.data) as
+        | TMessageFromSocket[]
+        | TMessageFromSocket
+        | { type: "pong" };
 
-      if (messages.type !== TYPES_MESSAGE_WEBSOCKET.PONG) {
-        if (Array.isArray(messages)) {
+      const transformSocketMessageToLocaleMessage = (
+        message: TMessageFromSocket,
+      ): TMessage => ({
+        chat_id: message.chat_id,
+        content: message.content,
+        time: message.time,
+        type: message.type,
+        user_id: String(message.user_id),
+      });
+
+      if (Array.isArray(data)) {
+        const messages = (data as TMessageFromSocket[])
+          .reverse()
+          .map(transformSocketMessageToLocaleMessage);
+        ChatStore.setState({ messages });
+      } else if (data.type === "message") {
+        const state = ChatStore.getState() as TInitialStateChats;
+        if (state.messages) {
+          const message = transformSocketMessageToLocaleMessage(data);
           ChatStore.setState({
-            messages: messages.reverse(),
+            messages: [...state.messages, message],
           });
-        } else {
-          const state = ChatStore.getState() as TInitialStateChats;
-          if (state.messages) {
-            ChatStore.setState({
-              messages: [...state.messages, messages],
-            });
-          }
         }
-
-        console.log("messges:", ChatStore.getState().messages);
       }
     } catch (e: unknown) {
       console.error(e);
     }
   }
 
-  private _handleError(evt: any) {
-    alert(`${getLang("errorRequest.badRequest")} : ${evt.message}`);
+  private _handleError() {
+    alert(`${getLang("errorRequest.badRequest")} `);
   }
 
   private _leave() {
     if (this._wss) {
-      clearInterval(this._ping);
+      if (this._ping) {
+        clearInterval(this._ping);
+      }
+
       this._wss.close();
       this._removeListeners();
     }
   }
 
-  public connect({ userId, chatId, token }: any) {
+  public connect({
+    userId,
+    chatId,
+    token,
+  }: {
+    userId: number;
+    chatId: number;
+    token: string;
+  }) {
     if (this._chatId !== chatId) {
       this._leave();
       this._userId = userId;

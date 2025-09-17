@@ -20,7 +20,8 @@ class ChatAPI {
 
   getChats(params: TGetChatsRequest) {
     HTTPTransport.get(`${this.__basePath}`, { data: params })
-      .then(({ response }: any) => {
+      .then((value: unknown) => {
+        const response = (value as { response: string }).response;
         const data = JSON.parse(response);
 
         ChatStore.setState({ chats: data });
@@ -32,7 +33,8 @@ class ChatAPI {
 
   getUsersFromChat(idChat: number | null) {
     HTTPTransport.get(`${this.__basePath}/${idChat}/users`)
-      .then(({ response }: any) => {
+      .then((value: unknown) => {
+        const response = (value as { response: string }).response;
         const data = JSON.parse(response);
         ChatStore.setState({ listUsersFromChat: data });
       })
@@ -43,7 +45,8 @@ class ChatAPI {
 
   getChatToken(chatId: number) {
     HTTPTransport.post(`${this.__basePath}/token/${chatId}`)
-      .then(({ response }: any) => {
+      .then((value: unknown) => {
+        const response = (value as { response: string }).response;
         const { token } = JSON.parse(response);
         const userId = ProfileStore.getState().myUser.id;
 
@@ -76,7 +79,8 @@ class ChatAPI {
 
   addUsersToChat(data: TAddUsersToChatRequest) {
     HTTPTransport.put(`${this.__basePath}/users`, { data })
-      .then((response: any) => {
+      .then((value: unknown) => {
+        const response = value as { status: REQUEST_STATUSES };
         if (response.status == REQUEST_STATUSES.OK) {
           alert(getLang("notificationInfo.successfulAddUserToChat"));
         }
@@ -88,7 +92,8 @@ class ChatAPI {
 
   deleteUsersToChat(data: TAddUsersToChatRequest) {
     HTTPTransport.delete(`${this.__basePath}/users`, { data })
-      .then((response: any) => {
+      .then((value: unknown) => {
+        const response = value as { status: REQUEST_STATUSES };
         if (response.status == REQUEST_STATUSES.OK) {
           alert(getLang("notificationInfo.successfulDeleteUserToChat"));
         }

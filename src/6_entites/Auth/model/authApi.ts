@@ -4,7 +4,11 @@ import { URL_NAMES } from "../../../8_utils/constants/type";
 import router from "../../../8_utils/helpers/router";
 import { getLang } from "../../../8_utils/langs/getLang";
 import chatApi from "../../Chat/chatApi";
-import { ProfileStore } from "../../Profile/model/store";
+import { ChatStore, initialStateChatStore } from "../../Chat/store";
+import {
+  initialStateProfileStore,
+  ProfileStore,
+} from "../../Profile/model/store";
 import { TSigInRequest, TUserRegistrationRequest } from "./types";
 
 class AuthAPI {
@@ -41,12 +45,14 @@ class AuthAPI {
 
   getUserInfo() {
     HTTPTransport.get(`${this.__basePath}/user`)
-      .then(({ response }: any) => {
+      .then((value: unknown) => {
+        const response = (value as { response: string }).response;
         const data = JSON.parse(response);
 
         ProfileStore.setState({ myUser: { ...data } });
       })
-      .catch(() => {
+      .catch((e) => {
+        console.log(e);
         alert(getLang("errorRequest.badRequest"));
         router.go(URL_NAMES.SERVER_ERROR);
       });
@@ -57,6 +63,8 @@ class AuthAPI {
       .then(() => {
         localStorage.removeItem(STORAGE_IS_AUTH);
         router.go(URL_NAMES.SIGNIN);
+        ChatStore.setState(initialStateChatStore);
+        ProfileStore.setState(initialStateProfileStore);
       })
       .catch(() => {
         alert(getLang("errorRequest.badRequest"));

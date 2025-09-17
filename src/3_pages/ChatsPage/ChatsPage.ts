@@ -61,23 +61,11 @@ export class ChatsPage extends Block<TProps> {
     }
 
     ChatStore.on(StoreEvents.UPDATE, () => {
-      const messages = ChatStore.getState().messages;
+      const store = ChatStore.getState();
       this.setProps({
-        messages,
-      });
-    });
-
-    ChatStore.on(StoreEvents.UPDATE, () => {
-      const storeState = ChatStore.getState();
-      this.setProps({
-        chats: storeState.chats,
-      });
-    });
-
-    ChatStore.on(StoreEvents.UPDATE, () => {
-      const listUsersFromChat = ChatStore.getState().listUsersFromChat;
-      this.setProps({
-        listUsersFromChat,
+        messages: store.messages,
+        chats: store.chats,
+        listUsersFromChat: store.listUsersFromChat,
       });
     });
 

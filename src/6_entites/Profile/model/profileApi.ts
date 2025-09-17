@@ -17,7 +17,8 @@ class ProfileAPI {
 
   changeAvatar(data: FormData) {
     HTTPTransport.put(`${this.__basePath}/profile/avatar`, { data })
-      .then(({ response }: any) => {
+      .then((value: unknown) => {
+        const response = (value as { response: string }).response;
         const data = JSON.parse(response);
 
         ProfileStore.setState({ myUser: { ...data } });
@@ -29,7 +30,8 @@ class ProfileAPI {
 
   changeUserInfo(data: TChangeUserInfoRequest) {
     HTTPTransport.put(`${this.__basePath}/profile`, { data })
-      .then(({ response }: any) => {
+      .then((value: unknown) => {
+        const response = (value as { response: string }).response;
         const data = JSON.parse(response);
 
         ProfileStore.setState({ myUser: { ...data } });
@@ -54,7 +56,8 @@ class ProfileAPI {
 
   searchUserByLogin(data: TFindUserRequest) {
     HTTPTransport.post(`${this.__basePath}/search`, { data })
-      .then(({ response }: any) => {
+      .then((value: unknown) => {
+        const response = (value as { response: string }).response;
         const data = JSON.parse(response);
         ProfileStore.setState({ searchingUsers: data });
       })

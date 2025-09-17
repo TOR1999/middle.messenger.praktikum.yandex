@@ -1,7 +1,7 @@
 import { Store } from "../../8_utils/helpers/store";
 import { TInitialStateChats } from "./types";
 
-const initialState: TInitialStateChats = {
+export const initialStateChatStore: TInitialStateChats = {
   chats: [
     {
       id: 0,
@@ -10,7 +10,6 @@ const initialState: TInitialStateChats = {
       unread_count: 0,
       last_message: {
         content: "",
-        // id: 0,
         time: "",
         user: {
           avatar: "",
@@ -23,11 +22,10 @@ const initialState: TInitialStateChats = {
           id: 0,
         },
       },
-      // created_by: 0,
     },
   ],
   selectedChatId: null,
   listUsersFromChat: [],
 };
 
-export const ChatStore = new Store<TInitialStateChats>(initialState);
+export const ChatStore = new Store<TInitialStateChats>(initialStateChatStore);

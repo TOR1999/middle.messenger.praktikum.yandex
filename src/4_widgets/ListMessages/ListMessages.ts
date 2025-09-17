@@ -89,8 +89,6 @@ export class ListMessages extends Block<TProps> {
     const myUser = ProfileStore.getState().myUser;
     const listUsersFromChat = ChatStore.getState().listUsersFromChat;
 
-    console.log({ myUser, listUsersFromChat });
-
     const listMessages =
       (this.props as TProps).messages?.reduce(
         (acc, curr, index) => {
@@ -112,8 +110,6 @@ export class ListMessages extends Block<TProps> {
             !isMyMessage && usersFromChat
               ? usersFromChat[Number(curr.user_id)]?.login
               : undefined;
-
-          console.log({ isMyMessage, usersFromChat, nameSenderUser, curr });
 
           acc[`Message_${index}`] = new Message({
             message: curr,

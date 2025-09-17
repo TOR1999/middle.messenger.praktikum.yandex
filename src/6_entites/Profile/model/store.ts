@@ -1,7 +1,7 @@
 import { Store } from "../../../8_utils/helpers/store";
 import { TInitialStateProfileStore } from "./types";
 
-const initialState: TInitialStateProfileStore = {
+export const initialStateProfileStore: TInitialStateProfileStore = {
   myUser: {
     id: 0,
     first_name: "",
@@ -15,4 +15,6 @@ const initialState: TInitialStateProfileStore = {
   searchingUsers: [],
 };
 
-export const ProfileStore = new Store<TInitialStateProfileStore>(initialState);
+export const ProfileStore = new Store<TInitialStateProfileStore>(
+  initialStateProfileStore,
+);
