@@ -1,3 +1,5 @@
+import { TFoundUserInfo, TUserInfo } from "../../Auth/model/types";
+
 export type TChangeUserInfoRequest = {
   first_name: string;
   second_name: string;
@@ -14,4 +16,9 @@ export type TChangeUserPasswordRequest = {
 
 export type TFindUserRequest = {
   login: string;
+};
+
+export type TInitialStateProfileStore = {
+  myUser: TUserInfo;
+  searchingUsers: TFoundUserInfo[];
 };

@@ -1,5 +1,7 @@
 import { ChooseAvatarModal } from "../../4_widgets/ChooseAvatarModal/ChooseAvatarModal";
 import authApi from "../../6_entites/Auth/model/authApi";
+import chatApi from "../../6_entites/Chat/chatApi";
+import { ChatStore } from "../../6_entites/Chat/store";
 import { ProfileStore } from "../../6_entites/Profile/model/store";
 import { Button } from "../../7_shared/Button/Button";
 import { CircleIconButton } from "../../7_shared/CircleIconButton/CircleIconButton";
@@ -115,7 +117,7 @@ export class ProfilePage extends Block<TProps> {
     });
 
     ProfileStore.on(StoreEvents.UPDATE, () => {
-      const storeState = ProfileStore.getState();
+      const storeState = ProfileStore.getState().myUser;
       this.setProps({
         valueAvatar: storeState.avatar || "",
         valueEmail: storeState.email,
@@ -138,6 +140,8 @@ export class ProfilePage extends Block<TProps> {
         altText: getLang("common.buttons.altBack"),
         onClick: (e: Event) => {
           e.preventDefault();
+          ChatStore.setState({ selectedChatId: null });
+          chatApi.getChats({ offset: 0, limit: 10, title: "" });
           router.go(URL_NAMES.MESSAGER);
         },
       }),

@@ -9,7 +9,9 @@ export const langs = {
       cancel: "Отмена",
       add: "Добавить",
       delete: "Удалить",
+      find: "Найти",
     },
+    you: "Вы",
   },
   authorizationModal: {
     tittle: "Вход",
@@ -104,5 +106,12 @@ export const langs = {
   },
   errorRequest: {
     badRequest: "Что-то пошло не так... Попробуте попытку снова",
+    loginOrPasswordIsIncorrect: "Логин или пароль неверный",
+    loginAlreadyExists: "Такой логин уже существует",
+    emailAlreadyExists: "Такой email уже существует",
+  },
+  notificationInfo: {
+    successfulAddUserToChat: "Пользователь успешно добавлен в чат",
+    successfulDeleteUserToChat: "Пользователь успешно удалён из чата",
   },
 };

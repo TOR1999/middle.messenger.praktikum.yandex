@@ -21,7 +21,7 @@ const modalWithInputTemplate = `
 export type TProps = {
   onClickAddUser: () => void;
   onClickDeleteUser: () => void;
-  onClickDeleteChat: () => void;
+  onClickDeleteChat: (e: Event) => void;
   onClickCancel: () => void;
 };
 

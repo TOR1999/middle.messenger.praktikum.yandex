@@ -27,7 +27,7 @@ export type TProps = {
   textLabel: string;
   textApplyButton: string;
   textCancelButton: string;
-  onClickApply: () => void;
+  onClickApply: (e: Event) => void;
   onClickCancel: () => void;
 };
 

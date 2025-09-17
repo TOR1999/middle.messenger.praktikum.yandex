@@ -17,10 +17,11 @@ class ProfileAPI {
 
   changeAvatar(data: FormData) {
     HTTPTransport.put(`${this.__basePath}/profile/avatar`, { data })
-      .then(({ response }: any) => {
+      .then((value: unknown) => {
+        const response = (value as { response: string }).response;
         const data = JSON.parse(response);
 
-        ProfileStore.setState({ ...data });
+        ProfileStore.setState({ myUser: { ...data } });
       })
       .catch(() => {
         alert(getLang("errorRequest.badRequest"));
@@ -29,10 +30,11 @@ class ProfileAPI {
 
   changeUserInfo(data: TChangeUserInfoRequest) {
     HTTPTransport.put(`${this.__basePath}/profile`, { data })
-      .then(({ response }: any) => {
+      .then((value: unknown) => {
+        const response = (value as { response: string }).response;
         const data = JSON.parse(response);
 
-        ProfileStore.setState({ ...data });
+        ProfileStore.setState({ myUser: { ...data } });
         router.go(URL_NAMES.SETTINGS);
       })
       .catch(() => {
@@ -54,7 +56,11 @@ class ProfileAPI {
 
   searchUserByLogin(data: TFindUserRequest) {
     HTTPTransport.post(`${this.__basePath}/search`, { data })
-      .then(() => {})
+      .then((value: unknown) => {
+        const response = (value as { response: string }).response;
+        const data = JSON.parse(response);
+        ProfileStore.setState({ searchingUsers: data });
+      })
       .catch(() => {
         alert(getLang("errorRequest.badRequest"));
       });

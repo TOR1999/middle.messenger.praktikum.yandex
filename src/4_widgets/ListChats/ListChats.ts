@@ -1,4 +1,6 @@
-import { TChat } from "../../1_app/types";
+import chatApi from "../../6_entites/Chat/chatApi";
+import { ChatStore } from "../../6_entites/Chat/store";
+import { TChat } from "../../6_entites/Chat/types";
 import { Button } from "../../7_shared/Button/Button";
 import { Input } from "../../7_shared/Input/Input";
 import { ItemChat } from "../../7_shared/ItemChat/ItemChat";
@@ -10,9 +12,11 @@ import { getLang } from "../../8_utils/langs/getLang";
 import s from "./ListChats.module.scss";
 
 const listChatsTemplate = (props: TProps) => {
-  const listChats = props.chats
-    .map((_, index) => `{{{ItemChat${index + 1}}}}`)
-    .join("");
+  const listChats =
+    props.chats?.length > 0
+      ? props.chats.map((_, index) => `{{{ItemChat_${index}}}}`).join("")
+      : "";
+
   return `
   <div class=${s["header"]}>
     <div class=${s["link-back"]}>
@@ -82,23 +86,35 @@ export class ListChats extends Block<TProps> {
   }
 
   override render() {
-    const listChats = (this.props as TProps).chats.reduce(
-      (acc, curr, index) => {
-        acc[`ItemChat${index}`] = new ItemChat({
-          chat: curr,
-          chatId: `ItemChat${index}`,
-          selectedChat: index === this.props.selectedChat ? true : false,
-          onClick: (e: Event) => {
-            e.stopPropagation();
+    const listChats =
+      (this.props as TProps).chats?.reduce(
+        (acc, curr, index) => {
+          acc[`ItemChat_${index}`] = new ItemChat({
+            chat: curr,
+            chatId: `ItemChat_${index}`,
+            selectedChat: index === this.props.selectedChat ? true : false,
+            onClick: (e: Event) => {
+              e.stopPropagation();
 
-            this.props.onSelectedChat(index);
-            this.setProps({ selectedChat: index });
-          },
-        });
-        return acc;
-      },
-      {} as Record<string, ItemChat>,
-    );
+              this.props.onSelectedChat(index);
+              this.setProps({ selectedChat: index });
+
+              ChatStore.setState({
+                selectedChatIndex: index,
+                selectedChatId: curr.id,
+              });
+              chatApi.getUsersFromChat(curr.id);
+
+              if (curr.id) {
+                chatApi.getChatToken(curr.id);
+              }
+            },
+          });
+          return acc;
+        },
+        {} as Record<string, ItemChat>,
+      ) || {};
+
     this.children = { ...this.children, ...listChats };
     return this.compile(listChatsTemplate(this.props as TProps), this.props);
   }

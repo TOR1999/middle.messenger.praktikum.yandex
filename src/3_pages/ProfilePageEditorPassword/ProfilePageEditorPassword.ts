@@ -72,7 +72,7 @@ export class ProfilePageEditorPassword extends Block<TProps> {
 
   constructor() {
     ProfileStore.on(StoreEvents.UPDATE, () => {
-      const storeState = ProfileStore.getState();
+      const storeState = ProfileStore.getState().myUser;
       this.setProps({
         valueAvatar: storeState.avatar || "",
         valueNewPassword: "",

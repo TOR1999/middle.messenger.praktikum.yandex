@@ -1,10 +1,12 @@
-import { TChat } from "../../1_app/types";
 import { Block } from "../../8_utils/helpers/block";
 import s from "./ItemChat.module.scss";
 import { Typography } from "../Typography/Typography";
+import { TChat } from "../../6_entites/Chat/types";
+import { getDisplayNameLastMessages } from "./helper/getDisplayNameLastMessages";
+import { getDateTimeFromStr } from "../../8_utils/helpers/getDateTimeFromStr";
 
 const listChatsTemplate = (props: TProps) => {
-  const resultCountUnreadMessage = props.chat.unreadMessagesCount
+  const resultCountUnreadMessage = props.chat.unread_count
     ? `<div class=${s["count-message"]}> {{{TypographyCountMessage}}}</div>`
     : "";
 
@@ -52,26 +54,26 @@ export class ItemChat extends Block<TProps> {
       ...this.children,
       TypographyName: new Typography({
         variant: "h4",
-        text: this.props.chat.name,
+        text: this.props.chat?.title || "",
       }),
       TypographyDescriptionMyMessage: new Typography({
         variant: "b5",
-        text: this.props.chat.lastMessage.myMessage ? "Вы:" : "",
+        text: getDisplayNameLastMessages(this.props.chat.last_message),
       }),
       TypographyDescription: new Typography({
         variant: "b5",
         color: "grey",
-        text: this.props.chat.lastMessage.text,
+        text: this.props.chat.last_message?.content || "",
       }),
       TypographyDateTime: new Typography({
         variant: "b5",
-        text: this.props.chat.lastMessage.timeSend,
+        text: getDateTimeFromStr(this.props.chat.last_message?.time || ""),
       }),
       TypographyCountMessage: new Typography({
         variant: "b6",
         color: "white",
         withoutLineHeight: true,
-        text: String(this.props.chat.unreadMessagesCount),
+        text: String(this.props.chat.unread_count),
       }),
     };
 

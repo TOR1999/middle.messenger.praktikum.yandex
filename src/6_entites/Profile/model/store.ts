@@ -1,15 +1,20 @@
 import { Store } from "../../../8_utils/helpers/store";
-import { TUserInfo } from "../../Auth/model/types";
+import { TInitialStateProfileStore } from "./types";
 
-const initialState = {
-  id: 0,
-  first_name: "",
-  second_name: "",
-  display_name: "",
-  login: "",
-  email: "",
-  phone: "",
-  avatar: "",
+export const initialStateProfileStore: TInitialStateProfileStore = {
+  myUser: {
+    id: 0,
+    first_name: "",
+    second_name: "",
+    display_name: "",
+    login: "",
+    email: "",
+    phone: "",
+    avatar: "",
+  },
+  searchingUsers: [],
 };
 
-export const ProfileStore = new Store<TUserInfo>(initialState);
+export const ProfileStore = new Store<TInitialStateProfileStore>(
+  initialStateProfileStore,
+);
