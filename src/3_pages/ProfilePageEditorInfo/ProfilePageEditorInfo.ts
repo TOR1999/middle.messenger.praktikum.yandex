@@ -30,8 +30,8 @@ const profilePageEditorInfoTemplate = (props: TProps) => {
   </div>
   <form class=${s["content"]}>
       <img
-      class=${s["image-profile"]}
-      src=${imgAvatar}
+      class="${s["image-profile"]}"
+      src="${imgAvatar}"
       alt="${getLang("profilePage.altImageProfile")}"
       />
     <div class=${s["info-line-container"]}>

@@ -68,6 +68,9 @@ class AuthAPI {
         }
 
         if (errorText === "User already in system") {
+          localStorage.setItem(STORAGE_IS_AUTH, "true");
+          chatApi.getChats({ offset: 0, limit: 10, title: "" });
+          this.getUserInfo();
           router.go(URL_NAMES.MESSAGER);
           return;
         }

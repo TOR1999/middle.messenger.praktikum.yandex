@@ -34,8 +34,8 @@ const profilePageTemplate = (props: TProps) => {
   </div>
   <div class=${s["content"]}>
     <img
-    class=${s["image-profile"]} 
-    src=${avatarImg}
+    class="${s["image-profile"]}" 
+    src="${avatarImg}"
     alt="${getLang("profilePage.altImageProfile")}"
     />
     {{{ChangeImageProfileButton}}}
