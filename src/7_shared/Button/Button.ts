@@ -26,7 +26,7 @@ type TProps = {
   onClick?: (e: Event) => void;
 };
 
-export class Button extends Block {
+export class Button extends Block<TProps> {
   constructor(props: TProps) {
     super("div", { ...props });
   }

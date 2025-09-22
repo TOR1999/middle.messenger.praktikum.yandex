@@ -1,4 +1,9 @@
-import { TChat } from "../../1_app/types";
+import { TUserFromChat } from "../../6_entites/Auth/model/types";
+import chatApi from "../../6_entites/Chat/chatApi";
+import MessagesSoket from "../../6_entites/Chat/MessagesSoket";
+import { ChatStore } from "../../6_entites/Chat/store";
+import { TChat, TMessage } from "../../6_entites/Chat/types";
+import { ProfileStore } from "../../6_entites/Profile/model/store";
 import { CircleIconButton } from "../../7_shared/CircleIconButton/CircleIconButton";
 import { IconButton } from "../../7_shared/IconButton/IconButton";
 import { Input } from "../../7_shared/Input/Input";
@@ -10,9 +15,10 @@ import { getLang } from "../../8_utils/langs/getLang";
 import s from "./ListMessages.module.scss";
 
 const listMessagesTemplate = (props: TProps) => {
-  const listMessages = props.chat.messages
-    .map((_, index) => `{{{message_${index + 1}}}}`)
-    .join("");
+  const listMessages = props.messages
+    ? props.messages.map((_, index) => `{{{Message_${index}}}}`).join("")
+    : "";
+
   return `
   <div class=${s["header"]}>
    <div class=${s["recipient-info"]}>
@@ -26,7 +32,6 @@ const listMessagesTemplate = (props: TProps) => {
      ${listMessages}
   </div>
   <form class=${s["footer"]}>
-    {{{IconButtonPaperClip}}}
     <div class=${s["input-container"]}>
       {{{MessageInput}}}
     </div>   
@@ -37,9 +42,11 @@ const listMessagesTemplate = (props: TProps) => {
 
 export type TProps = {
   chat: TChat;
+  messages?: TMessage[];
+  onOpenActionChatModal: () => void;
 };
 
-export class ListMessages extends Block {
+export class ListMessages extends Block<TProps> {
   constructor(props: TProps) {
     super("div", {
       ...props,
@@ -48,17 +55,7 @@ export class ListMessages extends Block {
       },
       TypographyName: new Typography({
         variant: "h5",
-        text: props.chat.name,
-      }),
-      IconButtonActionChat: new IconButton({
-        id: "IconButtonActionChatId",
-        altText: "",
-        iconSrc: "/icons/threeDots.svg",
-      }),
-      IconButtonPaperClip: new IconButton({
-        id: "IconButtonActionChatId",
-        altText: "",
-        iconSrc: "/icons/paperClip.svg",
+        text: props.chat?.title || "",
       }),
 
       MessageInput: new Input({
@@ -78,27 +75,63 @@ export class ListMessages extends Block {
         iconSrc: "/icons/arrowRight.svg",
         onClick: () => {
           const message = getValueById("messageInputId");
-          //TODO: Убрать после реализации API
-          // eslint-disable-next-line no-console
-          console.log({ message });
+
+          if (message.length > 0) {
+            MessagesSoket.sendMessage(message);
+            chatApi.getChats({ offset: 0, limit: 10, title: "" });
+          }
         },
       }),
     });
   }
 
   override render() {
-    const listMessages = (this.props as TProps).chat.messages.reduce(
-      (acc, curr, index) => {
-        acc[`message_${index + 1}`] = new Message({
-          message: curr,
-          messageId: `message_${index + 1}`,
-          myMessage: curr.myMessage,
-        });
-        return acc;
-      },
-      {} as Record<string, Message>,
-    );
-    this.children = { ...this.children, ...listMessages };
+    const myUser = ProfileStore.getState().myUser;
+    const listUsersFromChat = ChatStore.getState().listUsersFromChat;
+
+    const listMessages =
+      (this.props as TProps).messages?.reduce(
+        (acc, curr, index) => {
+          const isMyMessage = Number(curr.user_id) === myUser.id;
+
+          const usersFromChat: null | Record<number, TUserFromChat> =
+            listUsersFromChat.length > 0
+              ? listUsersFromChat.reduce(
+                  (acc, curr) => ({
+                    ...acc,
+                    [curr.id]: curr,
+                  }),
+                  {},
+                )
+              : null;
+
+          const nameSenderUser =
+            !isMyMessage && usersFromChat
+              ? usersFromChat[Number(curr.user_id)]?.login
+              : undefined;
+
+          acc[`Message_${index}`] = new Message({
+            message: curr,
+            messageId: `Message_${index}`,
+            isMyMessage: isMyMessage,
+            nameSenderUser: nameSenderUser,
+          });
+
+          return acc;
+        },
+        {} as Record<string, Message>,
+      ) ?? {};
+
+    this.children = {
+      ...this.children,
+      ...listMessages,
+      IconButtonActionChat: new IconButton({
+        id: "IconButtonActionChatId",
+        altText: "",
+        iconSrc: "/icons/threeDots.svg",
+        onClick: this.props.onOpenActionChatModal,
+      }),
+    };
     return this.compile(listMessagesTemplate(this.props as TProps), this.props);
   }
 }

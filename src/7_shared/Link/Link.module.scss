@@ -6,12 +6,16 @@
     @include fonts.font-h4;
 
     color: colors.$blue;
+    border: 0;
+    background-color: transparent;
   }
 
   &_underline {
     @include fonts.font-h4;
 
     color: colors.$blue;
+    border: 0;
+    background-color: transparent;
     text-decoration: underline;
   }
 

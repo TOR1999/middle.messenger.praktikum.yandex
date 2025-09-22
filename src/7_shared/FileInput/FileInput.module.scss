@@ -1,0 +1,29 @@
+@use "../../8_utils/styles/colors.scss" as colors;
+@use "../../8_utils/styles/fonts.scss" as fonts;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.label {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+
+  @include fonts.font-b6;
+
+  color: colors.$grey-light;
+}
+
+.input-file {
+  display: flex;
+  width: 100%;
+  height: 20px;
+  outline: none;
+  border: 0;
+  opacity: 0;
+
+  @include fonts.font-b4;
+}

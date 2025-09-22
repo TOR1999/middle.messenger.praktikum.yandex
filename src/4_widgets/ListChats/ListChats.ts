@@ -1,15 +1,22 @@
-import { TChat } from "../../1_app/types";
+import chatApi from "../../6_entites/Chat/chatApi";
+import { ChatStore } from "../../6_entites/Chat/store";
+import { TChat } from "../../6_entites/Chat/types";
+import { Button } from "../../7_shared/Button/Button";
 import { Input } from "../../7_shared/Input/Input";
 import { ItemChat } from "../../7_shared/ItemChat/ItemChat";
 import { Link } from "../../7_shared/Link/Link";
+import { URL_NAMES } from "../../8_utils/constants/type";
 import { Block } from "../../8_utils/helpers/block";
+import router from "../../8_utils/helpers/router";
 import { getLang } from "../../8_utils/langs/getLang";
 import s from "./ListChats.module.scss";
 
 const listChatsTemplate = (props: TProps) => {
-  const listChats = props.chats
-    .map((_, index) => `{{{ItemChat${index + 1}}}}`)
-    .join("");
+  const listChats =
+    props.chats?.length > 0
+      ? props.chats.map((_, index) => `{{{ItemChat_${index}}}}`).join("")
+      : "";
+
   return `
   <div class=${s["header"]}>
     <div class=${s["link-back"]}>
@@ -24,6 +31,9 @@ const listChatsTemplate = (props: TProps) => {
     <form class=${s["search-input"]}>
     {{{SearchChatInput}}}
     </form>
+    <div class=${s["create-chat-button"]}>
+      {{{CreateChatButton}}}
+    </div>
   </div>
   <div class=${s["list-chats-container"]}>
     ${listChats}
@@ -33,9 +43,12 @@ const listChatsTemplate = (props: TProps) => {
 
 export type TProps = {
   chats: TChat[];
+  selectedChat?: number;
+  onSelectedChat: (index: number) => void;
+  onOpenCreateChatModal: () => void;
 };
 
-export class ListChats extends Block {
+export class ListChats extends Block<TProps> {
   constructor(props: TProps) {
     super("div", {
       ...props,
@@ -47,8 +60,11 @@ export class ListChats extends Block {
         variant: "text",
         text: getLang("chatsPage.listChats.linkProfile"),
         color: "grey",
+        onClick: (e: Event) => {
+          e.preventDefault();
+          router.go(URL_NAMES.SETTINGS);
+        },
       }),
-      ArrowRightIcon: "",
       SearchChatInput: new Input({
         inputId: "searchChatsId",
         nameInput: "searchChats",
@@ -60,21 +76,45 @@ export class ListChats extends Block {
         textPlaceholder: getLang("chatsPage.listChats.search"),
         upHeight: true,
       }),
+      CreateChatButton: new Button({
+        disabled: false,
+        id: "createChatButton",
+        text: getLang("chatsPage.listChats.createChat"),
+        onClick: props.onOpenCreateChatModal,
+      }),
     });
   }
 
   override render() {
-    const listChats = (this.props as TProps).chats.reduce(
-      (acc, curr, index) => {
-        acc[`ItemChat${index + 1}`] = new ItemChat({
-          chat: curr,
-          chatId: `ItemChat${index + 1}`,
-          selectedChat: index === 0 ? true : false,
-        });
-        return acc;
-      },
-      {} as Record<string, ItemChat>,
-    );
+    const listChats =
+      (this.props as TProps).chats?.reduce(
+        (acc, curr, index) => {
+          acc[`ItemChat_${index}`] = new ItemChat({
+            chat: curr,
+            chatId: `ItemChat_${index}`,
+            selectedChat: index === this.props.selectedChat ? true : false,
+            onClick: (e: Event) => {
+              e.stopPropagation();
+
+              this.props.onSelectedChat(index);
+              this.setProps({ selectedChat: index });
+
+              ChatStore.setState({
+                selectedChatIndex: index,
+                selectedChatId: curr.id,
+              });
+              chatApi.getUsersFromChat(curr.id);
+
+              if (curr.id) {
+                chatApi.getChatToken(curr.id);
+              }
+            },
+          });
+          return acc;
+        },
+        {} as Record<string, ItemChat>,
+      ) || {};
+
     this.children = { ...this.children, ...listChats };
     return this.compile(listChatsTemplate(this.props as TProps), this.props);
   }

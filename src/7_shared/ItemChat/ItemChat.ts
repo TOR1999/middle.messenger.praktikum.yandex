@@ -1,27 +1,34 @@
-import { TChat } from "../../1_app/types";
 import { Block } from "../../8_utils/helpers/block";
 import s from "./ItemChat.module.scss";
 import { Typography } from "../Typography/Typography";
+import { TChat } from "../../6_entites/Chat/types";
+import { getDisplayNameLastMessages } from "./helper/getDisplayNameLastMessages";
+import { getDateTimeFromStr } from "../../8_utils/helpers/getDateTimeFromStr";
 
 const listChatsTemplate = (props: TProps) => {
-  const resultCountUnreadMessage = props.chat.unreadMessagesCount
+  const resultCountUnreadMessage = props.chat.unread_count
     ? `<div class=${s["count-message"]}> {{{TypographyCountMessage}}}</div>`
     : "";
 
   return `
-  <div class=${s["avatar"]}>
-    {{{ImgAvatar}}}
-  </div>
-  <div class=${s["info-chat"]}>
-  {{{TypographyName}}}
-    <div class=${s["description"]}>
-    {{{TypographyDescriptionMyMessage}}}
-    {{{TypographyDescription}}}
+  <div
+  class="${`${s["container"]} ${props.selectedChat ? s["container_selected-container"] : ""}`}"
+  id=${props.chatId}
+  >
+    <div class=${s["avatar"]}>
+      {{{ImgAvatar}}}
     </div>
-  </div>
-  <div class=${s["data-chat"]}>
-  {{{TypographyDateTime}}}
-    ${resultCountUnreadMessage}
+    <div class=${s["info-chat"]}>
+    {{{TypographyName}}}
+      <div class=${s["description"]}>
+      {{{TypographyDescriptionMyMessage}}}
+      {{{TypographyDescription}}}
+      </div>
+    </div>
+    <div class=${s["data-chat"]}>
+    {{{TypographyDateTime}}}
+      ${resultCountUnreadMessage}
+    </div>
   </div>
 `;
 };
@@ -33,42 +40,43 @@ export type TProps = {
   onClick?: (e: Event) => void;
 };
 
-export class ItemChat extends Block {
+export class ItemChat extends Block<TProps> {
   constructor(props: TProps) {
     super("div", {
       ...props,
-      attr: {
-        class: `${s["container"]} ${props.selectedChat ? s["container_selected-container"] : ""}`,
-        id: `${props.chatId}`,
-      },
       ImgAvatar: "",
+    });
+    this.setProps(props);
+  }
+
+  override render() {
+    this.children = {
+      ...this.children,
       TypographyName: new Typography({
         variant: "h4",
-        text: props.chat.name,
+        text: this.props.chat?.title || "",
       }),
       TypographyDescriptionMyMessage: new Typography({
         variant: "b5",
-        text: props.chat.lastMessage.myMessage ? "Вы:" : "",
+        text: getDisplayNameLastMessages(this.props.chat.last_message),
       }),
       TypographyDescription: new Typography({
         variant: "b5",
         color: "grey",
-        text: props.chat.lastMessage.text,
+        text: this.props.chat.last_message?.content || "",
       }),
       TypographyDateTime: new Typography({
         variant: "b5",
-        text: props.chat.lastMessage.timeSend,
+        text: getDateTimeFromStr(this.props.chat.last_message?.time || ""),
       }),
       TypographyCountMessage: new Typography({
         variant: "b6",
         color: "white",
         withoutLineHeight: true,
-        text: String(props.chat.unreadMessagesCount),
+        text: String(this.props.chat.unread_count),
       }),
-    });
-  }
+    };
 
-  override render() {
     return this.compile(listChatsTemplate(this.props as TProps), this.props);
   }
 }

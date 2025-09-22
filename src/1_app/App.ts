@@ -1,22 +1,17 @@
 import { AuthorizationPage } from "../3_pages/AuthorizationPage/AuthorizationPage";
-import { Navigation } from "../4_widgets/Navigation/Navigation";
 import { RegistrationPage } from "../3_pages/RegistrationPage/RegistrationPage";
 import "../8_utils/helpers/isSimpleEquals";
 import { ProfilePage } from "../3_pages/ProfilePage/ProfilePage";
 import { ErrorPage } from "../3_pages/ErrorPage/ErrorPage";
 import { getLang } from "../8_utils/langs/getLang";
 import { NamePages, TState } from "./types";
-import {
-  AUTH_PAGE_DATA,
-  CHATS_PAGE_DATA,
-  LIST_PAGES,
-  PROFILE_PAGE_DATA,
-  PROFILE_PAGE_EDIT_PASSWORD_DATA,
-  REGISTRATION_PAGE_DATA,
-} from "./MockData";
+import { AUTH_PAGE_DATA, REGISTRATION_PAGE_DATA } from "./MockData";
 import { ProfilePageEditorInfo } from "../3_pages/ProfilePageEditorInfo/ProfilePageEditorInfo";
 import { ProfilePageEditorPassword } from "../3_pages/ProfilePageEditorPassword/ProfilePageEditorPassword";
 import { ChatsPage } from "../3_pages/ChatsPage/ChatsPage";
+import { URL_NAMES } from "../8_utils/constants/type";
+import router from "../8_utils/helpers/router";
+import { checkAuth } from "../8_utils/helpers/checkAuth";
 
 export default class App {
   state: TState;
@@ -32,121 +27,35 @@ export default class App {
   }
 
   render() {
-    if (!this.appElement || !this.navigationElement) return;
-
-    //чистим перед рендером новой страницы
-    this.appElement.innerHTML = "";
-
-    const navigationWidget = new Navigation({
-      title: "Список страниц:",
-      pages: LIST_PAGES,
+    const authorizationPage = new AuthorizationPage(AUTH_PAGE_DATA);
+    const registrationPage = new RegistrationPage(REGISTRATION_PAGE_DATA);
+    const profilePage = new ProfilePage();
+    const profilePageEditorInfo = new ProfilePageEditorInfo();
+    const profilePageEditorPassword = new ProfilePageEditorPassword();
+    const сhatsPage = new ChatsPage();
+    const notFoundPage = new ErrorPage({
+      textCode: getLang("ErrorPage.notFound.textCode"),
+      textMessage: getLang("ErrorPage.notFound.textMessage"),
+      textLink: getLang("ErrorPage.notFound.textLink"),
+    });
+    const serverErrorPage = new ErrorPage({
+      textCode: getLang("ErrorPage.serverError.textCode"),
+      textMessage: getLang("ErrorPage.serverError.textMessage"),
+      textLink: getLang("ErrorPage.serverError.textLink"),
     });
 
-    const navigationWidgetContent: Node | null = navigationWidget.getContent();
-    if (navigationWidgetContent) {
-      this.navigationElement.innerHTML = "";
-      this.navigationElement.appendChild(navigationWidgetContent);
-    }
-
-    switch (this.state.currentPage) {
-      case NamePages.AUTHORIZATION: {
-        const authorizationPage = new AuthorizationPage(AUTH_PAGE_DATA);
-
-        const authorizationPageContent: Node | null =
-          authorizationPage.getContent();
-        if (authorizationPageContent) {
-          this.appElement.appendChild(authorizationPageContent);
-        }
-        break;
-      }
-      case NamePages.REGISTRATION: {
-        const registrationPage = new RegistrationPage(REGISTRATION_PAGE_DATA);
-
-        const registrationPageContent: Node | null =
-          registrationPage.getContent();
-        if (registrationPageContent) {
-          this.appElement.appendChild(registrationPageContent);
-        }
-        break;
-      }
-      case NamePages.PROFILE: {
-        const profilePage = new ProfilePage(PROFILE_PAGE_DATA);
-
-        const profilePageContent: Node | null = profilePage.getContent();
-        if (profilePageContent) {
-          this.appElement.appendChild(profilePageContent);
-        }
-        break;
-      }
-      case NamePages.PROFILE_PAGE_EDITOR_INFO: {
-        const profilePageEditorInfo = new ProfilePageEditorInfo(
-          PROFILE_PAGE_DATA,
-        );
-
-        const profilePageEditorInfoContent: Node | null =
-          profilePageEditorInfo.getContent();
-        if (profilePageEditorInfoContent) {
-          this.appElement.appendChild(profilePageEditorInfoContent);
-        }
-        break;
-      }
-      case NamePages.PROFILE_PAGE_EDITOR_PASSWORD: {
-        const profilePageEditorPassword = new ProfilePageEditorPassword(
-          PROFILE_PAGE_EDIT_PASSWORD_DATA,
-        );
-
-        const profilePageEditorPasswordContent: Node | null =
-          profilePageEditorPassword.getContent();
-        if (profilePageEditorPasswordContent) {
-          this.appElement.appendChild(profilePageEditorPasswordContent);
-        }
-        break;
-      }
-      case NamePages.CHATS: {
-        const сhatsPage = new ChatsPage(CHATS_PAGE_DATA);
-
-        const сhatsPageContent: Node | null = сhatsPage.getContent();
-        if (сhatsPageContent) {
-          this.appElement.appendChild(сhatsPageContent);
-        }
-        break;
-      }
-      case NamePages.NOTFOUND: {
-        const notFoundPage = new ErrorPage({
-          textCode: getLang("ErrorPage.notFound.textCode"),
-          textMessage: getLang("ErrorPage.notFound.textMessage"),
-          textLink: getLang("ErrorPage.notFound.textLink"),
-        });
-
-        const errorPageContent: Node | null = notFoundPage.getContent();
-        if (errorPageContent) {
-          this.appElement.appendChild(errorPageContent);
-        }
-
-        break;
-      }
-      case NamePages.SERVERERROR: {
-        const serverErrorPage = new ErrorPage({
-          textCode: getLang("ErrorPage.serverError.textCode"),
-          textMessage: getLang("ErrorPage.serverError.textMessage"),
-          textLink: getLang("ErrorPage.serverError.textLink"),
-        });
-
-        const errorPageContent: Node | null = serverErrorPage.getContent();
-        if (errorPageContent) {
-          this.appElement.appendChild(errorPageContent);
-        }
-
-        break;
-      }
-      default: {
-        // eslint-disable-next-line no-console
-        console.log("error switch page");
-        break;
-      }
-    }
-
-    this.attachEventListeners();
+    router
+      .use(URL_NAMES.SIGNIN, authorizationPage, () => !checkAuth())
+      .use(URL_NAMES.SIGNUP, registrationPage, () => !checkAuth())
+      .use(URL_NAMES.MESSAGER, сhatsPage, () => checkAuth())
+      .use(URL_NAMES.SETTINGS, profilePage, () => checkAuth())
+      .use(URL_NAMES.EDIT_SETTINGS, profilePageEditorInfo, () => checkAuth())
+      .use(URL_NAMES.EDIT_PASSWORD, profilePageEditorPassword, () =>
+        checkAuth(),
+      )
+      .use(URL_NAMES.NOT_FOUND, notFoundPage)
+      .use(URL_NAMES.SERVER_ERROR, serverErrorPage)
+      .start();
   }
 
   attachEventListeners() {

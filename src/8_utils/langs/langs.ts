@@ -6,7 +6,12 @@ export const langs = {
     buttons: {
       altBack: "Кнопка назад.",
       save: "Сохранить",
+      cancel: "Отмена",
+      add: "Добавить",
+      delete: "Удалить",
+      find: "Найти",
     },
+    you: "Вы",
   },
   authorizationModal: {
     tittle: "Вход",
@@ -61,13 +66,36 @@ export const langs = {
     phone: "Некорректный номер телефона",
     repeatPassword: "Пароли не совпадают",
     oldPassword: "Старый пароль неверный",
+    emtyFields: "Все поля должны быть заполнены",
   },
   chatsPage: {
     unSelectChat: "Выберите чат чтобы отправить сообщение",
-    listChats: { linkProfile: "Профиль", search: "Поиск" },
+    listChats: {
+      linkProfile: "Профиль",
+      search: "Поиск",
+      createChat: "Создать чат",
+    },
     listMessages: {
       unselectedChat: "Выберите чат чтобы отправить сообщение",
       placeHolderMessage: "Сообщение",
+    },
+    createChatModal: {
+      title: "Создать новый чат",
+      label: "Название",
+    },
+    actionChatModal: {
+      title: "Создать новый чат",
+      addUserButton: "Добавить пользователя",
+      deleteUserButton: "Удалить пользователя",
+      deleteChatButton: "Удалить чат",
+    },
+    addUserModal: {
+      title: "Добавить пользователя",
+      label: "Логин",
+    },
+    deleteUserModal: {
+      title: "Удалить пользователя",
+      label: "Логин",
     },
   },
   ChooseAvatarModal: {
@@ -75,5 +103,15 @@ export const langs = {
     textInput: "Выбрать файл на компьютере",
     buttonText: "Поменять",
     cancelButtonText: "Вернуться назад",
+  },
+  errorRequest: {
+    badRequest: "Что-то пошло не так... Попробуте попытку снова",
+    loginOrPasswordIsIncorrect: "Логин или пароль неверный",
+    loginAlreadyExists: "Такой логин уже существует",
+    emailAlreadyExists: "Такой email уже существует",
+  },
+  notificationInfo: {
+    successfulAddUserToChat: "Пользователь успешно добавлен в чат",
+    successfulDeleteUserToChat: "Пользователь успешно удалён из чата",
   },
 };

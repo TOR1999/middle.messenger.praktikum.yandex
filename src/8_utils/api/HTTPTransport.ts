@@ -1,4 +1,12 @@
+import { BASE_URLS } from "../constants/constants";
 import { METHODS, TOptions } from "../constants/type";
+
+export enum REQUEST_STATUSES {
+  "OK" = 200,
+  "BAD_REQUEST" = 400,
+  "UNAUTHORIZED" = 401,
+  "SERVER_ERROR" = 500,
+}
 
 const queryStringify = (
   data: Record<string, string | boolean | number>,
@@ -13,25 +21,27 @@ const queryStringify = (
   }, "?");
 };
 
-export class HTTPTransport {
-  get = (url: string, options: TOptions) => {
+class HTTPTransport {
+  get = (url: string, options?: TOptions) => {
     return this.request(url, { ...options, method: METHODS.GET });
   };
 
-  post = (url: string, options: TOptions) => {
+  post = (url: string, options?: TOptions) => {
     return this.request(url, { ...options, method: METHODS.POST });
   };
 
-  put = (url: string, options: TOptions) => {
+  put = (url: string, options?: TOptions) => {
     return this.request(url, { ...options, method: METHODS.PUT });
   };
 
-  delete = (url: string, options: TOptions) => {
+  delete = (url: string, options?: TOptions) => {
     return this.request(url, { ...options, method: METHODS.DELETE });
   };
 
   request = (url: string, options: TOptions) => {
-    const { headers = {}, method, data, timeout } = options;
+    const { method, data } = options;
+    const timeout = 10000;
+    const baseUrl = BASE_URLS.API;
 
     return new Promise((resolve, reject) => {
       if (!method) {
@@ -45,16 +55,18 @@ export class HTTPTransport {
       xhr.open(
         method,
         isGet && !!data
-          ? `${url}${queryStringify(data as Record<string, string | boolean | number>)}`
-          : url,
+          ? `${baseUrl}/${url}${queryStringify(data as Record<string, string | boolean | number>)}`
+          : `${baseUrl}/${url}`,
       );
 
-      Object.keys(headers).forEach((key) => {
-        xhr.setRequestHeader(key, headers[key]);
-      });
+      xhr.withCredentials = true;
 
       xhr.onload = function () {
-        resolve(xhr);
+        if (xhr.status === REQUEST_STATUSES.OK) {
+          resolve(xhr);
+        }
+
+        reject(xhr);
       };
 
       xhr.onabort = reject;
@@ -63,11 +75,17 @@ export class HTTPTransport {
       xhr.timeout = timeout;
       xhr.ontimeout = reject;
 
-      if (isGet || !data) {
+      if (data?.constructor.name === "FormData") {
+        xhr.send(data as Document | XMLHttpRequestBodyInit);
+      } else if (isGet || !data) {
+        xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send();
       } else {
-        xhr.send(data as Document | XMLHttpRequestBodyInit);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(JSON.stringify(data) as Document | XMLHttpRequestBodyInit);
       }
     });
   };
 }
+
+export default new HTTPTransport();

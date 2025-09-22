@@ -11,7 +11,7 @@ type TProps = {
   valuePassword: string;
 };
 
-export class AuthorizationPage extends Block {
+export class AuthorizationPage extends Block<TProps> {
   constructor(props: TProps) {
     super("div", {
       attr: {
