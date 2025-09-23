@@ -8,7 +8,7 @@ export enum REQUEST_STATUSES {
   "SERVER_ERROR" = 500,
 }
 
-const queryStringify = (
+export const queryStringify = (
   data: Record<string, string | boolean | number>,
 ): string => {
   if (typeof data !== "object") {
@@ -21,7 +21,7 @@ const queryStringify = (
   }, "?");
 };
 
-class HTTPTransport {
+export class HTTPTransport {
   get = (url: string, options?: TOptions) => {
     return this.request(url, { ...options, method: METHODS.GET });
   };

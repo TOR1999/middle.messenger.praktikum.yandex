@@ -5,7 +5,7 @@ import { Route } from "./route";
 
 type PopStateEventTarget = EventTarget & { location: Location };
 
-class Router {
+export class Router {
   routes: Array<Route> = [];
   history: History = window.history;
   _currentRoute: Route | null = null;
