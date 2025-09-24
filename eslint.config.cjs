@@ -33,8 +33,8 @@ module.exports = defineConfig([
       compat.extends(
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
-        "plugin:import/recommended"
-      )
+        "plugin:import/recommended",
+      ),
     ),
 
     plugins: {
@@ -51,6 +51,11 @@ module.exports = defineConfig([
       "import/export": 2,
     },
 
-    ignores: ["eslint.config.cjs", "server.js", "static/**"],
+    ignores: [
+      "eslint.config.cjs",
+      "server.js",
+      "static/**",
+      "src/**/*.test.ts",
+    ],
   },
 ]);
